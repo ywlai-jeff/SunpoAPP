@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>FunBooks</title>
+	<link rel="stylesheet" href="/stylesheets/mystyle.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	<script src="/javascripts/myscripts.js"></script>
+</head>
+
+<body ng-app="funbooks" ng-controller="funbookController" ng-init="getbooks('nil')">
+	<h1 >FunBooks</h1>
+	
+	<div class="topnav">
+		<div ng-show="sign_out" class="signinout left" ><p>Hello, {{user.name}}</p> <a ng-click="signoutWindow()">(Sign out)</a></div>
+		<div ng-show="sign_in"  class="signinout left" ng-click="signinWindow()" style="cursor: pointer;"><a>Sign in</a></div>
+		<span ng-show="sign_out" ng-click="loadCart()" style="cursor: pointer;" id="cart_icon" class="right">
+			<image src="images/cart2.png" id="cartImage"></image> <div tex-align="center" id="nav_right_cart">{{user.totalnum}} in Cart </div>
+		</span>
+	</div>
+	
+	<div class="container" ng-show="mainPage">
+		<div id="category" class="sidebar" >
+			<div ng-click="getbooks(category)" ng-repeat="category in categorylist">{{category}}</div>
+		</div> 
+		
+		<div class="main-content" ng-repeat='book in booklist'>
+			<section class="book_info center_align" ng-click="showDetail(book)">
+				<div><image class="book_image" src="{{book.coverImage}}"></image></div>
+				<br>
+				<div class="title">{{book.title}}</div>
+				<br>
+				<div class="author" ng-repeat="author in book.authorList">{{author}}</div>
+				<br>
+				<div class="price">${{book.price}}</div>
+			</section>
+		</div>
+
+		<div class="center_align">
+			<a ng-click="page(current_page - 1)" class="page_button">&laquo; Previous Page</a>
+		    page <input ng-change="page(current_page)" type="number" min="1" max="{{maxpage}}" ng-model="current_page"></input> of {{maxpage}}
+	        <a ng-click="page(current_page + 1)" class="page_button">Next Page &raquo;</a>	       
+		</div>
+	</div>
+
+	<div class="container" ng-model="detail_book" ng-show="detailPage">
+		<image id="detail_book_image" src="{{detail_book.coverImage}}"></image>
+		<div id="detail_book_info" ng-hide="add_cart_success">
+			<table class="singleBookTable">
+				<tr>
+					<th class="title_detail" style="width: 557px">{{detail_book.title}}</th>
+					<th rowspan="6" style="width: 557px">
+						<div id='addBookBox' >
+						Quantity: <input id='num_selector' type="number" ng-init="selectedNum = 1" min="1" value='1'  style="width:35px" ng-model="selectedNum"></input></br></br>
+						<button ng-click="addtoCart_request()" class="btn info"> Add to cart </button></div>
+					</th>
+				</tr>
+				<tr><th>By<p ng-repeat="author in detail_book.authorList" class="author_detail_book">{{author}}</p></th></tr>
+				<tr><th class="detail_price">${{detail_book.price}}</th></tr>
+				<tr><th>{{detail_book.publisher}}</th></tr>
+				<tr><th class="date">{{detail_book.date}}</th></tr>
+				<tr><th style="line-height: 2">{{detail_book.description}}</th></tr>
+			</table>
+			</br></br></br>
+			<a ng-click="previousPage()" id="goback_icon" class="page_button"> &laquo; go back </a>	
+		</div>
+
+		
+		<div ng-show="add_cart_success" class="center_align">
+			<p class="p_t_55">Added to Cart</p>
+			
+			<p class="p_t_55">Cart subtotal ({{user.totalnum}} {{item}}): $ {{user.totalprice}}</p>
+			<br><br><br>
+			<a class="t_55 page_button" ng-click="continueBrowsing()"> continue browsing &raquo; </a>
+		</div>
+				
+	</div>
+	
+	<div class="container" ng-show="cartPage">
+		<div ng-hide="no_item" class="center_align">
+			<table class="cart_table">
+				<tr class="cart_table_heading">
+					<td>Shopping Cart</td>
+					<td colspan="1"></td>
+					<td>Price</td>
+					<td>Quantity</td>
+				</tr>
+				<tr ng-repeat='book in cart' class="cart_table_col">
+					<td><image class="book_image" src="{{book.coverImage}}"></image></td>
+					<td>
+						<p>{{book.title}}</p>
+						<br>
+						<p ng-repeat='author in book.authorList'>{{author}}</p>
+					</td>
+					
+					<td>${{book.price}}</td>				
+					<td>
+						<input type="number" ng-model="book.quantity" min="0" ng-change="updateCart(book._id)"></input>
+					</td>
+				</tr>
+			</table>
+			<br><br><br>
+			<p class="center_align">Cart subtotal ({{user.totalnum}} {{item}}): ${{user.totalprice}}</p>
+			<button class="center_align btn info" ng-click="checkout()" >Proceed to check out</button>
+		</div>
+		<div ng-show="no_item" class="center_align">
+			<p> No item in the cart!</p>
+			<a ng-click="continueBrowsing()" class="page_button"> continue browsing &raquo; </a>
+		</div>
+	</div>
+
+	<div class="container center_align" class="center_align" ng-show="paySuccess">
+		<p >You have successfully placed order for {{user_totalnum}} {{item}}</p>
+		<br>
+		<p>${{user_totalprice}} paid</p>
+		<a ng-click="continueBrowsing()" class="page_button">continue browsing &raquo;</a>
+	</div>
+
+	<div class="container" ng-show="loginPage">
+		<div class="wrap-login" >
+			<p ng-show="login_fail" class="login_warning" > Login failure </p>
+			<p style="font-family: Poppins-Regular, sans-serif;display: inline-block">Username</p> <input type="text" class="login_input" placeholder="Enter Username" ng-model="username" autofocus="true" ng-required="true">
+			<br>
+			<p style="font-family: Poppins-Regular, sans-serif;display: inline-block">Password</p> <input type="password" class="login_input" placeholder="Enter Password" ng-model="password" ng-required="true">
+			<br>
+			<button ng-click="signin()" class="btn submit">Sign in</button>
+		</div>
+	</div>
+
+	<div class="container center_align" ng-show="check_signout">
+		<p ng-show="user.totalnum>0">You still have {{user.totalnum}} {{item}} in your cart</p>
+		<br>
+		<br>
+		<button ng-click="cancel_signout()" class="btn warning">Cancel sign-out</button> <button ng-click="confirm_signout()" class="btn warning">Confirm sign-out</button>
+	</div>
+
+</body>
+
+</html>
