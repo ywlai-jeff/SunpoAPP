@@ -8,35 +8,81 @@ class Bills extends React.Component{
     constructor(props) {
       super(props);
 
-    //   this.OrderClick = this.OrderClick.bind(this);
-    //   this.PaybillsClick = this.PaybillsClick.bind(this);
-    // //   this.ForecastClick = this.ForecastClick.bind(this);
+      this.BackTableClick = this.BackTableClick.bind(this);
+      this.PayClick = this.PayClick.bind(this);
     }
 
-    // OrderClick(e){
-    //     e.preventDefault(e);
-    //     this.props.OrderClick(e.target.value);
-    // }
+    BackTableClick(data, e){
+        e.preventDefault(e);
+        let which_function;
+            which_function = "" + data;
+        this.props.BackTableClick(e.target.value, which_function);
+    }
 
-    // PaybillsClick(e){
-    //     e.preventDefault(e);
-    //     this.props.PaybillsClick(e.target.value);
-    // }
-
-    // ForecastClick(e){
-    //     e.preventDefault(e);
-    //     this.props.ForecastClick(e.target.value);
-    // }
+    PayClick(e){
+        e.preventDefault(e);
+        this.props.PayClick(e.target.value);
+    }
 
     render(){
 
 
         return(
-            <div>
-                {/* <button onClick={this.OrderClick}>點餐</button>
-                <button onClick={this.PaybillsClick}>查閱/結賬</button>
-                <button onClick={this.ForecastClick}>Forecast</button> */}
+        <div>
+            <div class="receipt">
+                <div class="receipt_top">
+                    <h2>SUN PO</h2>
+                    <p>Order Time</p>
+                    <p>Table Number</p>
+                </div>
+                
+                <table>
+                    <tr class="receipt_color_top">
+                        <th>Items</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                    </tr>
+                    <tr class="receipt_color_mid">
+                        <td><div>可樂</div><div>-   多冰</div></td>
+                        <td>100</td>
+                        <td>700</td>
+                    </tr>
+                    <tr class="receipt_color_mid">
+                        <td><div>可樂</div><div>-   少冰</div></td>
+                        <td>100</td>
+                        <td>700</td>
+                    </tr>
+                    <tr class="receipt_color_mid">
+                        <td><div>可樂</div><div></div></td>
+                        <td>100</td>
+                        <td>700</td>
+                    </tr>
+                    <tr class="receipt_color_mid">
+                        <td>可樂</td>
+                        <td>100</td>
+                        <td>700</td>
+                    </tr>
+                    <tr class="receipt_color_top">
+                        <td></td>
+                        <td>Total</td>
+                        <td>$2800</td>
+                    </tr>
+                </table>
             </div>
+            
+            <div class="pay_bottom">
+                <ul>
+                    <li onClick={this.BackTableClick.bind(this, "2")}><a>&lt; 返回</a></li>
+                    <li onClick={this.PayClick}><a>結賬 &gt;</a></li>
+                </ul>
+            </div>
+        </div>
+           
+
+
+
+
+
         );
     }
 }

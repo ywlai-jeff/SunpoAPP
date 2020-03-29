@@ -6,8 +6,6 @@ var ObjectId = require('mongodb').ObjectId;
 router.post('/login', function (req, res) {
 	var db = req.db;
     var user_collection = db.get('userList');
-    // var comment_collection = db.get('commentList'); 
-    // var post_collection = db.get('postList');
 	var username = req.body.username;
 	var password = String(req.body.password);
     res.set({
@@ -24,7 +22,7 @@ router.post('/login', function (req, res) {
                 res.cookie('userId', id);
 
                 //  // send the response back to user
-                res.json({'message':'Login Success!', 'username':login_user[0].username, 'position':login_user[0].position});
+                res.json({'message':'Login Success!', 'id':''+id, 'username':login_user[0].username, 'position':login_user[0].position});
 			}else res.send("Login failure! Wrong Password!");
 		}else res.send("Login failure! Not found user!");
 	});
@@ -52,16 +50,33 @@ router.get('/logout',function(req,res){
       });
 });
 
+// handle insert transaction
+
+
+// handle retrieve transaction
+
+
+
+
+
+
 
 
 /*
  * Handle preflighted request
  */
 router.options("/*", function(req, res, next){
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    // res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3002');
+    // res.header('Access-Control-Allow-Origin: *');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
     res.header('Access-Control-Allow-Credentials', 'true');
+    // res.header('Access-Control-Allow-Origin:https://domainA');
+    // res.header('Access-Control-Allow-Headers:*');
+    // res.header('Access-Control-Allow-Methods:*');
+    // res.setHeader("Access-Control-Expose-Headers", "..."); 
+    // res.header('Access-Control-Allow-Headers: Content-Type, X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Date, X-Api-Version, X-File-Name ');
     res.send(200);
 });
 

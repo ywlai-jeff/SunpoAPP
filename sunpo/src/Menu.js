@@ -6,7 +6,13 @@ import {
     Link
   } from "react-router-dom";
 import images from './images/food1.jpg'
-// import img from '../public/logo192.png'
+import TableList from './Table';
+import Food from './Food';
+import IndividualFood from './IndividualFood';
+import Drink from './Drink';
+import Hotpot from './Hotpot';
+import Other from './Other';
+
 
 import $ from 'jquery';
 
@@ -14,254 +20,300 @@ class Menu extends React.Component{
     constructor(props) {
       super(props);
 
-    //   this.OrderClick = this.OrderClick.bind(this);
-    //   this.PaybillsClick = this.PaybillsClick.bind(this);
-    //   this.ForecastClick = this.ForecastClick.bind(this);
+      this.state = {
+        heightSet: '',
+        orderList: [],
+        addedList: [],
+        currentSelected: '',
+        totalPrice: 0,
+        currentTime: '',
+      }
+        this.updateDimensions = this.updateDimensions.bind(this);
+      this.BackTableClick = this.BackTableClick.bind(this);
+      this.AddFoodClick = this.AddFoodClick.bind(this);
+      this.AddCustomClick = this.AddCustomClick.bind(this);
+      this.MinusClick = this.MinusClick.bind(this);
+      this.PlusClick = this.PlusClick.bind(this);
+      this.DeleteClick = this.DeleteClick.bind(this);
+      this.CustomClick = this.CustomClick.bind(this);
+      this.DeleteCustomClick = this.DeleteCustomClick.bind(this);
+      this.PlaceOrderClick = this.PlaceOrderClick.bind(this);
     }
 
-    // OrderClick(e){
-    //     e.preventDefault(e);
-    //     this.props.OrderClick(e.target.value);
-    // }
+    componentDidMount() {
+        this.updateDimensions();
+        window.addEventListener('scroll', this.updateDimensions);
+        setInterval( () => {
+            this.setState({
+              currentTime : new Date().toLocaleString()
+            })
+          },1000)
+    }
+    
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.updateDimensions);
+    }
+    
+    updateDimensions() {
+        if(window.scrollY >83){
+            this.setState({heightSet: window.scrollY - "85"});
+        }
+        else{
+            this.setState({ heightSet: window.scrollY});
+        }
+    }
 
-    // PaybillsClick(e){
-    //     e.preventDefault(e);
-    //     this.props.PaybillsClick(e.target.value);
-    // }
+    BackTableClick(data, e){
+        e.preventDefault(e);
+        let which_function;
+            which_function = "" + data;
+        this.props.BackTableClick(e.target.value, which_function);
+    }
 
-    // ForecastClick(e){
-    //     e.preventDefault(e);
-    //     this.props.ForecastClick(e.target.value);
-    // }
+    AddFoodClick(e, data){
+        // alert(data[0] +' ' + data[1]);
+        let check = 0;
+        this.state.orderList.map(item => {
+                if (item.name == data[0]){
+                    var confirmation = window.confirm('Different Item?');
+                    if(confirmation === true){
+                        check = 0;
+                    }else{
+                        item.quantity = item.quantity + 1;
+                        check = 1;
+                        let additionalPrice = item.price/item.quantity-1 - item.originalPrice;
+                        item.price = (item.originalPrice + additionalPrice) * item.quantity;
+                    }
+                }
+        })
+        if(check == 0){
+            this.setState({
+                orderList: this.state.orderList.concat({"name": data[0], "price": data[1], "originalPrice": data[1], 
+                "quantity": data[2], "custom": [], "totalPrice": '', "tableNumber": this.props.tableNumber, "transTime": new Date().toLocaleString(),})
+              })
+        }
+        setTimeout(function() { 
+            this.setState({
+                addedList: this.state.orderList,
+                totalPrice: 0,
+            })
+            this.state.addedList.map(item => (
+                this.setState({
+                    totalPrice: this.state.totalPrice + item.price,
+                })
+            ))
+        }.bind(this), 100)
+    }
+
+    AddCustomClick(e, data){
+        this.state.orderList.map(item => {
+            if (item.name == this.state.currentSelected ){
+                item.custom = item.custom.concat(data[0]);
+                if(data[1] != 0){
+                    let additionalPrice = item.price/item.quantity - item.originalPrice + data[1];
+                    item.price = (item.originalPrice + additionalPrice) * item.quantity;
+                }
+            }
+    })
+    setTimeout(function() { 
+        this.setState({
+            addedList: this.state.orderList,
+            totalPrice: 0,
+        })
+        this.state.addedList.map(item => (
+            this.setState({
+                totalPrice: this.state.totalPrice + item.price,
+            })
+        ))
+    }.bind(this), 100)
+    }
+
+    CustomClick(data, e){
+        this.setState({
+            currentSelected: data,
+        })
+     }
+    
+      MinusClick(data, e){
+        this.state.orderList.map(item => {
+            if (item.name == data){
+                item.quantity = item.quantity - 1;
+                let additionalPrice = item.price/(item.quantity+1) - item.originalPrice;
+                if(item.quantity < 1){
+                    item.quantity = 1;
+                    additionalPrice = item.price/(item.quantity) - item.originalPrice;
+                }
+                item.price = (item.originalPrice + additionalPrice) * item.quantity;
+            }
+        })
+        setTimeout(function() { 
+            this.setState({
+                addedList: this.state.orderList,
+                totalPrice: 0,
+            })
+            this.state.addedList.map(item => (
+                this.setState({
+                    totalPrice: this.state.totalPrice + item.price,
+                })
+            ))
+        }.bind(this), 100)
+    }
+
+    PlusClick(data, e){
+        this.state.orderList.map(item => {
+            if (item.name == data){
+                item.quantity = item.quantity + 1;
+                let additionalPrice = item.price/(item.quantity-1) - item.originalPrice;
+                item.price = (item.originalPrice + additionalPrice) * item.quantity;
+            }
+        })
+        setTimeout(function() { 
+            this.setState({
+                addedList: this.state.orderList,
+                totalPrice: 0,
+            })
+            this.state.addedList.map(item => (
+                this.setState({
+                    totalPrice: this.state.totalPrice + item.price,
+                })
+            ))
+        }.bind(this), 100)
+  }
+    DeleteClick(data, e){
+    var confirmation = window.confirm('你要刪除此項目嗎?');
+    if(confirmation === true){  
+        this.setState({
+            orderList: this.state.orderList.filter (todo => {  
+                return todo.name !== data;
+              })
+        })
+        setTimeout(function() { 
+            this.setState({
+                addedList: this.state.orderList,
+                totalPrice: 0,
+            })
+            this.state.addedList.map(item => (
+                this.setState({
+                    totalPrice: this.state.totalPrice + item.price,
+                })
+            ))
+        }.bind(this), 100)
+    }
+}
+
+DeleteCustomClick(data, e){
+    let additionalPrice = 0, deduct = 0;
+    var confirmation = window.confirm('你要刪除此配料嗎?');
+    if(confirmation === true){  
+        this.state.orderList.map(item => {
+            if (item.name == this.state.currentSelected ){
+                item.custom = item.custom.filter(todo => {
+                    additionalPrice = item.price/item.quantity - item.originalPrice - deduct;
+                    item.price = (item.originalPrice + additionalPrice) * item.quantity;
+                    return todo !== data;
+                })
+            }
+    })
+        setTimeout(function() { 
+            this.setState({
+                addedList: this.state.orderList,
+                totalPrice: 0,
+            })
+            this.state.addedList.map(item => (
+                this.setState({
+                    totalPrice: this.state.totalPrice + item.price,
+                })
+            ))
+        }.bind(this), 100)
+    }
+}
+  
+    PlaceOrderClick(data, e){
+        e.preventDefault(e);
+        if(this.state.totalPrice){
+            this.state.addedList.map(item => {
+                item.totalPrice = this.state.totalPrice
+                this.setState({
+                    currentTime: new Date().toLocaleString()
+                })
+            })
+            this.props.PlaceOrderClick(e.target.value, data);
+        }
+    }
 
     render(){
 
+        // let totalPrice = 0;
+        // this.state.addedList.map(item => (
+        //     totalPrice = totalPrice + item.price
+        // ))
 
         return(
         <Router>
             <div class="menu_page">
-                <div class="menu_category">
-                    <h2>類別</h2>
+                <div class="menu_category" style={{top: this.state.heightSet}}>
+                    {/* <h2>類別</h2> */}
                     <ul>
-                        <li><Link to="/menu/normalFood">單/雙拼</Link></li>
-                        <li><Link to="/menu/specialFood">特餐</Link></li>
-                        <li><Link to="/menu/individualFood">單點</Link></li>
-                        <li><Link to="/menu/drink">飲品</Link></li>
-                        <li><Link to="/menu/hotpot">火鍋配料</Link></li>
-                        <li><Link to="/menu/other">其他</Link></li>
+                        <li>Table {this.props.tableNumber}</li>
+                        <Link to="/food" style={{ textDecoration: 'none' }}><li>套餐</li></Link>
+                        {/* <li><Link to="/menu/specialFood" style={{ textDecoration: 'none' }}>特餐</Link></li> */}
+                        <Link to="/individualFood" style={{ textDecoration: 'none' }}><li>單點</li></Link>
+                        <Link to="/drink" class="menu_link" style={{ textDecoration: 'none' }}><li>飲品</li></Link>
+                        <Link to="/hotpot" style={{ textDecoration: 'none' }}><li>火鍋配料</li></Link>
+                        <Link to="/other" style={{ textDecoration: 'none' }}><li>其他</li></Link>
                     </ul>
                 </div>
                 <Switch>
-                    <Route exact path="/menu/normalFood">
-                        <NormalFood />
+                    <Route path="/food">
+                        <Food AddFoodClick = {this.AddFoodClick} AddCustomClick = {this.AddCustomClick}/>
                     </Route>
-                    <Route path="/menu/specialFood">
-                        <SpecialFood />
+                    <Route path="/individualFood">
+                        <IndividualFood AddFoodClick = {this.AddFoodClick} AddCustomClick = {this.AddCustomClick}/>
                     </Route>
-                    <Route path="/menu/individualFood">
-                        <IndividualFood />
+                    <Route path="/drink">
+                        <Drink AddFoodClick = {this.AddFoodClick} AddCustomClick = {this.AddCustomClick}/>
                     </Route>
-                    <Route path="/menu/drink">
-                        <Drink />
+                    <Route path="/hotpot" /*component={Hotpot}*/ >
+                        <Hotpot AddFoodClick = {this.AddFoodClick}/>
                     </Route>
-                    <Route path="/menu/hotpot">
-                        <Hotpot />
-                    </Route>
-                    <Route path="/menu/other">
-                        <Other />
+                    <Route path="/other">
+                        <Other AddFoodClick = {this.AddFoodClick}/>
                     </Route>
                 </Switch>
+
                 <div class="added_item">
-                    <div class="items_added">
-                        <img src={images} width="100" height="100"></img>
-                        <div>Product Name</div>
-                        <div>Price</div>
-                    </div>
-                    <button>提交</button>
+                <div class="items_name"><p>已選擇訂單:</p></div>
+                    {this.state.addedList.map(item => (
+                        <div class="items_added_add" onClick={this.CustomClick.bind(this, item.name)}>
+                            <div class="fas fa-times-circle close_btn" onClick={this.DeleteClick.bind(this, item.name)}></div>
+                            <div key={item} /*contenteditable="true"*/>{item.name}</div>
+                            <div key={item}>${item.price}</div>
+                            <div key={item}><span class="edit_btn" onClick={this.MinusClick.bind(this, item.name)}>-</span> {item.quantity} <span class="edit_btn" onClick={this.PlusClick.bind(this, item.name)}>+</span></div>
+                        
+                            {item.custom.map(items => (
+                                <div key={items} class="del_btn" onClick={this.DeleteCustomClick.bind(this, items)}>{items}</div>
+                            ))}
+                        </div>
+                    ))}
                 </div>
-                
-                
+
+                <div class="added_item">
+                    <div class="items_name"><p>人數：</p></div>
+                        <div class="items_name"><p>總計: $ {this.state.totalPrice}</p></div>
+                    <div class="items_name"><p>時間: {this.state.currentTime}</p></div>
+                </div>
+
+                <div class="pay_bottom">
+                    <ul>
+                        <li onClick={this.BackTableClick.bind(this, "1")}><a>&lt; 返回</a></li>
+                        <li id="placeorder_btn" onClick={this.PlaceOrderClick.bind(this, this.state.addedList)}><a>落單 &gt;</a></li>
+                    </ul>
+                 </div>
             </div>
         </Router>
         );
     }
 }
-
-function NormalFood() {
-    return (
-        <div class="menu_item">
-        <div class="items_name">
-            <p>請選擇一或兩樣</p>
-        </div>
-        <div class="items">
-            <img src={images} width="100" height="100"></img>
-            <div>Product Name</div>
-        </div>
-
-        <div class="items">
-            <img src={images} width="100" height="100"></img>
-            <div>Product Name</div>
-        </div>
-
-        <div class="items">
-            <img src={images} width="100" height="100"></img>
-            <div>Product Name</div>
-        </div>
-
-        <div class="items_name">
-            <p>請選擇撈麵/飯/泡飯</p>
-        </div>
-
-        <div class="items">
-            <img src="./images/food1.jpg" width="100" height="100"></img>
-            <div>Product Name</div>
-        </div>
-
-        <div class="items_name">
-            <p>跟餐加配</p>
-        </div>
-
-        <div class="items">
-            <img src="./images/food1.jpg" width="100" height="100"></img>
-            <div>Product Name</div>
-        </div>
-
-        <div class="items_name">
-            <p>飲品</p>
-        </div>
-
-        <div class="items">
-            <img src="./images/food1.jpg" width="100" height="100"></img>
-            <div>Product Name</div>
-        </div>
-
-        {/* <div class="items_name">
-            <p>Customerised</p>
-        </div>
-
-        <div class="items">
-            <img src="./images/food1.jpg" width="100" height="100"></img>
-            <div>Product Name</div>
-        </div> */}
-
-        <div class="items_name">
-            <p>學生優惠</p>
-        </div>
-
-        <div class="items">
-            <div>Product Name</div>
-        </div>
-    </div>
-    );
-  }
-
-  function SpecialFood() {
-    return (
-        <div class="menu_item">
-        <div class="items">
-            <img src="./images/food1.jpg" width="100" height="100"></img>
-            <div>Product Name</div>
-            <div>Price</div>
-        </div>
-
-        <div class="items">
-            <div>Img</div>
-            <div>Product Name</div>
-            <div>Price</div>
-        </div>
-
-        <div class="items">
-            <div>Img</div>
-            <div>Product Name</div>
-            <div>Price</div>
-        </div>
-
-        <div class="items">
-            <div>Img</div>
-            <div>Product Name</div>
-            <div>Price</div>
-        </div>
-    </div>
-    );
-  }
-
-  function IndividualFood() {
-    return (
-        <div class="menu_item">
-        <div class="items">
-            <img src="./images/food1.jpg" width="100" height="100"></img>
-            <div>Product Name</div>
-            <div>Price</div>
-        </div>
-
-        <div class="items">
-            <div>Img</div>
-            <div>Product Name</div>
-            <div>Price</div>
-        </div>
-
-        <div class="items">
-            <div>Img</div>
-            <div>Product Name</div>
-            <div>Price</div>
-        </div>
-    </div>
-    );
-  }
-
-  function Drink() {
-    return (
-        <div class="menu_item">
-        <div class="items">
-            <img src="./images/food1.jpg" width="100" height="100"></img>
-            <div>Product Name</div>
-            <div>Price</div>
-        </div>
-
-        <div class="items">
-            <div>Img</div>
-            <div>Product Name</div>
-            <div>Price</div>
-        </div>
-
-        <div class="items">
-            <div>Img</div>
-            <div>Product Name</div>
-            <div>Price</div>
-        </div>
-    </div>
-    );
-  }
-
-  function Hotpot() {
-    return (
-        <div class="menu_item">
-        <div class="items">
-            <img src="./images/food1.jpg" width="100" height="100"></img>
-            <div>Product Name</div>
-            <div>Price</div>
-        </div>
-
-        <div class="items">
-            <div>Img</div>
-            <div>Product Name</div>
-            <div>Price</div>
-        </div>
-    </div>
-    );
-  }
-
-  function Other() {
-    return (
-        <div class="menu_item">
-        <div class="items">
-            <img src="./images/food1.jpg" width="100" height="100"></img>
-            <div>Product Name</div>
-            <div>Price</div>
-        </div>
-    </div>
-    );
-  }
 
 
 export default Menu;
