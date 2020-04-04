@@ -8,6 +8,9 @@ class Bills extends React.Component{
     constructor(props) {
       super(props);
 
+      this.state = {
+    };
+
       this.BackTableClick = this.BackTableClick.bind(this);
       this.PayClick = this.PayClick.bind(this);
     }
@@ -19,70 +22,66 @@ class Bills extends React.Component{
         this.props.BackTableClick(e.target.value, which_function);
     }
 
-    PayClick(e){
+    PayClick(data, e){
         e.preventDefault(e);
-        this.props.PayClick(e.target.value);
+        // this.props.transinfo.map(item => {
+            // alert(data);
+        // })
+        this.props.PayClick(e.target.value, data);
     }
 
     render(){
-
+        let table;
+        if(this.props.chosen_tran[0].tableNumber == "11")
+            table = <p>(外賣)</p>
+        else
+            table = <p>{this.props.chosen_tran[0].tableNumber} 號枱</p>
 
         return(
         <div>
             <div class="receipt">
                 <div class="receipt_top">
                     <h2>SUN PO</h2>
-                    <p>Order Time</p>
-                    <p>Table Number</p>
+                    {table}
+                    <p>落單時間: {this.props.chosen_tran[0].transTime}</p>
                 </div>
                 
-                <table>
-                    <tr class="receipt_color_top">
-                        <th>Items</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                    </tr>
-                    <tr class="receipt_color_mid">
-                        <td><div>可樂</div><div>-   多冰</div></td>
-                        <td>100</td>
-                        <td>700</td>
-                    </tr>
-                    <tr class="receipt_color_mid">
-                        <td><div>可樂</div><div>-   少冰</div></td>
-                        <td>100</td>
-                        <td>700</td>
-                    </tr>
-                    <tr class="receipt_color_mid">
-                        <td><div>可樂</div><div></div></td>
-                        <td>100</td>
-                        <td>700</td>
-                    </tr>
-                    <tr class="receipt_color_mid">
-                        <td>可樂</td>
-                        <td>100</td>
-                        <td>700</td>
-                    </tr>
-                    <tr class="receipt_color_top">
-                        <td></td>
-                        <td>Total</td>
-                        <td>$2800</td>
-                    </tr>
-                </table>
+                    {this.props.chosen_tran.map(item => (
+                        <table>
+                            <tr class="receipt_color_top">
+                                <th>項目</th>
+                                <th>數量</th>
+                                <th>價錢</th>
+                            </tr>
+                            {item.products.map(product => (
+                            <tr class="receipt_color_mid">
+                                <td><div>{product.name}</div>
+                                    <ul>
+                                    {product.custom.map(custom => (
+                                        <li>- {custom}</li>
+                                    ))}
+                                    </ul>
+                                </td>
+                                <td>{product.quantity}</td>
+                                <td>{product.price}</td>
+                            </tr>
+                            ))}
+                            <tr class="receipt_color_top">
+                                <td></td>
+                                <td>總計:</td>
+                                <td>$ {item.totalPrice}</td>
+                            </tr>
+                        </table>
+                    ))}
             </div>
             
             <div class="pay_bottom">
                 <ul>
                     <li onClick={this.BackTableClick.bind(this, "2")}><a>&lt; 返回</a></li>
-                    <li onClick={this.PayClick}><a>結賬 &gt;</a></li>
+                    <li onClick={this.PayClick.bind(this, this.props.chosen_tran[0].tranId)}><a>結賬 &gt;</a></li>
                 </ul>
             </div>
         </div>
-           
-
-
-
-
-
         );
     }
 }

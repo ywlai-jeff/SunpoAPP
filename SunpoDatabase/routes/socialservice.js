@@ -51,12 +51,109 @@ router.get('/logout',function(req,res){
 });
 
 // handle insert transaction
+router.post('/inserttransaction',function(req,res){
+    var db = req.db;
+    var trans_collection = db.get('transactionList');
+    var id = req.cookies.userId;
+    res.set({
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+        'Access-Control-Allow-Credentials': 'true'
+    });
+    var product_size = parseInt(req.body.product_size);
+    var userId = req.body.userId;
+    var name = req.body.name.split(",");
+    var price = req.body.price.split(",");
+    var originalPrice = req.body.originalPrice.split(",");
+    var quantity = req.body.quantity.split(",");
+    var custom = req.body.custom.split(".");
+    var totalPrice = req.body.totalPrice;
+    var tableNumber = req.body.tableNumber;
+    var orderStatus = req.body.orderStatus;
+    var transTime = req.body.transTime;
+    var seatTaken = req.body.seatTaken;
+
+    var c = [];
+    var p = [];  
+    for(var i = 0; i < product_size; i++){
+        c = custom[i].split(",");
+        p = p.concat({'name': name[i], 'price': price[i], 'originalPrice': originalPrice[i], 'quantity': quantity[i], 'custom': c});
+    }
+
+    addedList = {
+        'userId': userId,
+        'products': p,
+        // 'name': name[0],
+        // 'price': price,
+        // 'originalPrice': originalPrice,
+        // 'quantity': quantity,
+        // 'custom': p,
+        // 'custom_size': custom_size,
+        'totalPrice': totalPrice,
+        'tableNumber': tableNumber,
+        'orderStatus': orderStatus,
+        'transTime': transTime,
+        'seatTaken': parseInt(seatTaken),
+    }
+        trans_collection.insert(addedList, function(error,docs){
+        if(error === null){
+            res.json({'message':'成功加入訂單！'});
+        } else res.send({"message":"錯誤！請再試一次！"});
+    })
+
+});
 
 
-// handle retrieve transaction
 
+// handle get transaction
+router.get('/gettransaction',function(req,res){
+    var db = req.db;
+    var trans_collection = db.get('transactionList');
+    var id = req.cookies.userId;
+    res.set({
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+        'Access-Control-Allow-Credentials': 'true'
+    });
+    // retrieve the information of the user
+	trans_collection.find({},{},function(error, trans){
+        if(error === null){
+            // res.json({'message':'Login Success!'});
+            // send transaction back to user
+            var tranId;
+            var list = [];
 
+            for(var i in trans){
+                tranId = trans[i]._id;
+                
+                list.push({"tranId": tranId, "userId": id, "products": trans[i].products, "totalPrice": trans[i].totalPrice, "tableNumber": trans[i].tableNumber, 
+                    "orderStatus": trans[i].orderStatus, "transTime": trans[i].transTime, "seatTaken": trans[i].seatTaken});
+            }
+            res.json({"tran": list});
+        } else{
+            res.send(error);
+        }
+    })
+});
 
+// handle update finished order
+router.put('/orderfinished',function(req,res){
+    var db = req.db;
+    var trans_collection = db.get('transactionList');
+    // var id = req.cookies.userId;
+    var tranId = req.body.tranId;
+    var orderStatus = "finished";
+    res.set({
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+        'Access-Control-Allow-Credentials': 'true'
+    });
+    // update the information of the user
+	trans_collection.update({'_id':tranId},{$set:{"orderStatus": orderStatus}},function(error, user){
+        if(error === null){
+            res.send("");
+        } else{
+            res.send(error);
+        }
+    })
+});
 
 
 
@@ -66,8 +163,8 @@ router.get('/logout',function(req,res){
  * Handle preflighted request
  */
 router.options("/*", function(req, res, next){
-    // res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3002');
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    // res.header('Access-Control-Allow-Origin', 'http://localhost:3002');
     // res.header('Access-Control-Allow-Origin: *');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');

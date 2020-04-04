@@ -52,6 +52,7 @@
 
 #logo_title{
   background-color: rgba(0,0,0,.7);
+  /* background-color: darkblue; */
   padding: 35px;
   color: white;
   font-size: 30px;
@@ -72,14 +73,14 @@
 
 
 .circle {
-  width: 50%;
+  width: 100%;
   border-radius: 50%;
 }
 .rectangle {
-  width: 50%;
+  width: 100%;
 }
 .rectangle2 {
-  width: 50%;
+  width: 100%;
   background-color: white;
   /* display: none; */
 }
@@ -87,31 +88,39 @@
   cursor: pointer;
   background-color: white;
 }
-
 .table_page{
   /* background-color: blanchedalmond; */
-  margin: 0 auto;
-  padding: 0;
-  left: 15%;
-  right: 15%;
-  position: absolute;
-
+  /* margin: 0 auto; */
+  /* padding: 0; */
+    /* height: 100%; */
+  /* left: 0%;
+  right: 0%;
+  bottom: 0%; */
+  /* top: 15%; */
+  /* position: absolute; */
+}
+.table_title{
+  margin-top: 20px;
 }
 .table_column {
   float: left;
   width: 33.33%;
   /* height: $(window).width();; */
   /* display: inline-block; */
-  /* padding: 50px; */
-  /* background-color: white; */
+  /* padding: 50px 0 50px 0; */
+  padding: 40px;
+  /* margin: 0; */
+  /* background-color: blue; */
 }
-.table_column div{
-  padding: 50px;
+.tables{
+  /* padding:0 0 50px 0; */
   margin: 20px auto;
-  text-align: center;
+  /* margin: 20px; */
+  /* text-align: center; */
   vertical-align: middle;
-  height: 75px;
+  height: 85px;
   /* line-height: 50px; */
+  overflow: auto
 }
 /* .table_col2 div{
   margin-top: 25px;
@@ -121,7 +130,13 @@
 
 .nav_bar{
   background-color: rgba(0,0,0,.7);
+  /* background-color: darkblue; */
   color: rgb(118, 118, 218);
+  /* color: darkblue; */
+  z-index: 3;
+  /* color: white; */
+}
+.nav_bar h4{
   /* color: white; */
 }
 .nav_bar ul{
@@ -297,7 +312,7 @@
   background-color: rgb(185, 194, 196);
 }
 .receipt{
-  background-color: rgb(240, 239, 216, .4);
+  /* background-color: rgb(240, 239, 216, .4); */
   /* position: absolute; */
   /* width: 50%; */
   margin: 0 auto;
@@ -408,6 +423,23 @@
 .black{
   background-color: black;
 }
+.dropdown{
+  width: 10%;
+  float: left;
+  background-color: black;
+  left: 45%;
+  right: 25%;
+  position: absolute;
+}
+.hover:hover{
+  cursor: pointer;
+}
+.hover_background:hover{
+  cursor: pointer;
+  background-color: azure;
+}
+
+
 
 @media only screen and (max-width: 1050px) {
   
@@ -417,7 +449,17 @@
   .items_added{
     width: 20%;
   }
-  
+  .table_column{
+    padding: 0 30px 0 30px;
+  }
+  .tables{
+    /* padding:0 0 50px 0; */
+    /* margin: 40px auto; */
+    /* text-align: center; */
+    vertical-align: middle;
+    height: 95px;
+    /* line-height: 50px; */
+  }
 }
 
 @media only screen and (max-width: 680px) {
@@ -446,6 +488,9 @@
   }
   .del_btn{
     font-size: 15px;
+  }
+  .table_column{
+    padding: 5px;
   }
 }
 

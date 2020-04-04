@@ -1,15 +1,21 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+// import Content from './Content';
+// import Try from './notused/Try';
+import Login from './Login';
 import TableList from './Table';
 import Menu from './Menu';
 import Bills from './Bills';
- 
+import Home from './Home';
+// import { withRouter } from 'react-router-dom';
+// import React, { useState, useEffect } from 'react';
+// import { Redirect } from 'react-router-dom'
+// import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import $ from 'jquery';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
 
 class App extends React.Component{
   constructor(props) {
@@ -24,17 +30,19 @@ class App extends React.Component{
       user_type: '',
       active_function: '',
       position: '',
-      tableinfo: [{'tableNumber': '1','seatTaken': 0, 'maxCap': 4, 'isFull': false, 'tableColor': 'palegreen', 'transaction':[{}]}, 
-      {'tableNumber': '2','seatTaken': 0, 'maxCap': 4, 'isFull': false, 'tableColor': 'palegreen'},
-      {'tableNumber': '3','seatTaken': 0, 'maxCap': 4, 'isFull': false, 'tableColor': 'palegreen'}, 
-      {'tableNumber': '4','seatTaken': 0, 'maxCap': 6, 'isFull': false, 'tableColor': 'palegreen'}, 
-      {'tableNumber': '5','seatTaken': 0, 'maxCap': 6, 'isFull': false,  'tableColor': 'palegreen'},
-      {'tableNumber': '6','seatTaken': 0, 'maxCap': 6, 'isFull': false, 'tableColor': 'palegreen'}, 
-      {'tableNumber': '7','seatTaken': 0, 'maxCap': 4, 'isFull': false,  'tableColor': 'palegreen'}, 
-      {'tableNumber': '8','seatTaken': 0, 'maxCap': 4, 'isFull': false,  'tableColor': 'palegreen'},
-      {'tableNumber': '9','seatTaken': 0, 'maxCap': 4, 'isFull': false,  'tableColor': 'palegreen'}, 
-      {'tableNumber': '10','seatTaken': 0, 'maxCap': 4, 'isFull': false,  'tableColor': 'palegreen'}],
-      transactionList: [],
+      transinfo: [],
+        tableinfo: [{'tableNumber': '1','seatTaken': 0, 'maxCap': 4, 'isFull': false, 'tableColor': '', 'transaction':[]}, 
+      {'tableNumber': '2','seatTaken': 0, 'maxCap': 4, 'isFull': false, 'tableColor': '', 'transaction': []},
+      {'tableNumber': '3','seatTaken': 0, 'maxCap': 4, 'isFull': false, 'tableColor': '', 'transaction': []}, 
+      {'tableNumber': '4','seatTaken': 0, 'maxCap': 6, 'isFull': false, 'tableColor': '', 'transaction': []}, 
+      {'tableNumber': '5','seatTaken': 0, 'maxCap': 6, 'isFull': false, 'tableColor': '', 'transaction': []},
+      {'tableNumber': '6','seatTaken': 0, 'maxCap': 6, 'isFull': false, 'tableColor': '', 'transaction': []}, 
+      {'tableNumber': '7','seatTaken': 0, 'maxCap': 4, 'isFull': false, 'tableColor': '', 'transaction': []}, 
+      {'tableNumber': '8','seatTaken': 0, 'maxCap': 4, 'isFull': false, 'tableColor': '', 'transaction': []},
+      {'tableNumber': '9','seatTaken': 0, 'maxCap': 4, 'isFull': false, 'tableColor': '', 'transaction': []}, 
+      {'tableNumber': '10','seatTaken': 0, 'maxCap': 4, 'isFull': false, 'tableColor': '', 'transaction':[]},
+      {'tableNumber': '11','seatTaken': 0, 'maxCap': 10, 'isFull': false, 'tableColor': '', 'transaction':[]}],
+      chosen_tran: [],
     };
     this.usernameChange = this.usernameChange.bind(this);
     this.passwordChange = this.passwordChange.bind(this);
@@ -42,6 +50,7 @@ class App extends React.Component{
     this.LogoutClick = this.LogoutClick.bind(this);
     this.OrderClick = this.OrderClick.bind(this);
     this.TableClick = this.TableClick.bind(this);
+    this.OrderTableClick = this.OrderTableClick.bind(this);
     this.PaybillsClick = this.PaybillsClick.bind(this);
     this.ForecastClick = this.ForecastClick.bind(this);
     this.BackTableClick = this.BackTableClick.bind(this);
@@ -49,20 +58,20 @@ class App extends React.Component{
     this.PayClick = this.PayClick.bind(this);
   }
 
-
-
   render(){
     const isLoggedIn = this.state.isLoggedIn;
     let title, current_page, login_page, menu_page, tablelist, nav, bills;
+    // let routes = '';
 
     if (isLoggedIn) {
       title = '';
       nav = <div class="nav_bar">
-              <h3 class="fas fa-home"> SUN PO</h3>
+              <h4 class="fas fa-home"> SUN PO</h4>
               <ul>
                 <li><div class="fas fa-user"> {this.state.username}</div></li>
                 {/* <li tabindex="1"></li> */}
                 <li onClick={this.OrderClick}><a class="function_btn fas fa-shopping-bag"> 點餐</a></li>
+                {/* <Link to="/order"><li onClick={this.OrderClick}><a class="function_btn fas fa-shopping-bag">點餐</a></li></Link> */}
                 <li onClick={this.PaybillsClick}><a class="function_btn fas fa-money-bill-wave"> 查閱/結賬</a></li>
                 <li onClick={this.ForecastClick}><a class="function_btn fas fa-atom"> 銷量預測</a></li>
                 <li onClick={this.LogoutClick}><a class="function_btn fas fa-power-off"> 登出</a></li>
@@ -70,10 +79,6 @@ class App extends React.Component{
             </div>
       menu_page = <Menu/>
       bills = <Bills/>
-        // tablelist = <TableList
-        // TableClick = {this.TableClick}
-        //                             payBills = {false}
-        //                             tableinfo={this.state.tableinfo}/>
         tablelist = <div>{this.state.active_function}</div>
     }
     else{
@@ -91,17 +96,30 @@ class App extends React.Component{
     }
 
     return (
+      
+        /* <Link to="/login">login</Link>
+       <Link to="/logout">logout</Link> 
+      <Link to="/order">order</Link>
+      <Link to="/paybills">paybills</Link>
+      <Link to="/forecast">forecast</Link>
+    <Link exact to="/">Home</Link>   */
      <div className="App">
         {title}
         {nav}
         {login_page}
+        {/* {routes} */}
         {tablelist}
         {/* {menu_page} */}
         {/* {bills} */}
       </div>
-
+        
     );
   }
+  // requireAuth(nextState, replace)
+  // {
+  // if(!this.state.isLoggedIn) // pseudocode - SYNCHRONOUS function (cannot be async without extra callback parameter to this function)
+  // replace('/login');
+  // }
 
   usernameChange(name) {
     this.setState({
@@ -126,6 +144,87 @@ class App extends React.Component{
       this.pageRefresh(localStorage.usrname, localStorage.password);
     }
 
+     //get transaction
+     $.ajax({
+      url:"http://localhost:3001/gettransaction",
+      method:"GET",
+      xhrFields: {
+        withCredentials: true
+      },
+      success: function(datas){
+          if (datas.message === "Login Success!"){
+              alert("success");
+          }
+          // alert(datas.tran[0].products[0].name+" "+datas.tran[0].products[0].price+" "+datas.tran[0].products[0].originalPrice+" "+
+          // datas.tran[0].products[0].quantity+" "+datas.tran[0].products[0].custom[0]+" "+datas.tran[0].totalPrice+' '+
+          // datas.tran[0].tranId+" "+datas.tran[0].tableNumber+" "+datas.tran[0].transTime+" "+datas.tran[0].orderStatus+" "+datas.tran[0].seatTaken);
+          for (var i in datas.tran){
+              if(datas.tran[i].orderStatus == "proceeding"){
+              this.setState({
+                  transinfo: this.state.transinfo.concat({"tranId": datas.tran[i].tranId, "userId": datas.tran[i].userId, "products": datas.tran[i].products, 
+                  "totalPrice": datas.tran[i].totalPrice, "tableNumber": datas.tran[i].tableNumber, 
+                  "orderStatus": datas.tran[i].orderStatus, "transTime": datas.tran[i].transTime, "seatTaken": datas.tran[i].seatTaken,}),
+                });
+              }
+          }
+      }.bind(this),
+      error: function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        alert(thrownError);
+      }
+    });
+  
+  setTimeout(function() { 
+      this.state.tableinfo.map((table, index) => {
+          this.state.transinfo.map((tran, i) => {
+              if(tran.tableNumber === table.tableNumber){
+                  let items = [...this.state.tableinfo];
+                  let item = {...items[index]};
+                  item.seatTaken = item.seatTaken + tran.seatTaken;
+                  item.transaction = item.transaction.concat(tran.tranId);
+                  items[index] = item;
+                  this.setState({tableinfo: items});
+              }
+          })
+      })
+
+      this.state.tableinfo.map((table, index) => {
+
+          if(table.maxCap <= table.seatTaken){
+              let items = [...this.state.tableinfo];
+              let item = {...items[index]};
+              item.isFull = true;
+              items[index] = item;
+              this.setState({tableinfo: items});
+          }
+      })
+      
+      this.state.tableinfo.map((table, index) => {
+          let items = [...this.state.tableinfo];
+          let item = {...items[index]};
+          if(table.isFull === true){
+              item.tableColor = '#d43b3b';
+          }
+          else if(table.isFull !== true && table.seatTaken > 0){
+              item.tableColor = '#ebae3b';
+          }
+          else{
+              item.tableColor = "#88D969";
+          }
+          if(table.tableNumber === "11"){
+            item.tableColor = 'lightgrey';
+          }
+          items[index] = item;
+          this.setState({tableinfo: items});
+
+          if(table.transaction && table.transaction.length > 0){
+              // alert("Table "+table.tableNumber + " has transaction");
+              // alert(table.transaction[0]);
+          }
+      }
+          
+      )
+  }.bind(this), 100)
   }
 
   pageRefresh(usrname, password){
@@ -248,10 +347,11 @@ class App extends React.Component{
     this.setState({
         // payBills: false,
         active_function: <TableList 
-                                    // active_function={this.state.active_Function}
                                     TableClick = {this.TableClick}
-                                    payBills = {false}
+                                    OrderTableClick ={this.OrderTableClick}
+                                    payBills = {'點餐'}
                                     tableinfo={this.state.tableinfo}
+                                    transinfo={this.state.transinfo}
                           />,
       })
   }
@@ -260,25 +360,47 @@ class App extends React.Component{
     let tableNumber = '';
     if(data[2] == '0')
       tableNumber = '10';
+    else if(data[2] == '1')
+      tableNumber = '11';
     else
       tableNumber = data[1];
     if(data[0] == 1){
       this.setState({
         active_function: <Menu BackTableClick = {this.BackTableClick}
                               PlaceOrderClick = {this.PlaceOrderClick}
-                              // addedList={this.state.addedList}
                               tableNumber = {tableNumber}
+                              userId={this.state.userId}
         />,
+        // active_function: '',
       })
     }
     else if (data[0] == 2){
-      this.setState({
-        active_function: <Bills BackTableClick = {this.BackTableClick}
-                                PayClick = {this.PayClick}
-                          />,
-      })
+      // this.setState({
+      //   active_function: <Bills BackTableClick = {this.BackTableClick}
+      //                           PayClick = {this.PayClick}
+      //                           chosen_tran={this.state.chosen_tran}
+      //                     />,
+      // })
+      // alert(data[0]);
     }
     
+  }
+
+  OrderTableClick(e, data){
+    // alert(data);
+    var chosen_tran = [];
+    this.state.transinfo.map(tran => {
+      if(tran.tranId === data){
+        chosen_tran = chosen_tran.concat(tran);
+      }
+    })
+
+    this.setState({
+      active_function: <Bills BackTableClick = {this.BackTableClick}
+                              PayClick = {this.PayClick}
+                              chosen_tran={chosen_tran}
+                        />,
+    })
   }
 
   PaybillsClick(e){
@@ -286,9 +408,10 @@ class App extends React.Component{
         // payBills: true,
         active_function: <TableList 
                                     TableClick = {this.TableClick}
-                                    payBills = {true}
+                                    OrderTableClick ={this.OrderTableClick}
+                                    payBills = {'結賬'}
                                     tableinfo={this.state.tableinfo}
-        
+                                    transinfo={this.state.transinfo}
         />,
         // active_function: <Menu/>,
       })
@@ -302,7 +425,21 @@ class App extends React.Component{
     }
     else{
       alert("Permitted Action!");
-    }
+      // this.props.history.push('/home/');
+      // return(
+    //   <Redirect to={{
+    //     pathname: '/home',
+    //     // state: { id: '123' }
+    // }} />
+    //   <Route>
+    // return <Redirect to='/home' />
+      // <Redirect path="/home" />
+    // </Route>
+    
+    
+      // )
+    
+  }
   }
 
   BackTableClick(e, data){
@@ -310,103 +447,63 @@ class App extends React.Component{
     if(data[0] == 1)
       this.setState({
         active_function: <TableList 
-                                    TableClick = {this.TableClick}
-                                    payBills = {false}
-                                    tableinfo={this.state.tableinfo}
+        TableClick = {this.TableClick}
+        OrderTableClick ={this.OrderTableClick}
+        payBills = {'結賬'}
+        tableinfo={this.state.tableinfo}
+        transinfo={this.state.transinfo}
 
         />,
       })
     else
     this.setState({
       active_function: <TableList 
-                                  TableClick = {this.TableClick}
-                                  payBills = {true}
-                                  tableinfo={this.state.tableinfo}
+      TableClick = {this.TableClick}
+      OrderTableClick ={this.OrderTableClick}
+      payBills = {'結賬'}
+      tableinfo={this.state.tableinfo}
+      transinfo={this.state.transinfo}
 
       />,
     })
   }
 
   PlaceOrderClick(e, data){
-    var confirmation = window.confirm('你確定要落單?');
-    if(confirmation === true){
       this.setState({
         active_function: '',
       })
-      // var a = e.target.id;
-      // alert(a);
-      // alert("place: " +data);
-      data.map(item => {
-        // alert(item.name + ": $"+item.price+" quantity: "+item.quantity+" totalPrice: "+item.totalPrice+
-        // " tableNumber: "+item.tableNumber+" transTime: "+item.transTime+" custom: ")
-        item.custom.map(items => {
-          // alert(item.name + ": $"+item.price+" quantity: "+item.quantity+"custom: "+items)
-        })
-      })
+  }
 
-      // send orderList to database
-    
+  PayClick(e, datass){
+    var confirmation = window.confirm('你是否要結賬？');
+      if(confirmation === true){
+        // alert(data);
+        this.setState({
+          active_function: '',
+        })
+
+        // update transation orderStatus
+        var url = "http://localhost:3001/orderfinished";
+        var datas = {
+          "tranId": datass,
+        };
+        $.ajax({
+          url: url,
+          method: "PUT",
+          data: datas,
+          xhrFields: {
+            withCredentials: true
+          },
+          success:function(data){
+            alert("成功結賬，交易編號："+datass);
+          }.bind(this),
+          error:function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+          }
+        });
+      }
     }
   }
-
-  PayClick(e){
-    this.setState({
-        active_function: '',
-      })
-  }
-
-}
-
-class Login extends React.Component {
-  constructor(props) {
-    super(props);
-
-   this.usernameChange = this.usernameChange.bind(this);
-   this.passwordChange = this.passwordChange.bind(this);
-   this.LoginClick = this.LoginClick.bind(this);
- }
-
-  usernameChange(e) {
-    e.preventDefault(e);
-    this.props.onUsernameChange(e.target.value);
-  }
-
-  passwordChange(e) {
-    e.preventDefault(e);
-    this.props.onPasswordChange(e.target.value);
-  }
-
-  LoginClick(e) {
-    e.preventDefault(e);
-    this.props.LoginClick(e);
-  }
-
-  render() {
-      return (
-        <div >
-          <form class="login_form">
-              <h3>Login</h3>
-
-              <p id="error_message"> {this.props.login_fail} </p>
-
-              <div className="form-group">
-                  <label>Username</label>
-                  <input type="text" className="form-control" placeholder="Enter username" value={this.props.username}
-                  onChange={this.usernameChange}/>
-              </div>
-
-              <div className="form-group">
-                  <label>Password</label>
-                  <input type="password" className="form-control" placeholder="Enter password" value={this.props.password}
-                  onChange={this.passwordChange}/>
-              </div>
-
-              <button type="button" className="btn btn-primary btn-block" onClick={this.LoginClick}>Submit</button>
-            </form>
-          </div>
-      );
-  }
-}
-
 
 export default App;
