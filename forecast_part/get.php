@@ -1,45 +1,24 @@
 <?php
+$conn=mysqli_connect('sophia.cs.hku.hk','ywlai','YZjNGaaa') or die ('Failed to Connect '.mysqli_error($conn));
+mysqli_select_db($conn, 'ywlai') or die ('Failed to Access DB'.mysqli_error($conn));
 
 
-function processDrpdown($selectedVal) {
-    $q = $selectedVal;
+  echo(" \"['");
+  echo(" \" .");
+  echo('$row[\'');
+  echo( "date");
+  echo("'].\", ");
 
-    if($q == 1){
-      $conn=mysqli_connect('sophia.cs.hku.hk','ywlai','YZjNGaaa') or die ('Failed to Connect '.mysqli_error($conn));
-      mysqli_select_db($conn, 'ywlai') or die ('Failed to Access DB'.mysqli_error($conn));
-      $query = "SELECT SUM(Sales) from Sunposales WHERE Date >= '2020-02-01' AND Date <= '2020-02-29' ";
-        $exec = mysqli_query($conn,$query);
-        while($row = mysqli_fetch_array($exec)){
-        echo "".$row['SUM(Sales)']."";
-         }
+  $aDoor = $_POST['formDoor'];
+    $N = count($aDoor);
+    for($i=0; $i < $N; $i++)
+    {
+      echo(" \" .");
+      echo('$row[\'');
+      echo( "$aDoor[$i]");
+      echo("'].\", ");
     }
 
-    if($q == 2){
-      $conn=mysqli_connect('sophia.cs.hku.hk','ywlai','YZjNGaaa') or die ('Failed to Connect '.mysqli_error($conn));
-      mysqli_select_db($conn, 'ywlai') or die ('Failed to Access DB'.mysqli_error($conn));
-      $query = "SELECT SUM(Sales) from Sunposales WHERE Date >= '2020-03-01' AND Date <= '2020-03-31' ";
-        $exec = mysqli_query($conn,$query);
-        while($row = mysqli_fetch_array($exec)){
-        echo "".$row['SUM(Sales)']."";
-         }
-    }
+  echo("],\"")
 
-    if($q == 3){
-      $conn=mysqli_connect('sophia.cs.hku.hk','ywlai','YZjNGaaa') or die ('Failed to Connect '.mysqli_error($conn));
-      mysqli_select_db($conn, 'ywlai') or die ('Failed to Access DB'.mysqli_error($conn));
-      $query = "SELECT SUM(Sales) from Sunposales WHERE Date >= '2020-04-01' AND Date <= '2020-04-30' ";
-        $exec = mysqli_query($conn,$query);
-        while($row = mysqli_fetch_array($exec)){
-        echo "".$row['SUM(Sales)']."";
-         }
-    }
-
-
-
-}
-
-if ($_POST['dropdownValue']){
-    //call the function or execute the code
-    processDrpdown($_POST['dropdownValue']);
-}
 ?>
