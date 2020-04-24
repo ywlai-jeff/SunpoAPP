@@ -50,6 +50,15 @@
 
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
 
+
+.home_background{
+  /* background-repeat: no-repeat; */
+  background-size: auto;
+  position: absolute;
+  left:0;
+  right:0;
+  bottom: 0;
+}
 #logo_title{
   background-color: rgba(0,0,0,.7);
   /* background-color: darkblue; */
@@ -100,7 +109,7 @@
   /* position: absolute; */
 }
 .table_title{
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .table_column {
   float: left;
@@ -111,7 +120,23 @@
   padding: 40px;
   /* margin: 0; */
   /* background-color: blue; */
+  /* background-image: url("./images/productpic/home4.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  background-position: center center; */
 }
+/* .table_column.overlay {
+  position: relative; }
+  .table_column.overlay:before {
+    position: absolute;
+    content: "";
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    background: rgba(0, 0, 0, 0.6); } */
+
 .tables{
   /* padding:0 0 50px 0; */
   margin: 20px auto;
@@ -251,6 +276,20 @@
   max-height: 25px;
   color: white;
 }
+.tables_name{
+  width: 100%;
+  margin-left: auto;
+  left: auto;
+  right: auto;
+  background-color: darkblue;
+  float: left;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0 .75rem;
+  font-style: bold;
+  max-height: 40px;
+  color: white;
+}
 
 #add_btn{
   background-color: black;
@@ -313,6 +352,7 @@
 }
 .receipt{
   /* background-color: rgb(240, 239, 216, .4); */
+  /* background-color: darkblue; */
   /* position: absolute; */
   /* width: 50%; */
   margin: 0 auto;
@@ -438,6 +478,21 @@
   cursor: pointer;
   background-color: azure;
 }
+.blacks{
+  color: black;
+}
+.view_btn, .add_btn{
+  padding: 5px;
+    top: 0px;
+    right: 0px;
+}
+.view_btn:hover, .add_btn:hover{
+  cursor: pointer;
+  background-color: azure;
+}
+.a{
+  display: none;
+}
 
 
 
@@ -495,3 +550,56 @@
 }
 
 
+
+/* copy from template: https://colorlib.com/wp/template/logis/?v=69e1aafeccc5 */
+.site-blocks-cover {
+  background-image: url("./images/productpic/home4.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  background-position: center center; }
+  .site-blocks-cover.overlay {
+    position: relative; }
+    .site-blocks-cover.overlay:before {
+      position: absolute;
+      content: "";
+      left: 0;
+      bottom: 0;
+      right: 0;
+      top: 0;
+      background: rgba(0, 0, 0, 0.6); }
+  .site-blocks-cover .player {
+    position: absolute;
+    bottom: -250px;
+    width: 100%; }
+  .site-blocks-cover, .site-blocks-cover .row {
+    min-height: 600px;
+    height: calc(100vh); }
+  .site-blocks-cover.inner-page-cover, .site-blocks-cover.inner-page-cover .row {
+    min-height: 600px;
+    height: calc(30vh); }
+  .site-blocks-cover h1 {
+    font-size: 4rem;
+    font-weight: 900;
+    color: #fff; }
+    @media (max-width: 991.98px) {
+      .site-blocks-cover h1 {
+        font-size: 2rem; } }
+  .site-blocks-cover p {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1.2rem;
+    line-height: 1.5; }
+  .site-blocks-cover .btn {
+    border: 2px solid transparent; }
+    .site-blocks-cover .btn:hover {
+      color: #fff !important;
+      background: none;
+      border: 2px solid #fff; }
+  .site-blocks-cover .intro-text {
+    font-size: 16px;
+    line-height: 1.5; }
+  @media (max-width: 991.98px) {
+    .site-blocks-cover .display-1 {
+      font-size: 3rem; } }
+/* copy from template: https://colorlib.com/wp/template/logis/?v=69e1aafeccc5  END*/
+      

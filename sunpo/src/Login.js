@@ -27,7 +27,7 @@ class Login extends React.Component {
     render() {
         return (
           <div >
-            <form class="login_form">
+            <form className="login_form">
                 <h3>Login</h3>
   
                 <p id="error_message"> {this.props.login_fail} </p>

@@ -6,6 +6,7 @@ import Menu from './Menu';
 import TableList from './Table';
 import Bills from './Bills';
 import Home from './Home';
+import index from './index.php'
 
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
@@ -20,6 +21,7 @@ ReactDOM.render(
             {/* <Route render ={()=> < Menu />} path="/create" /> */}
             {/* <Route render ={()=> < Show />} path="/show/:id" />*/}
             <App />
+            {/* <index/> */}
         </div>
      /* </Router>  */
        

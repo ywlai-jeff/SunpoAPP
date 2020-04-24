@@ -56,11 +56,9 @@ class Bills extends React.Component{
                             {item.products.map(product => (
                             <tr class="receipt_color_mid">
                                 <td><div>{product.name}</div>
-                                    <ul>
                                     {product.custom.map(custom => (
-                                        <li>- {custom}</li>
+                                        <div>   {custom}</div>
                                     ))}
-                                    </ul>
                                 </td>
                                 <td>{product.quantity}</td>
                                 <td>{product.price}</td>

@@ -41,10 +41,12 @@ class Menu extends React.Component{
         heightSet: '',
         orderList: [],
         addedList: [],
+        viewTempList: [],
         currentSelected: '',
         totalPrice: 0,
         currentTime: '',
         seatTaken: null,
+        // add_or_edit: true,
         // customList: [],
       }
         this.updateDimensions = this.updateDimensions.bind(this);
@@ -61,19 +63,59 @@ class Menu extends React.Component{
     }
 
     componentDidMount() {
+        //update menu window
         this.updateDimensions();
         window.addEventListener('scroll', this.updateDimensions);
         setInterval( () => {
             this.setState({
               currentTime : new Date().toLocaleString(),
             })
-            let ctime = new Date().toLocaleString();
+            // let ctime = new Date().toLocaleString();
+            let ctime = new Date("2020-04-19").toLocaleString();
+            //change above to create order early than today
             this.state.addedList.map(item => {
                 item.seatTaken = this.state.seatTaken;
                 item.transTime = ctime;
                 item.totalPrice = this.state.totalPrice;
             })
           },100)
+
+        //load view order menu
+        if(this.props.chosen_tran !== ''){
+            var cus = [];
+            var changeTime = new Date().toLocaleString();
+            this.props.chosen_tran.map(items => {
+                setTimeout(function() { 
+                items.products.map((item, i) => {
+                    cus = [];
+                    item.custom.map(ind => {
+                        cus = cus.concat(ind);
+                    })
+                    this.setState({
+                    currentSelected: '',
+                    seatTaken: items.seatTaken,
+                    orderList: this.state.orderList.concat({"name": item.name, "price": parseInt(item.price), 
+                    "originalPrice": parseInt(item.originalPrice), "quantity": parseInt(item.quantity), 'custom': cus,
+                    "totalPrice": parseInt(items.totalPrice), "tableNumber": items.tableNumber, 'transTime': changeTime, 
+                    'seatTaken': parseInt(items.seatTaken), 'id': this.state.orderList.length+1,}),
+                    })
+                    // alert(item.name+' '+cus[0]+' '+cus[1]);
+                })
+                }.bind(this), 100)
+            })
+
+            setTimeout(function() { 
+                this.setState({
+                    addedList: this.state.orderList,
+                    totalPrice: 0,
+                })
+                this.state.addedList.map(item => (
+                    this.setState({
+                        totalPrice: this.state.totalPrice + item.price,
+                    })
+                ))
+            }.bind(this), 100)
+        }
     }
     
     componentWillUnmount() {
@@ -247,7 +289,7 @@ class Menu extends React.Component{
     let a = this.state.currentSelected.split(",");
     let id = a[1];
     // alert(id);
-    alert(data);
+    // alert(data);
     var confirmation = window.confirm('你要刪除此項目嗎?');
     if(confirmation === true){  
         this.setState({
@@ -305,7 +347,7 @@ DeleteCustomClick(data, e){
         }.bind(this), 100)
     }
 }
-  
+
     PlaceOrderClick(datas, e){
         e.preventDefault(e);
         if(this.state.totalPrice){
@@ -372,6 +414,29 @@ DeleteCustomClick(data, e){
                   }
                 });
 
+                //change previous order to outdated
+                var url = "http://localhost:3001/updatetran";
+                var pdata = {
+                  "tranId":this.props.data_tranId,
+                };
+                $.ajax({
+                  url: url,
+                  method: "PUT",
+                  data: pdata,
+                  xhrFields: {
+                    withCredentials: true
+                  },
+                  success:function(data){
+
+                  }.bind(this),
+                  error:function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                  }
+                });
+
+
+
                 this.props.PlaceOrderClick(e.target.value, datas);
                 }
             }
@@ -401,6 +466,17 @@ DeleteCustomClick(data, e){
             tablenumber = <li>外賣</li>
         else tablenumber = 
         <li>{this.props.tableNumber} 號枱</li>
+
+        let add_or_edit;
+        if(this.props.chosen_tran !== ''){
+            add_or_edit = <li id="placeorder_btn" onClick={this.PlaceOrderClick.bind(this, this.state.addedList)}><a>改單 &gt;</a></li>
+            if(this.props.chosen_tran[0].tableNumber == "11")
+            tablenumber = <li>外賣</li>
+        else tablenumber = 
+            <li>{this.props.chosen_tran[0].tableNumber} 號枱</li>
+        }
+        else
+            add_or_edit = <li id="placeorder_btn" onClick={this.PlaceOrderClick.bind(this, this.state.addedList)}><a>落單 &gt;</a></li>
 
         return(
         <Router>
@@ -466,7 +542,7 @@ DeleteCustomClick(data, e){
                 <div class="pay_bottom">
                     <ul>
                         <li onClick={this.BackTableClick.bind(this, "1")}><a>&lt; 返回</a></li>
-                        <li id="placeorder_btn" onClick={this.PlaceOrderClick.bind(this, this.state.addedList)}><a>落單 &gt;</a></li>
+                        {add_or_edit}
                         {/* <li id="placeorder_btn" onClick={(event)=>this.PlaceOrderClick(event, this.state.added)}><a>落單 &gt;</a></li> */}
                     </ul>
                  </div>
