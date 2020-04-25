@@ -470,57 +470,54 @@ function showuser(str) {
 <body style="background-color:#041E8A" onload="loaddata()">
 
 <div class="nav_bar">
-              <h4 class="fas fa-home"> SUN PO</h4>
-              <ul>
-                <li><div class="fas fa-user"></div>又係你呀陳生</li>
-                <li onClick={this.OrderClick}><a class="function_btn fas fa-shopping-bag"> 點餐</a></li>
-                <li onClick={this.PaybillsClick}><a class="function_btn fas fa-money-bill-wave"> 查閱/結賬</a></li>
-                <li onClick={this.ForecastClick}><a class="function_btn fas fa-atom"> 銷量預測</a></li>
-                <li onClick={this.LogoutClick}><a class="function_btn fas fa-power-off"> 登出</a></li>
-              </ul>
-            </div>
+  <h4 class="fas fa-home"> SUN PO</h4>
+  <ul>
+    <li><div class="fas fa-user"></div>又係你呀陳生</li>
+    <li onClick={this.OrderClick}><a class="function_btn fas fa-shopping-bag"> 點餐</a></li>
+    <li onClick={this.PaybillsClick}><a class="function_btn fas fa-money-bill-wave"> 查閱/結賬</a></li>
+    <li onClick={this.ForecastClick}><a class="function_btn fas fa-atom"> 銷量預測</a></li>
+    <li onClick={this.LogoutClick}><a class="function_btn fas fa-power-off"> 登出</a></li>
+  </ul>
+</div>
+
 <div class="container" style="margin:auto;margin-top:30px;width:300px;height:40px;background-color:#041E8A;">
   <button  onclick="showsales()" class="button1" ><h5>銷售額</h5></button>
   <button  onclick="showingred()" class="button1" ><h5>食材</h5></button>
 </div>
+
 <div id="sales dashboard">
-
-
-
-<div class="container1">
-  <div class="container" style="width: 80%; height:150px;background-color:white;">
-    <div class="heading" style="margin-left: 20px;margin-top:40px;padding-top:40px;"><h1>銷售額</h1></div>
-    <select name="users" onchange="showuser(this.value)" style="float:right;">
-      <option value="">揀個禮拜:</option>
-      <option value="1">1/3-7/3</option>
-      <option value="2">8/3-14/3</option>
-      <option value="3">15/3-21/3</option>
+  <div class="container1">
+    <div class="container" style="width: 80%; height:150px;background-color:white;">
+      <div class="heading" style="margin-left: 20px;margin-top:40px;padding-top:40px;"><h1>銷售額</h1></div>
+      <select name="users" onchange="showuser(this.value)" style="float:right;">
+        <option value="">揀個禮拜:</option>
+        <option value="1">1/3-7/3</option>
+        <option value="2">8/3-14/3</option>
+        <option value="3">15/3-21/3</option>
       </select>
-    <button onclick="showweek()" class="button" ><h5>星期</h5></button>
-    <button onclick="showmonth()" class="button" ><h5>月</h5></button>
+      <button onclick="showweek()" class="button" ><h5>星期</h5></button>
+      <button onclick="showmonth()" class="button" ><h5>月</h5></button>
+    </div>
+
+    <div class="container" style="width: 85%; height:570px ; background-color:white;">
+      <div id="columnchart1" style="width: 100%; height: 100%;" ></div>
+      <div id="columnchart2" style="width: 100%; height: 100%; display:none;"></div>
+      <div id="columnchart3" style="width: 100%; height: 100%; display:none;"></div>
+      <div id="columnchart4" style="width: 100%; height: 100%; display:none;"></div>
+    </div>
   </div>
 
- <div class="container" style="width: 85%; height:570px ; background-color:white;">
- <div id="columnchart1" style="width: 100%; height: 100%;" ></div>
-  <div id="columnchart2" style="width: 100%; height: 100%; display:none;"></div>
-   <div id="columnchart3" style="width: 100%; height: 100%; display:none;"></div>
- <div id="columnchart4" style="width: 100%; height: 100%; display:none;"></div>
+  <div class="container2" >
+    <div class="card">
+      <h3 style="color:red;">總銷售額</h3>
+      <div id="total" class=data></div>
+    </div>
 
-
-
- </div>
-</div>
-
-<div class="container2" >
-<div class="card">
-  <h3 style="color:red;">總銷售額</h3>
-  <div id="total" class=data></div>
-</div>
-<div class="card">
-  <h3 style="color:red;">平均銷售額</h3>
-  <div id="average" class=data></div>
-</div>
-</div>
+    <div class="card">
+      <h3 style="color:red;">平均銷售額</h3>
+      <div id="average" class=data></div>
+    </div>
+  </div>
 </div>
 
 <div id="food dashboard" style="display:none;">
@@ -531,43 +528,40 @@ function showuser(str) {
       <button onclick="showall()" class="button" ><h5>all</h5></button>
     </div>
 
-   <div class="container" style="width: 85%; height:570px ; background-color:white;">
-   <div id="chart_div" style="width: 100%; height: 100%;" ></div>
-   <div id="chart_div_2" style="width: 100%; height: 100%; display:none;"></div>
-   </div>
+    <div class="container" style="width: 85%; height:570px ; background-color:white;">
+      <div id="chart_div" style="width: 100%; height: 100%;" ></div>
+      <div id="chart_div_2" style="width: 100%; height: 100%; display:none;"></div>
+    </div>
   </div>
 
   <div class="container3" >
     <form action="get.php" method="post">
     <div class="column1" style="width:50%; float:left;" >
-    <h3>鮮味魚扎 <input type="checkbox" class="checkbox" value="yujak" name="formDoor[]"></h3>
-    <h3>鮮墨魚丸 <input type="checkbox" class="checkbox" value="yuyun" name="formDoor[]"></h3>
-    <h3>鮮豬肉丸 <input type="checkbox" class="checkbox" value="yukyun" name="formDoor[]"></h3>
-    <h3>鮮蝦雲吞 <input type="checkbox" class="checkbox" value="wuntun" name="formDoor[]"></h3>
-    <h3>自製水餃 <input type="checkbox" class="checkbox" value="suigao" name="formDoor[]"></h3>
-    <h3>南乳豬手 <input type="checkbox" class="checkbox" value="jusao" name="formDoor[]"></h3>
-    <h3>秘製炸醬 <input type="checkbox" class="checkbox" value="jajueng" name="formDoor[]"></h3>
-    <h3>鮮炸魚皮 <input type="checkbox" class="checkbox" value="yupei" name="formDoor[]"></h3>
-    <h3>鮮魚皮餃 <input type="checkbox" class="checkbox" value="yupeigao" name="formDoor[]"></h3>
-    <h3>原汁牛腩 <input type="checkbox" class="checkbox" value="ngaolam" name="formDoor[]"></h3>
+      <h3>鮮味魚扎 <input type="checkbox" class="checkbox" value="yujak" name="formDoor[]"></h3>
+      <h3>鮮墨魚丸 <input type="checkbox" class="checkbox" value="yuyun" name="formDoor[]"></h3>
+      <h3>鮮豬肉丸 <input type="checkbox" class="checkbox" value="yukyun" name="formDoor[]"></h3>
+      <h3>鮮蝦雲吞 <input type="checkbox" class="checkbox" value="wuntun" name="formDoor[]"></h3>
+      <h3>自製水餃 <input type="checkbox" class="checkbox" value="suigao" name="formDoor[]"></h3>
+      <h3>南乳豬手 <input type="checkbox" class="checkbox" value="jusao" name="formDoor[]"></h3>
+      <h3>秘製炸醬 <input type="checkbox" class="checkbox" value="jajueng" name="formDoor[]"></h3>
+      <h3>鮮炸魚皮 <input type="checkbox" class="checkbox" value="yupei" name="formDoor[]"></h3>
+      <h3>鮮魚皮餃 <input type="checkbox" class="checkbox" value="yupeigao" name="formDoor[]"></h3>
+      <h3>原汁牛腩 <input type="checkbox" class="checkbox" value="ngaolam" name="formDoor[]"></h3>
     </div>
     <div class="column2" style="width:50% ;float:left;">
-    <h3>金錢牛肚 <input type="checkbox" class="checkbox" value="ngaotou" name="formDoor[]"></h3>
-    <h3>秘製孖筋 <input type="checkbox" class="checkbox" value="magun" name="formDoor[]"></h3>
-    <h3>自製魚蛋 <input type="checkbox" class="checkbox" value="yudan" name="formDoor[]"></h3>
-    <h3>雙滑魚片 <input type="checkbox" class="checkbox" value="yupin" name="formDoor[]"></h3>
-    <h3>黃金魚角 <input type="checkbox" class="checkbox" value="yugok" name="formDoor[]"></h3>
-    <h3>手打牛丸 <input type="checkbox" class="checkbox" value="ngoyun" name="formDoor[]"></h3>
-    <h3>牛筋丸 <input type="checkbox" class="checkbox" value="ngaogenyun" name="formDoor[]"></h3>
-    <br></br>
-    <h3>全選<input type="checkbox" class="checkbox" onclick="toggle(this);"/></h3>
+      <h3>金錢牛肚 <input type="checkbox" class="checkbox" value="ngaotou" name="formDoor[]"></h3>
+      <h3>秘製孖筋 <input type="checkbox" class="checkbox" value="magun" name="formDoor[]"></h3>
+      <h3>自製魚蛋 <input type="checkbox" class="checkbox" value="yudan" name="formDoor[]"></h3>
+      <h3>雙滑魚片 <input type="checkbox" class="checkbox" value="yupin" name="formDoor[]"></h3>
+      <h3>黃金魚角 <input type="checkbox" class="checkbox" value="yugok" name="formDoor[]"></h3>
+      <h3>手打牛丸 <input type="checkbox" class="checkbox" value="ngoyun" name="formDoor[]"></h3>
+      <h3>牛筋丸 <input type="checkbox" class="checkbox" value="ngaogenyun" name="formDoor[]"></h3>
+      <br></br>
+      <h3>全選<input type="checkbox" class="checkbox" onclick="toggle(this);"/></h3>
     </div>
-
     <input type="submit" name="formSubmit" value="Submit" />
-  </form>
+    </form>
   </div>
-
-
 </div>
 
 </body>

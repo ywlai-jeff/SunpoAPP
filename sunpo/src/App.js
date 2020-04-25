@@ -177,178 +177,178 @@ class App extends React.Component{
     }
     
     // get yesterday's sale and yesterday's item quantity
-    $.ajax({
-      url:"http://localhost:3001/getyesterday/"+ datess,
-      method:"GET",
-      xhrFields: {
-        withCredentials: true
-      },
-      success: function(datas){
-        this.setState({
-          yesterday_sales: datas.dailysales,
-          yesterday_itemKg: this.state.yesterday_itemKg.concat({"ngaolam": datas.itemkg.ngaolam, "suigao": datas.itemkg.suigao, "wuntun": datas.itemkg.wuntun, 
-          "ngoyun": datas.itemkg.ngoyun, "yupeigao": datas.itemkg.yupeigao, "yudan": datas.itemkg.yudan, "yupin": datas.itemkg.yupin, 
-          "yupei": datas.itemkg.yupei, "yugok": datas.itemkg.yugok, "yujak": datas.itemkg.yujak, "yuyun": datas.itemkg.yuyun, "yukyun": datas.itemkg.yukyun,
-          "magun": datas.itemkg.magun, "jusao": datas.itemkg.jusao, "jajueng": datas.itemkg.jajueng, "ngaogenyun": datas.itemkg.ngaogenyun, 
-          "ngaotou": datas.itemkg.ngaotou, "ngauzharp": datas.itemkg.ngauzharp,}),
-        });
-        // alert(datas.itemkg.yudan + ' ' + datas.itemkg.ngaolam + ' ' + datas.itemkg.ngauzharp);
-        // alert(this.state.yesterday_itemKg[0].yudan + ' ' + this.state.yesterday_itemKg[0].ngaolam + ' ' + this.state.yesterday_itemKg[0].ngauzharp);
-      }.bind(this),
-      error: function (xhr, ajaxOptions, thrownError) {
-        alert(xhr.status);
-        alert(thrownError);
-      }
-    });
+    // $.ajax({
+    //   url:"http://localhost:3001/getyesterday/"+ datess,
+    //   method:"GET",
+    //   xhrFields: {
+    //     withCredentials: true
+    //   },
+    //   success: function(datas){
+    //     this.setState({
+    //       yesterday_sales: datas.dailysales,
+    //       yesterday_itemKg: this.state.yesterday_itemKg.concat({"ngaolam": datas.itemkg.ngaolam, "suigao": datas.itemkg.suigao, "wuntun": datas.itemkg.wuntun, 
+    //       "ngoyun": datas.itemkg.ngoyun, "yupeigao": datas.itemkg.yupeigao, "yudan": datas.itemkg.yudan, "yupin": datas.itemkg.yupin, 
+    //       "yupei": datas.itemkg.yupei, "yugok": datas.itemkg.yugok, "yujak": datas.itemkg.yujak, "yuyun": datas.itemkg.yuyun, "yukyun": datas.itemkg.yukyun,
+    //       "magun": datas.itemkg.magun, "jusao": datas.itemkg.jusao, "jajueng": datas.itemkg.jajueng, "ngaogenyun": datas.itemkg.ngaogenyun, 
+    //       "ngaotou": datas.itemkg.ngaotou, "ngauzharp": datas.itemkg.ngauzharp,}),
+    //     });
+    //     // alert(datas.itemkg.yudan + ' ' + datas.itemkg.ngaolam + ' ' + datas.itemkg.ngauzharp);
+    //     // alert(this.state.yesterday_itemKg[0].yudan + ' ' + this.state.yesterday_itemKg[0].ngaolam + ' ' + this.state.yesterday_itemKg[0].ngauzharp);
+    //   }.bind(this),
+    //   error: function (xhr, ajaxOptions, thrownError) {
+    //     alert(xhr.status);
+    //     alert(thrownError);
+    //   }
+    // });
     // get daily item quantity
-    $.ajax({
-      url:"http://localhost:3001/getitemquantity",
-      method:"GET",
-      xhrFields: {
-        withCredentials: true
-      },
-      success: function(datas){
-        // alert(datas.latest_date);
+    // $.ajax({
+    //   url:"http://localhost:3001/getitemquantity",
+    //   method:"GET",
+    //   xhrFields: {
+    //     withCredentials: true
+    //   },
+    //   success: function(datas){
+    //     // alert(datas.latest_date);
 
-        if( (new Date(datas.latest_date).getDate() < (new Date().getDate()-1)) || new Date(datas.latest_date).getMonth() < (new Date().getMonth())){
-          //insert item quantity
-          var month = 0;
-          var date;
-          var day;
-          if (new Date().getDate() == 1){
-            if((new Date().getMonth()) < 10)
-              month = "0" + (new Date().getMonth());
-            else
-              month = "" + (new Date().getMonth());
-            if(new Date().getMonth() == 1 || new Date().getMonth() == 3 || new Date().getMonth() == 5 || new Date().getMonth() == 7 || 
-            new Date().getMonth() == 8 || new Date().getMonth() == 10 || new Date().getMonth() == 12) day = 31;
-            else if (new Date().getMonth() == 2) if(new Date().getFullYear%4 == 0) day = 29; else day = 28;
-            else if (new Date().getMonth() == 4 || new Date().getMonth() == 6 || new Date().getMonth() == 9 || new Date().getMonth() == 11) day = 30;
-            date = new Date().getFullYear() + "-" + month + "-" + day;
-          } else{
-            if((new Date().getMonth()+1) < 10)
-              month = "0" + (new Date().getMonth()+1);
-            else
-              month = "" + (new Date().getMonth()+1);
-            date = new Date().getFullYear() + "-" + month + "-" + (new Date().getDate()-1);
-            // date = new Date().getFullYear() + "-" + month + "-" + 22;
-          }
-          var url = "http://localhost:3001/insertitemquantity";
-          var itemkg = this.state.yesterday_itemKg;
-          var userinfo;
-          itemkg.map((it, i) => {
-          userinfo = {'dates': date, "ngaolam": it.ngaolam, "suigao": it.suigao, "wuntun": it.wuntun, 
-          "ngoyun": it.ngoyun, "yupeigao": it.yupeigao, "yudan": it.yudan, "yupin": it.yupin, 
-          "yupei": it.yupei, "yugok": it.yugok, "yujak": it.yujak, "yuyun": it.yuyun, "yukyun": it.yukyun,
-          "magun": it.magun, "jusao": it.jusao, "jajueng": it.jajueng, "ngaogenyun": it.ngaogenyun, "ngaotou": it.ngaotou, "ngauzharp": it.ngauzharp} 
-        });
-          // alert(itemkg[0].yudan);
-          // alert(this.state.yesterday_itemKg[0].yudan);
-          $.ajax({
-            url: url,
-            method: "POST",
-            data: userinfo,
-            xhrFields: {
-              withCredentials: true
-            },
-            success:function(data){
-              // alert(data.status + " inserting item quantity");
-              // alert(data.item);
-            }.bind(this),
-            error:function (xhr, ajaxOptions, thrownError) {
-              alert(xhr.status);
-              alert(thrownError);
-            }
-          });
-        }
-      }.bind(this),
-      error: function (xhr, ajaxOptions, thrownError) {
-        alert(xhr.status);
-        alert(thrownError);
-      }
-    });
+    //     if( (new Date(datas.latest_date).getDate() < (new Date().getDate()-1)) || new Date(datas.latest_date).getMonth() < (new Date().getMonth())){
+    //       //insert item quantity
+    //       var month = 0;
+    //       var date;
+    //       var day;
+    //       if (new Date().getDate() == 1){
+    //         if((new Date().getMonth()) < 10)
+    //           month = "0" + (new Date().getMonth());
+    //         else
+    //           month = "" + (new Date().getMonth());
+    //         if(new Date().getMonth() == 1 || new Date().getMonth() == 3 || new Date().getMonth() == 5 || new Date().getMonth() == 7 || 
+    //         new Date().getMonth() == 8 || new Date().getMonth() == 10 || new Date().getMonth() == 12) day = 31;
+    //         else if (new Date().getMonth() == 2) if(new Date().getFullYear%4 == 0) day = 29; else day = 28;
+    //         else if (new Date().getMonth() == 4 || new Date().getMonth() == 6 || new Date().getMonth() == 9 || new Date().getMonth() == 11) day = 30;
+    //         date = new Date().getFullYear() + "-" + month + "-" + day;
+    //       } else{
+    //         if((new Date().getMonth()+1) < 10)
+    //           month = "0" + (new Date().getMonth()+1);
+    //         else
+    //           month = "" + (new Date().getMonth()+1);
+    //         date = new Date().getFullYear() + "-" + month + "-" + (new Date().getDate()-1);
+    //         // date = new Date().getFullYear() + "-" + month + "-" + 22;
+    //       }
+    //       var url = "http://localhost:3001/insertitemquantity";
+    //       var itemkg = this.state.yesterday_itemKg;
+    //       var userinfo;
+    //       itemkg.map((it, i) => {
+    //       userinfo = {'dates': date, "ngaolam": it.ngaolam, "suigao": it.suigao, "wuntun": it.wuntun, 
+    //       "ngoyun": it.ngoyun, "yupeigao": it.yupeigao, "yudan": it.yudan, "yupin": it.yupin, 
+    //       "yupei": it.yupei, "yugok": it.yugok, "yujak": it.yujak, "yuyun": it.yuyun, "yukyun": it.yukyun,
+    //       "magun": it.magun, "jusao": it.jusao, "jajueng": it.jajueng, "ngaogenyun": it.ngaogenyun, "ngaotou": it.ngaotou, "ngauzharp": it.ngauzharp} 
+    //     });
+    //       // alert(itemkg[0].yudan);
+    //       // alert(this.state.yesterday_itemKg[0].yudan);
+    //       $.ajax({
+    //         url: url,
+    //         method: "POST",
+    //         data: userinfo,
+    //         xhrFields: {
+    //           withCredentials: true
+    //         },
+    //         success:function(data){
+    //           // alert(data.status + " inserting item quantity");
+    //           // alert(data.item);
+    //         }.bind(this),
+    //         error:function (xhr, ajaxOptions, thrownError) {
+    //           alert(xhr.status);
+    //           alert(thrownError);
+    //         }
+    //       });
+    //     }
+    //   }.bind(this),
+    //   error: function (xhr, ajaxOptions, thrownError) {
+    //     alert(xhr.status);
+    //     alert(thrownError);
+    //   }
+    // });
     
     //get dailysales
-    $.ajax({
-      url:"http://localhost:3001/getdailysales",
-      method:"GET",
-      xhrFields: {
-        withCredentials: true
-      },
-      success: function(datas){
-          // alert(datas.dataGet[1].id + " " +datas.dataGet[1].Date + " " +datas.dataGet[1].Sales);
-          // alert(new Date(datas.latest_date).toLocaleString() + " " + new Date().toLocaleString());
-          // alert(new Date(datas.latest_date).getFullYear() + " " + (new Date(datas.latest_date).getMonth()+1) + " " + new Date(datas.latest_date).getDate());
-          if( new Date(datas.latest_date).getDate() < (new Date().getDate()-1) || new Date(datas.latest_date).getMonth() < (new Date().getMonth())){
-            //insert sale
-            var month = 0;
-            var date;
-            var day;
-            if (new Date().getDate() == 1){
-              if((new Date().getMonth()) < 10)
-                month = "0" + (new Date().getMonth());
-              else
-                month = "" + (new Date().getMonth());
-              if(new Date().getMonth() == 1 || new Date().getMonth() == 3 || new Date().getMonth() == 5 || new Date().getMonth() == 7 || 
-              new Date().getMonth() == 8 || new Date().getMonth() == 10 || new Date().getMonth() == 12) day = 31;
-              else if (new Date().getMonth() == 2) if(new Date().getFullYear%4 == 0) day = 29; else day = 28;
-              else if (new Date().getMonth() == 4 || new Date().getMonth() == 6 || new Date().getMonth() == 9 || new Date().getMonth() == 11) day = 30;
-              date = new Date().getFullYear() + "-" + month + "-" + day;
-            } else{
-              if((new Date().getMonth()+1) < 10)
-                month = "0" + (new Date().getMonth()+1);
-              else
-                month = "" + (new Date().getMonth()+1);
-              date = new Date().getFullYear() + "-" + month + "-" + (new Date().getDate()-1);
-              // date = new Date().getFullYear() + "-" + month + "-" + 22;
-            }
-            var url = "http://localhost:3001/insertsale";
-            var userinfo = {'dates': date, 'sales': this.state.yesterday_sales};
-            $.ajax({
-              url: url,
-              method: "POST",
-              data: userinfo,
-              xhrFields: {
-                withCredentials: true
-              },
-              success:function(data){
-                // alert(data.status + " inserting");
-              }.bind(this),
-              error:function (xhr, ajaxOptions, thrownError) {
-                alert(xhr.status);
-                alert(thrownError);
-              }
-            });
-          } else if (new Date(datas.latest_date).getDate() == new Date().getDate()){
-            // update sales
-            // var month = 0;
-            // if((new Date().getMonth()+1) < 10)
-            //   month = "0" + (new Date().getMonth()+1);
-            // var date = new Date().getFullYear() + "-" + month + "-" + new Date().getDate();
-            // var url = "http://localhost:3001/updatesale";
-            // var userinfo = {'dates': date, 'sales': "25000"};
-            // $.ajax({
-            //   url: url,
-            //   method: "PUT",
-            //   data: userinfo,
-            //   xhrFields: {
-            //     withCredentials: true
-            //   },
-            //   success:function(data){
-            //     alert(data.status +" updating");
-            //   }.bind(this),
-            //   error:function (xhr, ajaxOptions, thrownError) {
-            //     alert(xhr.status);
-            //     alert(thrownError);
-            //   }
-            // });
-          }
-      }.bind(this),
-      error: function (xhr, ajaxOptions, thrownError) {
-        alert(xhr.status);
-        alert(thrownError);
-      }
-    });
+    // $.ajax({
+    //   url:"http://localhost:3001/getdailysales",
+    //   method:"GET",
+    //   xhrFields: {
+    //     withCredentials: true
+    //   },
+    //   success: function(datas){
+    //       // alert(datas.dataGet[1].id + " " +datas.dataGet[1].Date + " " +datas.dataGet[1].Sales);
+    //       // alert(new Date(datas.latest_date).toLocaleString() + " " + new Date().toLocaleString());
+    //       // alert(new Date(datas.latest_date).getFullYear() + " " + (new Date(datas.latest_date).getMonth()+1) + " " + new Date(datas.latest_date).getDate());
+    //       if( new Date(datas.latest_date).getDate() < (new Date().getDate()-1) || new Date(datas.latest_date).getMonth() < (new Date().getMonth())){
+    //         //insert sale
+    //         var month = 0;
+    //         var date;
+    //         var day;
+    //         if (new Date().getDate() == 1){
+    //           if((new Date().getMonth()) < 10)
+    //             month = "0" + (new Date().getMonth());
+    //           else
+    //             month = "" + (new Date().getMonth());
+    //           if(new Date().getMonth() == 1 || new Date().getMonth() == 3 || new Date().getMonth() == 5 || new Date().getMonth() == 7 || 
+    //           new Date().getMonth() == 8 || new Date().getMonth() == 10 || new Date().getMonth() == 12) day = 31;
+    //           else if (new Date().getMonth() == 2) if(new Date().getFullYear%4 == 0) day = 29; else day = 28;
+    //           else if (new Date().getMonth() == 4 || new Date().getMonth() == 6 || new Date().getMonth() == 9 || new Date().getMonth() == 11) day = 30;
+    //           date = new Date().getFullYear() + "-" + month + "-" + day;
+    //         } else{
+    //           if((new Date().getMonth()+1) < 10)
+    //             month = "0" + (new Date().getMonth()+1);
+    //           else
+    //             month = "" + (new Date().getMonth()+1);
+    //           date = new Date().getFullYear() + "-" + month + "-" + (new Date().getDate()-1);
+    //           // date = new Date().getFullYear() + "-" + month + "-" + 22;
+    //         }
+    //         var url = "http://localhost:3001/insertsale";
+    //         var userinfo = {'dates': date, 'sales': this.state.yesterday_sales};
+    //         $.ajax({
+    //           url: url,
+    //           method: "POST",
+    //           data: userinfo,
+    //           xhrFields: {
+    //             withCredentials: true
+    //           },
+    //           success:function(data){
+    //             // alert(data.status + " inserting");
+    //           }.bind(this),
+    //           error:function (xhr, ajaxOptions, thrownError) {
+    //             alert(xhr.status);
+    //             alert(thrownError);
+    //           }
+    //         });
+    //       } else if (new Date(datas.latest_date).getDate() == new Date().getDate()){
+    //         // update sales
+    //         // var month = 0;
+    //         // if((new Date().getMonth()+1) < 10)
+    //         //   month = "0" + (new Date().getMonth()+1);
+    //         // var date = new Date().getFullYear() + "-" + month + "-" + new Date().getDate();
+    //         // var url = "http://localhost:3001/updatesale";
+    //         // var userinfo = {'dates': date, 'sales': "25000"};
+    //         // $.ajax({
+    //         //   url: url,
+    //         //   method: "PUT",
+    //         //   data: userinfo,
+    //         //   xhrFields: {
+    //         //     withCredentials: true
+    //         //   },
+    //         //   success:function(data){
+    //         //     alert(data.status +" updating");
+    //         //   }.bind(this),
+    //         //   error:function (xhr, ajaxOptions, thrownError) {
+    //         //     alert(xhr.status);
+    //         //     alert(thrownError);
+    //         //   }
+    //         // });
+    //       }
+    //   }.bind(this),
+    //   error: function (xhr, ajaxOptions, thrownError) {
+    //     alert(xhr.status);
+    //     alert(thrownError);
+    //   }
+    // });
 
      //get transaction
      $.ajax({
