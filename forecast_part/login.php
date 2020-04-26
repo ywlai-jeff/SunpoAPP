@@ -14,8 +14,8 @@ $password;
 //  $result[0] = array('date','Sales');
  while($row = mysqli_fetch_array($exec)){
      // $result[] = array($row['username'],$row['password']);
-    //  $uname = $row['username'];
-    //  $pword = $row['password'];
+     $uname = $row['username'];
+     $pword = $row['password'];
 	}
 if($username == $uname){
     if($pword == $password){
