@@ -333,76 +333,46 @@ function drawTrendlines() {
          chart.draw(data, options);
        }
 
+$(document).ready(function(){
+   $('#selectweek_feb').change(function(){
+           //Selected value
+           var inputValue = $(this).val();
 
-function showsales() {
-  var x = document.getElementById("sales dashboard");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
+           //Ajax for calling php function
+           $.post('getData.php', { dropdownValue: inputValue }, function(data){
+               var jsonData = data;
+               var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-  var y = document.getElementById("food dashboard");
-  if (y.style.display === "block") {
-    y.style.display = "none";
-  } else {
-    y.style.display = "block";
-  }
-}
+              var options = {  title: '' };
+              var chart = new google.visualization.LineChart(document.getElementById("columnchart1"));
+              chart.draw(data,options);
 
-function showingred() {
-  var z = document.getElementById("food dashboard");
-  if (z.style.display === "none") {
-    z.style.display = "block";
-  } else {
-    z.style.display = "none";
-  }
-
-  var k = document.getElementById("sales dashboard");
-    if (k.style.display === "none") {
-      k.style.display = "block";
-    } else {
-      k.style.display = "none";
-    }
-  }
-
-function toggle(source) {
-    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    for (var i = 0; i < checkboxes.length; i++) {
-        if (checkboxes[i] != source)
-            checkboxes[i].checked = source.checked;
-    }
-}
+           });
+       });
+       });
 
 
 $(document).ready(function(){
-$('#selectmonth').change(function(){
+  $('#selectweek_mar').change(function(){
     //Selected value
     var inputValue = $(this).val();
 
     //Ajax for calling php function
-    $.post('gettotal.php', { dropdownValue: inputValue }, function(data){
+    $.post('getData.php', { dropdownValue: inputValue }, function(data){
+        var jsonData = data;
+        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-        document.getElementById("total").innerHTML = data;
-    });
-});
-});
+       var options = {  title: '' };
+       var chart = new google.visualization.LineChart(document.getElementById("columnchart1"));
+       chart.draw(data,options);
 
-$(document).ready(function(){
-$('#selectmonth').change(function(){
-    //Selected value
-    var inputValue = $(this).val();
-
-    //Ajax for calling php function
-    $.post('getavg.php', { dropdownValue: inputValue }, function(data){
-        document.getElementById("average").innerHTML = data;
     });
 });
 });
 
 
 $(document).ready(function(){
-$('#selectweek_mar').change(function(){
+  $('#selectweek_apr').change(function(){
     //Selected value
     var inputValue = $(this).val();
 
@@ -420,7 +390,7 @@ $('#selectweek_mar').change(function(){
 });
 
 $(document).ready(function(){
-$('#selectweek_feb').change(function(){
+  $('#selectmonth').change(function(){
     //Selected value
     var inputValue = $(this).val();
 
@@ -434,41 +404,16 @@ $('#selectweek_feb').change(function(){
        chart.draw(data,options);
 
     });
-});
-});
-
-$(document).ready(function(){
-$('#selectweek_apr').change(function(){
-    //Selected value
-    var inputValue = $(this).val();
 
     //Ajax for calling php function
-    $.post('getData.php', { dropdownValue: inputValue }, function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+    $.post('gettotal.php', { dropdownValue: inputValue }, function(data_1){
 
-       var options = {  title: '' };
-       var chart = new google.visualization.LineChart(document.getElementById("columnchart1"));
-       chart.draw(data,options);
-
+        document.getElementById("total").innerHTML = data_1;
     });
-});
-});
 
-$(document).ready(function(){
-$('#selectmonth').change(function(){
-    //Selected value
-    var inputValue = $(this).val();
 
-    //Ajax for calling php function
-    $.post('getData.php', { dropdownValue: inputValue }, function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
-
-       var options = {  title: '' };
-       var chart = new google.visualization.LineChart(document.getElementById("columnchart1"));
-       chart.draw(data,options);
-
+    $.post('getavg.php', { dropdownValue: inputValue }, function(data_2){
+        document.getElementById("average").innerHTML = data_2;
     });
 });
 });
@@ -485,24 +430,6 @@ $('#selectmonth').click(function(){
 
        var options = {  title: '' };
        var chart = new google.visualization.LineChart(document.getElementById("columnchart1"));
-       chart.draw(data,options);
-
-    });
-});
-});
-
-$(document).ready(function(){
-$('#submit').click(function(){
-    //Selected value
-    var inputValue = $(this).val();
-
-    //Ajax for calling php function
-    $.post('getingred.php', { dropdownValue: inputValue }, function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
-
-       var options = {  title: '' };
-       var chart = new google.visualization.LineChart(document.getElementById("chart_div"));
        chart.draw(data,options);
 
     });
@@ -531,16 +458,42 @@ $('#checkbox_yujak').click(function(){
       document.getElementById("forecast_usage").innerHTML = data_2;
     });
 
+  });
 });
-});
+
+
+function showsales() { //function to show each dashboard
+  var x = document.getElementById("sales dashboard");
+  x.style.display = "block";
+
+  var y = document.getElementById("food dashboard");
+  y.style.display = "none";
+}
+
+function showingred() { //function to show each dashboard
+  var z = document.getElementById("food dashboard");
+  z.style.display = "block";
+  var k = document.getElementById("sales dashboard");
+  k.style.display = "none";
+
+  }
+
+function toggle(source) //function to select all checkboxes
+  {
+    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i] != source)
+            checkboxes[i].checked = source.checked;
+    }
+  }
 
 
 
-function showchart(){
+function showchart(){ //default function to show all sales
   drawChart1();
 }
 
-function showuser(str) {
+function showmonth(str) { //function to show corresponding week bar
     if (str == "feb") {
       var k = document.getElementById("feb_week");
         k.style.display = "block";
@@ -669,7 +622,7 @@ function loaddata(){
             <div id="average" class=data></div>
           </card>
           <card class="card5" >
-          <select class="dropdown1" id="selectmonth" onchange=showuser(this.value)>
+          <select class="dropdown1" id="selectmonth" onchange=showmonth(this.value)>
             <option value="">月:</option>
             <option value="feb">二月</option>
             <option value="mar">三月</option>
@@ -687,8 +640,8 @@ function loaddata(){
       <option value="sfeb">9/2-15/2</option>
       <option value="tfeb">16/2-22/2</option>
       <option value="frfeb">23/2-29/2</option>
-    </select>
-    </div>
+      </select>
+      </div>
     <div id="mar_week" style ="display:none;">
       <select class="dropdown2" id="selectweek_mar" style="float:right;">
       <option value="">星期:</option>
@@ -696,7 +649,7 @@ function loaddata(){
       <option value="smar">8/3-14/3</option>
       <option value="tmar">15/3-21/3</option>
       <option value="frmar">22/3-28/3</option>
-    </select></div>
+      </select></div>
     <div id="apr_week" style ="display:none;">
       <select class="dropdown2" id="selectweek_apr" style="float:right;">
       <option value="">星期:</option>
@@ -704,7 +657,7 @@ function loaddata(){
       <option value="sapr">5/4-11/4</option>
       <option value="tapr">12/4-18/4</option>
       <option value="frapr">19/4-25/4</option>
-    </select></div>
+      </select></div>
     <button class="button" ><h5>星期</h5></button>
     <button onclick="showchart()" class="button" ><h5>月</h5></button>
   </div>
@@ -720,15 +673,17 @@ function loaddata(){
 <div id="food dashboard" style="display:none;">
   <div class="container5">
     <div class="container" style="width: 80%; height:150px;background-color:white;">
-      <div class="heading" style="margin-left: 20px;margin-top:40px;padding-top:40px;"><h1>Product Comparison</h1></div>
+      <div class="heading" style="margin-left: 20px;margin-top:40px;padding-top:40px;"><h1>銷售量</h1></div>
       <button onclick="showtop8()" class="button" ><h5>top8</h5></button>
       <button onclick="showall()" class="button" ><h5>all</h5></button>
     </div>
 
    <div class="container" style="width: 85%; height:570px ; background-color:white;">
-   <div id="chart_div" style="width: 100%; height: 100%; display:none;" ></div>
-   <div id="chart_div_2" style="width: 100%; height: 100%; display:none;"></div>
-   <div id="chart_div_3" style="width: 100%; height: 100%;">
+  <div id="overview">
+   <div id="chart_div" style="width: 100%; height: 100%; " ></div> <!--container for all ingredient stacked table-->
+   <div id="chart_div_2" style="width: 100%; height: 100%; display:none;"></div> <!--container for top8 ingredient stacked table-->
+  </div>
+   <div id="chart_div_3" style="width: 100%; height: 100%; display:none;"> <!--container for each ingredient forecast-->
 
       <div id="chart_div_4" style="width: 100%; height: 50%; "></div>
            <br></br>
