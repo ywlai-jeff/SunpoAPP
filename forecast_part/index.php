@@ -509,6 +509,33 @@ $('#submit').click(function(){
 });
 });
 
+$(document).ready(function(){
+$('#checkbox_yujak').click(function(){
+    //Selected value
+    //Ajax for calling php function
+    $.get('getingred.php', function(data){
+        var jsonData = data;
+        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+
+       var options = {  title: '', height:300 };
+       var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
+       chart.draw(data,options);
+
+    });
+
+    $.get('getingred1.php', function(data_1){
+      document.getElementById("used").innerHTML = data_1;
+    });
+
+    $.get('getingred2.php', function(data_2){
+      document.getElementById("forecast_usage").innerHTML = data_2;
+    });
+
+});
+});
+
+
+
 function showchart(){
   drawChart1();
 }
@@ -699,10 +726,33 @@ function loaddata(){
     </div>
 
    <div class="container" style="width: 85%; height:570px ; background-color:white;">
-   <div id="chart_div" style="width: 100%; height: 100%;" ></div>
+   <div id="chart_div" style="width: 100%; height: 100%; display:none;" ></div>
    <div id="chart_div_2" style="width: 100%; height: 100%; display:none;"></div>
+   <div id="chart_div_3" style="width: 100%; height: 100%;">
+
+      <div id="chart_div_4" style="width: 100%; height: 50%; "></div>
+           <br></br>
+      <div id="ingred_table" style="width:400px;">
+          <table style="margin:auto;">
+            <tr>
+              <th style="width:400px;" >本週用量</th>
+              <th style="width:400px;">預計下周用量</th>
+              <th style="width:400px;">存量</th>
+              <th style="width:400px;">建議入貨日</th>
+            </tr>
+            <tr>
+              <td><div id="used"></div></td>
+              <td><div id="forecast_usage"></div></td>
+              <td><div id="stock"></div></td>
+              <td><div id="suggested_refill_date"></div></td>
+            </tr>
+         </table></div>
+       </div>
+
    </div>
-  </div>
+   </div>
+
+
 
   <div class="container3" >
 
