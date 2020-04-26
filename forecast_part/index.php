@@ -229,18 +229,18 @@
       }
 
       .dropdown1{
-      width:80px; 
-      height:45px; 
-      font-size:25px; 
-      margin-right:6px; 
+      width:80px;
+      height:45px;
+      font-size:25px;
+      margin-right:6px;
       font-weight:bold;
       }
 
       .dropdown2{
-      width:160px; 
-      height:45px; 
-      font-size:25px; 
-      margin-right:6px; 
+      width:160px;
+      height:45px;
+      font-size:25px;
+      margin-right:6px;
       font-weight:bold;
       }
 
@@ -491,6 +491,24 @@ $('#selectmonth').click(function(){
 });
 });
 
+$(document).ready(function(){
+$('#submit').click(function(){
+    //Selected value
+    var inputValue = $(this).val();
+
+    //Ajax for calling php function
+    $.post('getingred.php', { dropdownValue: inputValue }, function(data){
+        var jsonData = data;
+        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+
+       var options = {  title: '' };
+       var chart = new google.visualization.LineChart(document.getElementById("chart_div"));
+       chart.draw(data,options);
+
+    });
+});
+});
+
 function showchart(){
   drawChart1();
 }
@@ -688,8 +706,9 @@ function loaddata(){
 
   <div class="container3" >
 
+    <form action="getingred.php" method="post">
     <div class="column1" style="width:50%; float:left;" >
-    <h3>鮮味魚扎 <input type="checkbox" class="checkbox" value="yujak" name="formDoor[]"></h3>
+    <h3>鮮味魚扎 <input type="checkbox" class="checkbox" id="checkbox_yujak" value="yujak" name="formDoor[]"></h3>
     <h3>鮮墨魚丸 <input type="checkbox" class="checkbox" value="yuyun" name="formDoor[]"></h3>
     <h3>鮮豬肉丸 <input type="checkbox" class="checkbox" value="yukyun" name="formDoor[]"></h3>
     <h3>鮮蝦雲吞 <input type="checkbox" class="checkbox" value="wuntun" name="formDoor[]"></h3>
@@ -698,7 +717,7 @@ function loaddata(){
     <h3>秘製炸醬 <input type="checkbox" class="checkbox" value="jajueng" name="formDoor[]"></h3>
     <h3>鮮炸魚皮 <input type="checkbox" class="checkbox" value="yupei" name="formDoor[]"></h3>
     <h3>鮮魚皮餃 <input type="checkbox" class="checkbox" value="yupeigao" name="formDoor[]"></h3>
-    <h3>原汁牛腩 <input type="checkbox" id="ngaolam" class="checkbox" value="ngaolam" name="formDoor[]"></h3>
+    <h3>原汁牛腩 <input type="checkbox" class="checkbox" value="ngaolam" name="formDoor[]"></h3>
     </div>
     <div class="column2" style="width:50% ;float:left;">
     <h3>金錢牛肚 <input type="checkbox" class="checkbox" value="ngaotou" name="formDoor[]"></h3>
@@ -711,6 +730,9 @@ function loaddata(){
     <br></br>
     <h3>全選<input type="checkbox" class="checkbox" onclick="toggle(this);"/></h3>
     </div>
+
+    <input type="submit" name="formSubmit" value="Submit" />
+  </form>
 
   </div>
 
