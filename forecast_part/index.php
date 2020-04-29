@@ -475,6 +475,7 @@ $('#checkbox_yujak').click(function(){
     $('#chart_div_3').show();
     $('#chart_div').hide();
     $('#week_bar').hide();
+    $('#show_overview').show();
 
     //Selected value
     //Ajax for calling php function
@@ -505,6 +506,7 @@ $('#checkbox_yuyun').click(function(){
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
+  $('#show_overview').show();
 
     //Selected value
     //Ajax for calling php function
@@ -534,6 +536,7 @@ $('#checkbox_yukyun').click(function(){
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
+  $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
     $.get('getingred_yukyun.php', function(data){
@@ -562,6 +565,7 @@ $('#checkbox_wuntun').click(function(){
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
+  $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
     $.get('getingred_wuntun.php', function(data){
@@ -590,6 +594,7 @@ $('#checkbox_suigao').click(function(){
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
+  $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
     $.get('getingred_suigao.php', function(data){
@@ -618,6 +623,7 @@ $('#checkbox_jusao').click(function(){
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
+  $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
     $.get('getingred_jusao.php', function(data){
@@ -646,6 +652,7 @@ $('#checkbox_jajueng').click(function(){
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
+  $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
     $.get('getingred_jajueng.php', function(data){
@@ -674,6 +681,7 @@ $('#checkbox_yupei').click(function(){
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
+  $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
     $.get('getingred_yupei.php', function(data){
@@ -702,6 +710,7 @@ $('#checkbox_yupeigao').click(function(){
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
+  $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
     $.get('getingred_yupeigao.php', function(data){
@@ -730,6 +739,7 @@ $('#checkbox_ngaolam').click(function(){
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
+  $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
     $.get('getingred_ngaolam.php', function(data){
@@ -758,6 +768,7 @@ $('#checkbox_ngaotou').click(function(){
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
+  $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
     $.get('getingred_ngaotou.php', function(data){
@@ -786,6 +797,7 @@ $('#checkbox_magun').click(function(){
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
+  $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
     $.get('getingred_magun.php', function(data){
@@ -814,6 +826,7 @@ $('#checkbox_yudan').click(function(){
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
+  $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
     $.get('getingred_yudan.php', function(data){
@@ -842,6 +855,7 @@ $('#checkbox_yupin').click(function(){
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
+  $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
     $.get('getingred_yupin.php', function(data){
@@ -870,6 +884,7 @@ $('#checkbox_yugok').click(function(){
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
+  $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
     $.get('getingred_yugok.php', function(data){
@@ -898,6 +913,7 @@ $('#checkbox_ngoyun').click(function(){
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
+  $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
     $.get('getingred_ngoyun.php', function(data){
@@ -926,6 +942,7 @@ $('#checkbox_ngaogenyun').click(function(){
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
+  $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
     $.get('getingred_ngaogenyun.php', function(data){
@@ -954,6 +971,7 @@ $('#checkbox_ngaojap').click(function(){
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
+  $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
     $.get('getingred_ngaojap.php', function(data){
@@ -1111,6 +1129,7 @@ $('#show_overview').click(function(){
   $('#chart_div_3').hide();
   $('#chart_div').show();
   $('#week_bar').show();
+  $('#show_overview').hide();
   });
 });
 
