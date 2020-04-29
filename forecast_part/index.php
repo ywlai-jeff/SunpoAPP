@@ -253,6 +253,8 @@
  google.setOnLoadCallback();
  google.setOnLoadCallback(drawTrendlines);
 
+ var ingredFilters = [];
+
 function drawChart1() {
 
   var jsonData = $.ajax({
@@ -469,8 +471,64 @@ $('#selectmonth').click(function(){
 });
 });
 
+function getingred_php_function(){
+  if(ingredFilters.length == 0)
+    document.getElementById("chart_div_4").style.display = "none";
+  else
+    document.getElementById("chart_div_4").style.display = "block";
+
+  $.post('getingred.php', {'filters': ingredFilters}, function(data){
+        var jsonData = data;
+        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+
+       var options = {  title: '本週銷量', height:300, vAxis: {
+            title: '磅', titleTextStyle :{
+                    fontSize : 18, italic:false }
+        },bar:{groupWidth: '75%'}, isStacked: true,
+                      };
+       var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
+       chart.draw(data,options);
+
+    });
+}
+
 $(document).ready(function(){
-$('#checkbox_yujak').click(function(){
+$('#checkbox_selectall').click(function(){
+
+  if($('#checkbox_selectall').is(":checked")){
+    ingredFilters.splice(0);
+    document.getElementById("checkbox_yujak").checked = true; document.getElementById("checkbox_yuyun").checked = true;
+    document.getElementById("checkbox_yukyun").checked = true; document.getElementById("checkbox_wuntun").checked = true;
+    document.getElementById("checkbox_suigao").checked = true; document.getElementById("checkbox_jusao").checked = true;
+    document.getElementById("checkbox_jajueng").checked = true; document.getElementById("checkbox_yupei").checked = true;
+    document.getElementById("checkbox_yupeigao").checked = true; document.getElementById("checkbox_ngaotou").checked = true;
+    document.getElementById("checkbox_magun").checked = true; document.getElementById("checkbox_yudan").checked = true;
+    document.getElementById("checkbox_yupin").checked = true; document.getElementById("checkbox_yugok").checked = true;
+    document.getElementById("checkbox_ngoyun").checked = true; document.getElementById("checkbox_ngaogenyun").checked = true;
+    document.getElementById("checkbox_ngaojap").checked = true; document.getElementById("checkbox_ngaolam").checked = true;
+    ingredFilters = ingredFilters.concat("yujak"); ingredFilters = ingredFilters.concat("yuyun");
+    ingredFilters = ingredFilters.concat("yukyun"); ingredFilters = ingredFilters.concat("wuntun");
+    ingredFilters = ingredFilters.concat("suigao"); ingredFilters = ingredFilters.concat("jusao");
+    ingredFilters = ingredFilters.concat("jajueng"); ingredFilters = ingredFilters.concat("yupei");
+    ingredFilters = ingredFilters.concat("yupeigao"); ingredFilters = ingredFilters.concat("ngaotou");
+    ingredFilters = ingredFilters.concat("magun"); ingredFilters = ingredFilters.concat("yudan");
+    ingredFilters = ingredFilters.concat("yupin"); ingredFilters = ingredFilters.concat("yugok");
+    ingredFilters = ingredFilters.concat("ngoyun"); ingredFilters = ingredFilters.concat("ngaogenyun");
+    ingredFilters = ingredFilters.concat("ngauzharp"); ingredFilters = ingredFilters.concat("ngaolam");
+  }
+  else{
+    document.getElementById("checkbox_yujak").checked = false; document.getElementById("checkbox_yuyun").checked = false;
+    document.getElementById("checkbox_yukyun").checked = false; document.getElementById("checkbox_wuntun").checked = false;
+    document.getElementById("checkbox_suigao").checked = false; document.getElementById("checkbox_jusao").checked = false;
+    document.getElementById("checkbox_jajueng").checked = false; document.getElementById("checkbox_yupei").checked = false;
+    document.getElementById("checkbox_yupeigao").checked = false; document.getElementById("checkbox_ngaotou").checked = false;
+    document.getElementById("checkbox_magun").checked = false; document.getElementById("checkbox_yudan").checked = false;
+    document.getElementById("checkbox_yupin").checked = false; document.getElementById("checkbox_yugok").checked = false;
+    document.getElementById("checkbox_ngoyun").checked = false; document.getElementById("checkbox_ngaogenyun").checked = false;
+    document.getElementById("checkbox_ngaojap").checked = false; document.getElementById("checkbox_ngaolam").checked = false;
+    ingredFilters.splice(0);
+  }
+  console.log(ingredFilters);
 
     $('#chart_div_3').show();
     $('#chart_div').hide();
@@ -479,15 +537,7 @@ $('#checkbox_yujak').click(function(){
 
     //Selected value
     //Ajax for calling php function
-    $.post('getingred.php', function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
-
-       var options = {  title: '鮮味魚扎本週銷量', height:300 };
-       var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
-       chart.draw(data,options);
-
-    });
+    getingred_php_function();
 
     $.get('getingred1.php', function(data_1){
       document.getElementById("used").innerHTML = data_1;
@@ -501,8 +551,43 @@ $('#checkbox_yujak').click(function(){
 });
 
 $(document).ready(function(){
+$('#checkbox_yujak').click(function(){
+
+  if(!ingredFilters.includes("yujak"))
+    ingredFilters = ingredFilters.concat("yujak");
+  else
+    ingredFilters.splice(ingredFilters.indexOf("yujak"), 1);
+  console.log(ingredFilters);
+  //document.getElementById("suggested_refill_date").innerHTML = window.ingredFilters;
+
+    $('#chart_div_3').show();
+    $('#chart_div').hide();
+    $('#week_bar').hide();
+    $('#show_overview').show();
+
+    //Selected value
+    //Ajax for calling php function
+    getingred_php_function();
+
+    $.get('getingred1.php', {'filters': ingredFilters},function(data_1){
+      document.getElementById("used").innerHTML = data_1;
+    });
+
+    $.get('getingred2.php', function(data_2){
+      document.getElementById("forecast_usage").innerHTML = data_2;
+    });
+
+  });
+});
+
+$(document).ready(function(){
 $('#checkbox_yuyun').click(function(){
 
+  if(!ingredFilters.includes("yuyun"))
+    ingredFilters = ingredFilters.concat("yuyun");
+  else
+    ingredFilters.splice(ingredFilters.indexOf("yuyun"), 1);
+    console.log(ingredFilters);
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
@@ -510,15 +595,17 @@ $('#checkbox_yuyun').click(function(){
 
     //Selected value
     //Ajax for calling php function
-    $.get('getingred_yuyun.php', function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+    // $.get('getingred_yuyun.php',  function(data){
+    //     var jsonData = data;
+    //     var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = {  title: '鮮墨魚丸本週銷量', height:300 };
-       var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
-       chart.draw(data,options);
+    //    var options = {  title: '鮮墨魚丸本週銷量', height:300 };
+    //    var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
+    //    chart.draw(data,options);
 
-    });
+    // });
+
+    getingred_php_function();
 
     $.get('getingred_yuyun_1.php', function(data_1){
       document.getElementById("used").innerHTML = data_1;
@@ -533,21 +620,29 @@ $('#checkbox_yuyun').click(function(){
 
 $(document).ready(function(){
 $('#checkbox_yukyun').click(function(){
+
+  if(!ingredFilters.includes("yukyun"))
+    ingredFilters = ingredFilters.concat("yukyun");
+  else
+    ingredFilters.splice(ingredFilters.indexOf("yukyun"), 1);
+    console.log(ingredFilters);
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
   $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
-    $.get('getingred_yukyun.php', function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+    // $.get('getingred_yukyun.php', function(data){
+    //     var jsonData = data;
+    //     var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = {  title: '鮮豬肉丸本週銷量', height:300 };
-       var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
-       chart.draw(data,options);
+    //    var options = {  title: '鮮豬肉丸本週銷量', height:300 };
+    //    var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
+    //    chart.draw(data,options);
 
-    });
+    // });
+
+    getingred_php_function();
 
     $.get('getingred_yukyun_1.php', function(data_1){
       document.getElementById("used").innerHTML = data_1;
@@ -562,21 +657,29 @@ $('#checkbox_yukyun').click(function(){
 
 $(document).ready(function(){
 $('#checkbox_wuntun').click(function(){
+
+  if(!ingredFilters.includes("wuntun"))
+    ingredFilters = ingredFilters.concat("wuntun");
+  else
+    ingredFilters.splice(ingredFilters.indexOf("wuntun"), 1);
+    console.log(ingredFilters);
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
   $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
-    $.get('getingred_wuntun.php', function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+    // $.get('getingred_wuntun.php', function(data){
+    //     var jsonData = data;
+    //     var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = {  title: '鮮蝦雲吞本週銷量', height:300 };
-       var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
-       chart.draw(data,options);
+    //    var options = {  title: '鮮蝦雲吞本週銷量', height:300 };
+    //    var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
+    //    chart.draw(data,options);
 
-    });
+    // });
+
+    getingred_php_function();
 
     $.get('getingred_wuntun_1.php', function(data_1){
       document.getElementById("used").innerHTML = data_1;
@@ -591,21 +694,29 @@ $('#checkbox_wuntun').click(function(){
 
 $(document).ready(function(){
 $('#checkbox_suigao').click(function(){
+
+  if(!ingredFilters.includes("suigao"))
+    ingredFilters = ingredFilters.concat("suigao");
+  else
+    ingredFilters.splice(ingredFilters.indexOf("suigao"), 1);
+    console.log(ingredFilters);
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
   $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
-    $.get('getingred_suigao.php', function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+    // $.get('getingred_suigao.php', function(data){
+    //     var jsonData = data;
+    //     var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = {  title: '自製水餃本週銷量', height:300 };
-       var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
-       chart.draw(data,options);
+    //    var options = {  title: '自製水餃本週銷量', height:300 };
+    //    var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
+    //    chart.draw(data,options);
 
-    });
+    // });
+
+    getingred_php_function();
 
     $.get('getingred_suigao_1.php', function(data_1){
       document.getElementById("used").innerHTML = data_1;
@@ -620,21 +731,29 @@ $('#checkbox_suigao').click(function(){
 
 $(document).ready(function(){
 $('#checkbox_jusao').click(function(){
+
+  if(!ingredFilters.includes("jusao"))
+    ingredFilters = ingredFilters.concat("jusao");
+  else
+    ingredFilters.splice(ingredFilters.indexOf("jusao"), 1);
+    console.log(ingredFilters);
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
   $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
-    $.get('getingred_jusao.php', function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+    // $.get('getingred_jusao.php', function(data){
+    //     var jsonData = data;
+    //     var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = {  title: '南乳豬手本週銷量', height:300 };
-       var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
-       chart.draw(data,options);
+    //    var options = {  title: '南乳豬手本週銷量', height:300 };
+    //    var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
+    //    chart.draw(data,options);
 
-    });
+    // });
+
+    getingred_php_function();
 
     $.get('getingred_jusao_1.php', function(data_1){
       document.getElementById("used").innerHTML = data_1;
@@ -649,21 +768,29 @@ $('#checkbox_jusao').click(function(){
 
 $(document).ready(function(){
 $('#checkbox_jajueng').click(function(){
+
+  if(!ingredFilters.includes("jajueng"))
+    ingredFilters = ingredFilters.concat("jajueng");
+  else
+    ingredFilters.splice(ingredFilters.indexOf("jajueng"), 1);
+    console.log(ingredFilters);
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
   $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
-    $.get('getingred_jajueng.php', function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+    // $.get('getingred_jajueng.php', function(data){
+    //     var jsonData = data;
+    //     var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = {  title: '秘製炸醬 本週銷量', height:300 };
-       var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
-       chart.draw(data,options);
+    //    var options = {  title: '秘製炸醬 本週銷量', height:300 };
+    //    var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
+    //    chart.draw(data,options);
 
-    });
+    // });
+
+    getingred_php_function();
 
     $.get('getingred_jajueng_1.php', function(data_1){
       document.getElementById("used").innerHTML = data_1;
@@ -678,21 +805,29 @@ $('#checkbox_jajueng').click(function(){
 
 $(document).ready(function(){
 $('#checkbox_yupei').click(function(){
+
+  if(!ingredFilters.includes("yupei"))
+    ingredFilters = ingredFilters.concat("yupei");
+  else
+    ingredFilters.splice(ingredFilters.indexOf("yupei"), 1);
+    console.log(ingredFilters);
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
   $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
-    $.get('getingred_yupei.php', function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+    // $.get('getingred_yupei.php', function(data){
+    //     var jsonData = data;
+    //     var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = {  title: '鮮炸魚皮本週銷量', height:300 };
-       var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
-       chart.draw(data,options);
+    //    var options = {  title: '鮮炸魚皮本週銷量', height:300 };
+    //    var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
+    //    chart.draw(data,options);
 
-    });
+    // });
+
+    getingred_php_function();
 
     $.get('getingred_yupei_1.php', function(data_1){
       document.getElementById("used").innerHTML = data_1;
@@ -707,21 +842,29 @@ $('#checkbox_yupei').click(function(){
 
 $(document).ready(function(){
 $('#checkbox_yupeigao').click(function(){
+
+  if(!ingredFilters.includes("yupeigao"))
+    ingredFilters = ingredFilters.concat("yupeigao");
+  else
+    ingredFilters.splice(ingredFilters.indexOf("yupeigao"), 1);
+    console.log(ingredFilters);
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
   $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
-    $.get('getingred_yupeigao.php', function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+    // $.get('getingred_yupeigao.php', function(data){
+    //     var jsonData = data;
+    //     var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = {  title: '鮮魚皮餃本週銷量', height:300 };
-       var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
-       chart.draw(data,options);
+    //    var options = {  title: '鮮魚皮餃本週銷量', height:300 };
+    //    var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
+    //    chart.draw(data,options);
 
-    });
+    // });
+
+    getingred_php_function();
 
     $.get('getingred_yupeigao_1.php', function(data_1){
       document.getElementById("used").innerHTML = data_1;
@@ -736,21 +879,29 @@ $('#checkbox_yupeigao').click(function(){
 
 $(document).ready(function(){
 $('#checkbox_ngaolam').click(function(){
+
+  if(!ingredFilters.includes("ngaolam"))
+    ingredFilters = ingredFilters.concat("ngaolam");
+  else
+    ingredFilters.splice(ingredFilters.indexOf("ngaolam"), 1);
+    console.log(ingredFilters);
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
   $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
-    $.get('getingred_ngaolam.php', function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+    // $.get('getingred_ngaolam.php', function(data){
+    //     var jsonData = data;
+    //     var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = {  title: '原汁牛腩本週銷量', height:300 };
-       var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
-       chart.draw(data,options);
+    //    var options = {  title: '原汁牛腩本週銷量', height:300 };
+    //    var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
+    //    chart.draw(data,options);
 
-    });
+    // });
+
+    getingred_php_function();
 
     $.get('getingred_ngaolam_1.php', function(data_1){
       document.getElementById("used").innerHTML = data_1;
@@ -765,21 +916,29 @@ $('#checkbox_ngaolam').click(function(){
 
 $(document).ready(function(){
 $('#checkbox_ngaotou').click(function(){
+
+  if(!ingredFilters.includes("ngaotou"))
+    ingredFilters = ingredFilters.concat("ngaotou");
+  else
+    ingredFilters.splice(ingredFilters.indexOf("ngaotou"), 1);
+    console.log(ingredFilters);
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
   $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
-    $.get('getingred_ngaotou.php', function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+    // $.get('getingred_ngaotou.php', function(data){
+    //     var jsonData = data;
+    //     var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = {  title: '金錢牛肚本週銷量', height:300 };
-       var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
-       chart.draw(data,options);
+    //    var options = {  title: '金錢牛肚本週銷量', height:300 };
+    //    var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
+    //    chart.draw(data,options);
 
-    });
+    // });
+
+    getingred_php_function();
 
     $.get('getingred_ngaotou_1.php', function(data_1){
       document.getElementById("used").innerHTML = data_1;
@@ -794,21 +953,29 @@ $('#checkbox_ngaotou').click(function(){
 
 $(document).ready(function(){
 $('#checkbox_magun').click(function(){
+
+  if(!ingredFilters.includes("magun"))
+    ingredFilters = ingredFilters.concat("magun");
+  else
+    ingredFilters.splice(ingredFilters.indexOf("magun"), 1);
+    console.log(ingredFilters);
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
   $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
-    $.get('getingred_magun.php', function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+    // $.get('getingred_magun.php', function(data){
+    //     var jsonData = data;
+    //     var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = {  title: '秘製孖筋本週銷量', height:300 };
-       var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
-       chart.draw(data,options);
+    //    var options = {  title: '秘製孖筋本週銷量', height:300 };
+    //    var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
+    //    chart.draw(data,options);
 
-    });
+    // });
+
+    getingred_php_function();
 
     $.get('getingred_magun_1.php', function(data_1){
       document.getElementById("used").innerHTML = data_1;
@@ -823,21 +990,29 @@ $('#checkbox_magun').click(function(){
 
 $(document).ready(function(){
 $('#checkbox_yudan').click(function(){
+
+  if(!ingredFilters.includes("yudan"))
+    ingredFilters = ingredFilters.concat("yudan");
+  else
+    ingredFilters.splice(ingredFilters.indexOf("yudan"), 1);
+    console.log(ingredFilters);
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
   $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
-    $.get('getingred_yudan.php', function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+    // $.get('getingred_yudan.php', function(data){
+    //     var jsonData = data;
+    //     var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = {  title: '自製魚蛋本週銷量', height:300 };
-       var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
-       chart.draw(data,options);
+    //    var options = {  title: '自製魚蛋本週銷量', height:300 };
+    //    var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
+    //    chart.draw(data,options);
 
-    });
+    // });
+
+    getingred_php_function();
 
     $.get('getingred_yudan_1.php', function(data_1){
       document.getElementById("used").innerHTML = data_1;
@@ -852,21 +1027,29 @@ $('#checkbox_yudan').click(function(){
 
 $(document).ready(function(){
 $('#checkbox_yupin').click(function(){
+
+  if(!ingredFilters.includes("yupin"))
+    ingredFilters = ingredFilters.concat("yupin");
+  else
+    ingredFilters.splice(ingredFilters.indexOf("yupin"), 1);
+    console.log(ingredFilters);
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
   $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
-    $.get('getingred_yupin.php', function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+    // $.get('getingred_yupin.php', function(data){
+    //     var jsonData = data;
+    //     var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = {  title: '雙滑魚片本週銷量', height:300 };
-       var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
-       chart.draw(data,options);
+    //    var options = {  title: '雙滑魚片本週銷量', height:300 };
+    //    var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
+    //    chart.draw(data,options);
 
-    });
+    // });
+
+    getingred_php_function();
 
     $.get('getingred_yupin_1.php', function(data_1){
       document.getElementById("used").innerHTML = data_1;
@@ -881,21 +1064,29 @@ $('#checkbox_yupin').click(function(){
 
 $(document).ready(function(){
 $('#checkbox_yugok').click(function(){
+
+  if(!ingredFilters.includes("yugok"))
+    ingredFilters = ingredFilters.concat("yugok");
+  else
+    ingredFilters.splice(ingredFilters.indexOf("yugok"), 1);
+    console.log(ingredFilters);
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
   $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
-    $.get('getingred_yugok.php', function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+    // $.get('getingred_yugok.php', function(data){
+    //     var jsonData = data;
+    //     var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = {  title: '黃金魚角本週銷量', height:300 };
-       var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
-       chart.draw(data,options);
+    //    var options = {  title: '黃金魚角本週銷量', height:300 };
+    //    var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
+    //    chart.draw(data,options);
 
-    });
+    // });
+
+    getingred_php_function();
 
     $.get('getingred_yugok_1.php', function(data_1){
       document.getElementById("used").innerHTML = data_1;
@@ -910,21 +1101,29 @@ $('#checkbox_yugok').click(function(){
 
 $(document).ready(function(){
 $('#checkbox_ngoyun').click(function(){
+
+  if(!ingredFilters.includes("ngoyun"))
+    ingredFilters = ingredFilters.concat("ngoyun");
+  else
+    ingredFilters.splice(ingredFilters.indexOf("ngoyun"), 1);
+    console.log(ingredFilters);
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
   $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
-    $.get('getingred_ngoyun.php', function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+    // $.get('getingred_ngoyun.php', function(data){
+    //     var jsonData = data;
+    //     var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = {  title: '手打牛丸本週銷量', height:300 };
-       var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
-       chart.draw(data,options);
+    //    var options = {  title: '手打牛丸本週銷量', height:300 };
+    //    var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
+    //    chart.draw(data,options);
 
-    });
+    // });
+
+    getingred_php_function();
 
     $.get('getingred_ngoyun_1.php', function(data_1){
       document.getElementById("used").innerHTML = data_1;
@@ -939,21 +1138,29 @@ $('#checkbox_ngoyun').click(function(){
 
 $(document).ready(function(){
 $('#checkbox_ngaogenyun').click(function(){
+
+  if(!ingredFilters.includes("ngaogenyun"))
+    ingredFilters = ingredFilters.concat("ngaogenyun");
+  else
+    ingredFilters.splice(ingredFilters.indexOf("ngaogenyun"), 1);
+    console.log(ingredFilters);
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
   $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
-    $.get('getingred_ngaogenyun.php', function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+    // $.get('getingred_ngaogenyun.php', function(data){
+    //     var jsonData = data;
+    //     var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = {  title: '牛筋丸本週銷量', height:300 };
-       var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
-       chart.draw(data,options);
+    //    var options = {  title: '牛筋丸本週銷量', height:300 };
+    //    var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
+    //    chart.draw(data,options);
 
-    });
+    // });
+
+    getingred_php_function();
 
     $.get('getingred_ngaogenyun_1.php', function(data_1){
       document.getElementById("used").innerHTML = data_1;
@@ -968,21 +1175,29 @@ $('#checkbox_ngaogenyun').click(function(){
 
 $(document).ready(function(){
 $('#checkbox_ngaojap').click(function(){
+
+  if(!ingredFilters.includes("ngauzharp"))
+    ingredFilters = ingredFilters.concat("ngauzharp");
+  else
+    ingredFilters.splice(ingredFilters.indexOf("ngauzharp"), 1);
+    console.log(ingredFilters);
   $('#chart_div_3').show();
   $('#chart_div').hide();
   $('#week_bar').hide();
   $('#show_overview').show();
     //Selected value
     //Ajax for calling php function
-    $.get('getingred_ngaojap.php', function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+    // $.get('getingred_ngaojap.php', function(data){
+    //     var jsonData = data;
+    //     var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = {  title: '五香牛雜本週銷量', height:300 };
-       var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
-       chart.draw(data,options);
+    //    var options = {  title: '五香牛雜本週銷量', height:300 };
+    //    var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_4"));
+    //    chart.draw(data,options);
 
-    });
+    // });
+
+    getingred_php_function();
 
     $.get('getingred_ngaojap_1.php', function(data_1){
       document.getElementById("used").innerHTML = data_1;
@@ -1293,26 +1508,25 @@ $('#show_overview').click(function(){
   <div class="container3" >
 
     <div class="column1" style="width:50%; float:left;" >
-    <h3>鮮味魚扎 <button  class="checkbox" id="checkbox_yujak" ></h3>
-    <h3>鮮墨魚丸 <button  class="checkbox" id="checkbox_yuyun"></h3>
-    <h3>鮮豬肉丸 <button  class="checkbox" id="checkbox_yukyun"></h3>
-    <h3>鮮蝦雲吞 <button  class="checkbox" id="checkbox_wuntun"></h3>
-    <h3>自製水餃 <button  class="checkbox" id="checkbox_suigao"></h3>
-    <h3>南乳豬手 <button  class="checkbox" id="checkbox_jusao"></h3>
-    <h3>秘製炸醬 <button  class="checkbox" id="checkbox_jajueng"></h3>
-    <h3>鮮炸魚皮 <button  class="checkbox" id="checkbox_yupei"></h3>
-    <h3>鮮魚皮餃 <button  class="checkbox" id="checkbox_yupeigao"></h3>
-    <h3>原汁牛腩 <button  class="checkbox" id="checkbox_ngaolam"></h3>
-    </div>
-    <div class="column2" style="width:50% ;float:left;">
-    <h3>金錢牛肚 <button  class="checkbox" id="checkbox_ngaotou"></h3>
-    <h3>秘製孖筋 <button  class="checkbox" id="checkbox_magun"></h3>
-    <h3>自製魚蛋 <button  class="checkbox" id="checkbox_yudan"></h3>
-    <h3>雙滑魚片 <button  class="checkbox" id="checkbox_yupin"></h3>
-    <h3>黃金魚角 <button  class="checkbox" id="checkbox_yugok"></h3>
-    <h3>手打牛丸 <button  class="checkbox" id="checkbox_ngoyun"></h3>
-    <h3>牛筋丸 <button  class="checkbox" id="checkbox_ngaogenyun"></h3>
-    <h3>五香牛雜 <button  class="checkbox" id="checkbox_ngaojap"></h3>
+    <h3>鮮味魚扎 <input type="checkbox"  class="checkbox" id="checkbox_yujak" value="yujak"></h3>
+    <h3>鮮墨魚丸 <input type="checkbox"  class="checkbox" id="checkbox_yuyun" value="yuyun"></h3>
+    <h3>鮮豬肉丸 <input type="checkbox"  class="checkbox" id="checkbox_yukyun" value="yukyun"></h3>
+    <h3>鮮蝦雲吞 <input type="checkbox"  class="checkbox" id="checkbox_wuntun" value="wuntun"></h3>
+    <h3>自製水餃 <input type="checkbox"  class="checkbox" id="checkbox_suigao" value="suigao"></h3>
+    <h3>南乳豬手 <input type="checkbox"  class="checkbox" id="checkbox_jusao" value="jusao"></h3>
+    <h3>秘製炸醬 <input type="checkbox"  class="checkbox" id="checkbox_jajueng" value="jajueng"></h3>
+    <h3>鮮炸魚皮 <input type="checkbox"  class="checkbox" id="checkbox_yupei" value="yupei"></h3>
+    <h3>鮮魚皮餃 <input type="checkbox"  class="checkbox" id="checkbox_yupeigao" value="yupeigao"></h3>
+    <h3>原汁牛腩 <input type="checkbox"  class="checkbox" id="checkbox_ngaolam" value="ngaolam"></h3>
+    <h3>金錢牛肚 <input type="checkbox"  class="checkbox" id="checkbox_ngaotou" value="ngaotou"></h3>
+    <h3>秘製孖筋 <input type="checkbox"  class="checkbox" id="checkbox_magun" value="magun"></h3>
+    <h3>自製魚蛋 <input type="checkbox"  class="checkbox" id="checkbox_yudan" value="yudan"></h3>
+    <h3>雙滑魚片 <input type="checkbox"  class="checkbox" id="checkbox_yupin" value="yupin"></h3>
+    <h3>黃金魚角 <input type="checkbox"  class="checkbox" id="checkbox_yugok" value="yugok"></h3>
+    <h3>手打牛丸 <input type="checkbox"  class="checkbox" id="checkbox_ngoyun" value="ngoyun"></h3>
+    <h3>牛筋丸 <input type="checkbox"  class="checkbox" id="checkbox_ngaogenyun" value="ngaogenyun"></h3>
+    <h3>五香牛雜 <input type="checkbox"  class="checkbox" id="checkbox_ngaojap" value="ngaojap"></h3>
+    <h3>全選 <input type="checkbox"  class="checkbox" id="checkbox_selectall" value="all"></h3>
     <br></br>
 
     </div>
