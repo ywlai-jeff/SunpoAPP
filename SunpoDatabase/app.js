@@ -6,20 +6,20 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 
 // DataBase phpmyadmin 
-var mysql = require("mysql");
-var con = mysql.createConnection({
-  host: "sophia.cs.hku.hk",
-  user: "ywlai",
-  password: "YZjNGaaa",
-  database: "ywlai"
-});
-con.connect(function(err){
-  if(err){
-    console.log('Error connecting to Db con ' + err);
-    return;
-  }
-  console.log('Connection established');
-});
+// var mysql = require("mysql");
+// var con = mysql.createConnection({
+//   host: "sophia.cs.hku.hk",
+//   user: "ywlai",
+//   password: "YZjNGaaa",
+//   database: "ywlai"
+// });
+// con.connect(function(err){
+//   if(err){
+//     console.log('Error connecting to Db con ' + err);
+//     return;
+//   }
+//   console.log('Connection established');
+// });
 
 // app.get('/users', function (req, res) {
 //   connection.connect();
@@ -60,10 +60,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Make our db(phpmyadmin) accessible to our router
-app.use(function(req,res,next){
-  req.con = con;
-  next();
-});
+// app.use(function(req,res,next){
+//   req.con = con;
+//   next();
+// });
 
 // Make our db(mongodb) accessible to routers 
 app.use(function(req,res,next){

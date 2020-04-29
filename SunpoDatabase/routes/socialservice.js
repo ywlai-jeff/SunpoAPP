@@ -2,99 +2,99 @@ var express = require('express');
 var router = express.Router();
 var ObjectId = require('mongodb').ObjectId;
 
-//phpmyadmin
-/* GET item quantity. */
-router.get('/getitemquantity', function(req, res) {
-	var db = req.con;
-    var data = "";
-    res.set({
-        "Access-Control-Allow-Origin": "http://localhost:3000",
-        'Access-Control-Allow-Credentials': 'true'
-    });
-	db.query('SELECT * FROM SUNPO2 ORDER BY Date ASC',function(err,rows){
-		if(err) throw err;
+// //phpmyadmin
+// /* GET item quantity. */
+// router.get('/getitemquantity', function(req, res) {
+// 	var db = req.con;
+//     var data = "";
+//     res.set({
+//         "Access-Control-Allow-Origin": "http://localhost:3000",
+//         'Access-Control-Allow-Credentials': 'true'
+//     });
+// 	db.query('SELECT * FROM SUNPO2 ORDER BY Date ASC',function(err,rows){
+// 		if(err) throw err;
 		
-		console.log('Data received from Db:\n');
-		console.log(rows);
-        var data = rows;
-        var latest = new Date('2020-01-01');
-        var item_count = 0;;
+// 		console.log('Data received from Db:\n');
+// 		console.log(rows);
+//         var data = rows;
+//         var latest = new Date('2020-01-01');
+//         var item_count = 0;;
 
-        data.map(d => {
-            item_count++;
-            if(d.Date > latest)
-                latest = new Date(d.Date.valueOf());
-        })
-        res.json({'dataGet': data, 'latest_date': latest + " ", "item_count": item_count});
+//         data.map(d => {
+//             item_count++;
+//             if(d.Date > latest)
+//                 latest = new Date(d.Date.valueOf());
+//         })
+//         res.json({'dataGet': data, 'latest_date': latest + " ", "item_count": item_count});
 
-	});
-});
+// 	});
+// });
 
-/* GET dailysales. */
-router.get('/getdailysales', function(req, res) {
-	var db = req.con;
-    var data = "";
-    res.set({
-        "Access-Control-Allow-Origin": "http://localhost:3000",
-        'Access-Control-Allow-Credentials': 'true'
-    });
-	db.query('SELECT * FROM Sunposales ORDER BY Date ASC',function(err,rows){
-		if(err) throw err;
+// /* GET dailysales. */
+// router.get('/getdailysales', function(req, res) {
+// 	var db = req.con;
+//     var data = "";
+//     res.set({
+//         "Access-Control-Allow-Origin": "http://localhost:3000",
+//         'Access-Control-Allow-Credentials': 'true'
+//     });
+// 	db.query('SELECT * FROM Sunposales ORDER BY Date ASC',function(err,rows){
+// 		if(err) throw err;
 		
-		console.log('Data received from Db:\n');
-		console.log(rows);
-        var data = rows;
-        var latest = new Date('2020-01-01');
-        // var aa = new Date(data[30].Date.valueOf()+ 1000*60*60*8);
-        // var b = data[30].Date;
-        // var a = new Date(data[30].Date).toLocaleDateString('zh-TW', {timeZone: 'Asia/Taipei'});
-        data.map(d => {
-            if(d.Date > latest)
-                latest = new Date(d.Date.valueOf());
-        })
-        res.json({'dataGet': data, 'latest_date': latest + " "});
-		// console.log("Outside--"+data.id);
-        // res.render('userIndex', { title: 'User Information', dataGet: data });
-        // res.json({'status': 1});
-        // res.send(JSON.stringify({'status': 1}));
-	});
-});
+// 		console.log('Data received from Db:\n');
+// 		console.log(rows);
+//         var data = rows;
+//         var latest = new Date('2020-01-01');
+//         // var aa = new Date(data[30].Date.valueOf()+ 1000*60*60*8);
+//         // var b = data[30].Date;
+//         // var a = new Date(data[30].Date).toLocaleDateString('zh-TW', {timeZone: 'Asia/Taipei'});
+//         data.map(d => {
+//             if(d.Date > latest)
+//                 latest = new Date(d.Date.valueOf());
+//         })
+//         res.json({'dataGet': data, 'latest_date': latest + " "});
+// 		// console.log("Outside--"+data.id);
+//         // res.render('userIndex', { title: 'User Information', dataGet: data });
+//         // res.json({'status': 1});
+//         // res.send(JSON.stringify({'status': 1}));
+// 	});
+// });
 
-//insert item quantity
-router.post('/insertitemquantity', function (req, res) {
-    var db = req.con;
-    var dates = req.body.dates;
-    var itemlist = ["ngaolam", "suigao", "wuntun", "ngoyun", "yupeigao", "yudan", "yupin", 
-    "yupei", "yugok", "yujak", "yuyun", "yukyun", "magun", "jusao", "jajueng", "ngaogenyun", "ngaotou", "ngauzharp"]; 
-    var itemlist2 = [req.body.ngaolam, req.body.suigao, req.body.wuntun, req.body.ngoyun, req.body.yupeigao, req.body.yudan, 
-        req.body.yupin, req.body.yupei, req.body.yugok, req.body.yujak, req.body.yuyun, req.body.yukyun, req.body.magun, 
-        req.body.jusao, req.body.jajueng, req.body.ngaogenyun, req.body.ngaotou, req.body.ngauzharp];
-    res.set({
-        "Access-Control-Allow-Origin": "http://localhost:3000",
-        'Access-Control-Allow-Credentials': 'true'
-    });  
-    for(i=0; i<18;i++)
-	db.query('INSERT INTO SUNPO2 (Date, food, quantity) VALUES ("'+dates+'", "'+itemlist[i]+'", "'+itemlist2[i]+'")',function(err,rows){
-        if(err) throw err;
-        // res.json({'status': "success"});
-    });
-    res.json({'status': "success"});
-});
+// //insert item quantity
+// router.post('/insertitemquantity', function (req, res) {
+//     var db = req.con;
+//     var dates = req.body.dates;
+//     var itemlist = ["ngaolam", "suigao", "wuntun", "ngoyun", "yupeigao", "yudan", "yupin", 
+//     "yupei", "yugok", "yujak", "yuyun", "yukyun", "magun", "jusao", "jajueng", "ngaogenyun", "ngaotou", "ngauzharp"]; 
+//     var itemlist2 = [req.body.ngaolam, req.body.suigao, req.body.wuntun, req.body.ngoyun, req.body.yupeigao, req.body.yudan, 
+//         req.body.yupin, req.body.yupei, req.body.yugok, req.body.yujak, req.body.yuyun, req.body.yukyun, req.body.magun, 
+//         req.body.jusao, req.body.jajueng, req.body.ngaogenyun, req.body.ngaotou, req.body.ngauzharp];
+//     res.set({
+//         "Access-Control-Allow-Origin": "http://localhost:3000",
+//         'Access-Control-Allow-Credentials': 'true'
+//     });  
+//     for(i=0; i<18;i++)
+// 	db.query('INSERT INTO SUNPO2 (Date, food, quantity) VALUES ("'+dates+'", "'+itemlist[i]+'", "'+itemlist2[i]+'")',function(err,rows){
+//         if(err) throw err;
+//         // res.json({'status': "success"});
+//     });
+//     res.json({'status': "success"});
+// });
 
-//insert sales
-router.post('/insertsale', function (req, res) {
-    var db = req.con;
-    var dates = req.body.dates;
-    var sale = req.body.sales;
-    res.set({
-        "Access-Control-Allow-Origin": "http://localhost:3000",
-        'Access-Control-Allow-Credentials': 'true'
-    });  
-	db.query('INSERT INTO Sunposales (id, Date, Sales) VALUES (NULL, "'+dates+'", '+sale+')',function(err,rows){
-        if(err) throw err;
-        res.json({'status': "success"});
-	});
-});
+// //insert sales
+// router.post('/insertsale', function (req, res) {
+//     var db = req.con;
+//     var dates = req.body.dates;
+//     var sale = req.body.sales;
+//     res.set({
+//         "Access-Control-Allow-Origin": "http://localhost:3000",
+//         'Access-Control-Allow-Credentials': 'true'
+//     });  
+// 	db.query('INSERT INTO Sunposales (id, Date, Sales) VALUES (NULL, "'+dates+'", '+sale+')',function(err,rows){
+//         if(err) throw err;
+//         res.json({'status': "success"});
+// 	});
+// });
 
 //update sales
 // router.put('/updatesale', function (req, res) {
