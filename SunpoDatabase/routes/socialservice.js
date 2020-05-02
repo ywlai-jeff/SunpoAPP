@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 var ObjectId = require('mongodb').ObjectId;
 
-// //phpmyadmin
-// /* GET item quantity. */
+//phpmyadmin
+/* GET item quantity. */
 // router.get('/getitemquantity', function(req, res) {
 // 	var db = req.con;
 //     var data = "";
@@ -134,9 +134,9 @@ router.post('/login', function (req, res) {
                 res.cookie('userId', id);
 
                 //  // send the response back to user
-                res.json({'message':'Login Success!', 'id':''+id, 'username':login_user[0].username, 'position':login_user[0].position});
-			}else res.send("Login failure! Wrong Password!");
-		}else res.send("Login failure! Not found user!");
+                res.json({'message':'成功登入！', 'id':''+id, 'username':login_user[0].username, 'position':login_user[0].position});
+			}else res.send("登入失敗！密碼錯誤！");
+		}else res.send("登入失敗！沒有此用戶！");
 	});
 });
 
@@ -313,56 +313,56 @@ router.get('/getyesterday/:date',function(req,res){
                     dailysales += parseInt(trans[i].totalPrice);
                     trans[i].products.map((item, index) => {
                         switch(item.name){
-                            case '招牌牛三寶粉麵': itemlist.ngaotou += 1 * item.quantity; itemlist.magun += 1 * item.quantity; itemlist.ngaolam += 1 * item.quantity;
-                            // case '四寶粉麵': itemlist.yupin += 1 * item.quantity;
-                            // case '八寶粉麵': itemlist.yugok += 1 * item.quantity;
-                            case '魚皮': itemlist.yupei += 1 * item.quantity;
-                            case '大魚皮': itemlist.yupei += 1 * item.quantity;
-                            case '自製魚蛋(每斤)': itemlist.yudan += 1 * item.quantity;
-                            case '雙滑魚片(每斤)': itemlist.yupin += 1 * item.quantity;
-                            case '黃金魚角(每斤)': itemlist.yugok += 1 * item.quantity;
-                            case '手打牛丸(每斤)': itemlist.ngoyun += 1 * item.quantity;
-                            case '鮮豬肉丸(每斤)': itemlist.yukyun += 1 * item.quantity;
-                            case '鮮墨魚丸(每斤)': itemlist.yuyun += 1 * item.quantity;
-                            case '鮮魚皮餃(每斤)': itemlist.yupeigao += 1 * item.quantity;
-                            case '鮮制魚扎(每斤)': itemlist.yujak += 1 * item.quantity;
-                            case '鮮蝦雲吞(每打)': itemlist.wuntun += 1 * item.quantity;
-                            case '自製水餃(每打)': itemlist.suigao += 1 * item.quantity;
-                            case '淨南乳豬手': itemlist.jusao += 1 * item.quantity;
-                            case '原汁淨牛腩(小)': itemlist.ngaolam += 1 * item.quantity;
-                            case '五香淨牛什(小)': itemlist.ngauzharp += 1 * item.quantity;
-                            case '淨金錢肚(小)': itemlist.ngaotou += 1 * item.quantity;
-                            case '淨袐製孖筋(小)': itemlist.magun += 1 * item.quantity;
-                            case '原汁淨牛腩(大)': itemlist.ngaolam += 1 * item.quantity;
-                            case '五香淨牛什(大)': itemlist.ngauzharp += 1 * item.quantity;
-                            case '淨金錢肚(大)': itemlist.ngaotou += 1 * item.quantity;
-                            case '淨袐製孖筋(大)': itemlist.magun += 1 * item.quantity;
-                            case '牛腩牛什': itemlist.ngaolam += 1 * item.quantity; itemlist.ngauzharp += 1 * item.quantity;
-                            case '牛腩牛肚': itemlist.ngaolam += 1 * item.quantity; itemlist.ngaotou += 1 * item.quantity;
-                            case '牛腩牛筋': itemlist.ngaolam += 1 * item.quantity; itemlist.magun += 1 * item.quantity;
-                            case '牛什牛肚': itemlist.ngauzharp += 1 * item.quantity; itemlist.ngaotou += 1 * item.quantity;
-                            case '牛什牛筋': itemlist.ngauzharp += 1 * item.quantity; itemlist.magun += 1 * item.quantity;
-                            case '牛肚牛筋': itemlist.ngaotou += 1 * item.quantity; itemlist.magun += 1 * item.quantity;
+                            case '招牌牛三寶粉麵': itemlist.ngaotou += 0.135 * item.quantity; itemlist.magun += 0.15 * item.quantity; itemlist.ngaolam += 0.15 * item.quantity;
+                            case '四寶粉麵': itemlist.wuntun += 0.17 * item.quantity; itemlist.yukyun += 0.17 * item.quantity; itemlist.yupeigao += 0.17 * item.quantity; itemlist.suigao += 0.17 * item.quantity;
+                            case '八寶粉麵': itemlist.yudan += 0.17 * item.quantity; itemlist.yupin += 0.17 * item.quantity; itemlist.yuyun += 0.17 * item.quantity; itemlist.yugok += 0.17 * item.quantity; itemlist.wuntun += 0.17 * item.quantity; itemlist.yukyun += 0.17 * item.quantity; itemlist.yupeigao += 0.17 * item.quantity; itemlist.suigao += 0.17 * item.quantity;
+                            case '魚皮': itemlist.yupei += 0.29 * item.quantity;
+                            case '大魚皮': itemlist.yupei += 0.58 * item.quantity;
+                            case '自製魚蛋(每斤)': itemlist.yudan += 0.5 * item.quantity;
+                            case '雙滑魚片(每斤)': itemlist.yupin += 0.5 * item.quantity;
+                            case '黃金魚角(每斤)': itemlist.yugok += 0.5 * item.quantity;
+                            case '手打牛丸(每斤)': itemlist.ngoyun += 0.5 * item.quantity;
+                            case '鮮豬肉丸(每斤)': itemlist.yukyun += 0.5 * item.quantity;
+                            case '鮮墨魚丸(每斤)': itemlist.yuyun += 0.5 * item.quantity;
+                            case '鮮魚皮餃(每斤)': itemlist.yupeigao += 0.5 * item.quantity;
+                            case '鮮制魚扎(每斤)': itemlist.yujak += 0.5 * item.quantity;
+                            case '鮮蝦雲吞(每打)': itemlist.wuntun += 0.72 * item.quantity;
+                            case '自製水餃(每打)': itemlist.suigao += 0.75 * item.quantity;
+                            case '淨南乳豬手': itemlist.jusao += 0.8 * item.quantity;
+                            case '原汁淨牛腩(小)': itemlist.ngaolam += 0.48 * item.quantity;
+                            case '五香淨牛什(小)': itemlist.ngauzharp += 0.42 * item.quantity;
+                            case '淨金錢肚(小)': itemlist.ngaotou += 0.44 * item.quantity;
+                            case '淨袐製孖筋(小)': itemlist.magun += 0.48 * item.quantity;
+                            case '原汁淨牛腩(大)': itemlist.ngaolam += 0.8 * item.quantity;
+                            case '五香淨牛什(大)': itemlist.ngauzharp += 0.7 * item.quantity;
+                            case '淨金錢肚(大)': itemlist.ngaotou += 0.74 * item.quantity;
+                            case '淨袐製孖筋(大)': itemlist.magun += 0.8 * item.quantity;
+                            case '牛腩牛什': itemlist.ngaolam += 0.48 * item.quantity; itemlist.ngauzharp += 0.42 * item.quantity;
+                            case '牛腩牛肚': itemlist.ngaolam += 0.48 * item.quantity; itemlist.ngaotou += 0.44 * item.quantity;
+                            case '牛腩牛筋': itemlist.ngaolam += 0.48 * item.quantity; itemlist.magun += 0.48 * item.quantity;
+                            case '牛什牛肚': itemlist.ngauzharp += 0.42 * item.quantity; itemlist.ngaotou += 0.44 * item.quantity;
+                            case '牛什牛筋': itemlist.ngauzharp += 0.42 * item.quantity; itemlist.magun += 0.48 * item.quantity;
+                            case '牛肚牛筋': itemlist.ngaotou += 0.44 * item.quantity; itemlist.magun += 0.48 * item.quantity;
                         }
 
-                        if(item.custom.includes('鮮味魚扎'))itemlist.yujak += 1 * item.quantity;
-                        if(item.custom.includes('鮮墨魚丸'))itemlist.yuyun += 1 * item.quantity;
-                        if(item.custom.includes('鮮豬肉丸'))itemlist.yukyun += 1 * item.quantity;
-                        if(item.custom.includes('鮮蝦雲吞'))itemlist.wuntun += 1 * item.quantity;
-                        if(item.custom.includes('自製水餃'))itemlist.suigao += 1 * item.quantity;
-                        if(item.custom.includes('南乳豬手'))itemlist.jusao += 1 * item.quantity;
-                        if(item.custom.includes('秘製炸醬'))itemlist.jajueng += 1 * item.quantity;
-                        if(item.custom.includes('鮮炸魚皮'))itemlist.yupei += 1 * item.quantity;
-                        if(item.custom.includes('鮮魚皮餃'))itemlist.yupeigao += 1 * item.quantity;
-                        if(item.custom.includes('原汁牛腩'))itemlist.ngaolam += 1 * item.quantity;
-                        if(item.custom.includes('五香牛什'))itemlist.ngauzharp += 1 * item.quantity;
-                        if(item.custom.includes('金錢牛肚'))itemlist.ngaotou += 1 * item.quantity;
-                        if(item.custom.includes('秘製孖筋'))itemlist.magun += 1 * item.quantity;
-                        if(item.custom.includes('自製魚蛋'))itemlist.yudan += 1 * item.quantity;
-                        if(item.custom.includes('雙滑魚片'))itemlist.yupin += 1 * item.quantity;
-                        if(item.custom.includes('黃金魚角'))itemlist.yugok += 1 * item.quantity;
-                        if(item.custom.includes('手打牛丸'))itemlist.ngoyun += 1 * item.quantity;
-                        if(item.custom.includes('牛筋丸'))itemlist.ngaogenyun += 1 * item.quantity;
+                        if(item.custom.includes('鮮味魚扎'))itemlist.yujak += 0.22 * item.quantity;
+                        if(item.custom.includes('鮮墨魚丸'))itemlist.yuyun += 0.29 * item.quantity;
+                        if(item.custom.includes('鮮豬肉丸'))itemlist.yukyun += 0.28 * item.quantity;
+                        if(item.custom.includes('鮮蝦雲吞'))itemlist.wuntun += 0.24 * item.quantity;
+                        if(item.custom.includes('自製水餃'))itemlist.suigao += 0.25 * item.quantity;
+                        if(item.custom.includes('南乳豬手'))itemlist.jusao += 0.34 * item.quantity;
+                        if(item.custom.includes('秘製炸醬'))itemlist.jajueng += 0.1 * item.quantity;
+                        if(item.custom.includes('鮮炸魚皮'))itemlist.yupei += 0.15 * item.quantity;
+                        if(item.custom.includes('鮮魚皮餃'))itemlist.yupeigao += 0.19 * item.quantity;
+                        if(item.custom.includes('原汁牛腩'))itemlist.ngaolam += 0.35 * item.quantity;
+                        if(item.custom.includes('五香牛什'))itemlist.ngauzharp += 0.3 * item.quantity;
+                        if(item.custom.includes('金錢牛肚'))itemlist.ngaotou += 0.24 * item.quantity;
+                        if(item.custom.includes('秘製孖筋'))itemlist.magun += 0.28 * item.quantity;
+                        if(item.custom.includes('自製魚蛋'))itemlist.yudan += 0.19 * item.quantity;
+                        if(item.custom.includes('雙滑魚片'))itemlist.yupin += 0.2 * item.quantity;
+                        if(item.custom.includes('黃金魚角'))itemlist.yugok += 0.2 * item.quantity;
+                        if(item.custom.includes('手打牛丸'))itemlist.ngoyun += 0.27 * item.quantity;
+                        if(item.custom.includes('牛筋丸'))itemlist.ngaogenyun += 0.3 * item.quantity;
                     })
                 }
             }

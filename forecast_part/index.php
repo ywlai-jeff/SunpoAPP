@@ -362,6 +362,24 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
+  $('#selectmonth').change(function(){
+    //Selected value
+    var inputValue = $(this).val();
+
+    //Ajax for calling php function
+    $.post('getData.php', { dropdownValue: inputValue }, function(data){
+        var jsonData = data;
+        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+
+       var options = {  title: '' };
+       var chart = new google.visualization.LineChart(document.getElementById("columnchart1"));
+       chart.draw(data,options);
+
+    });
+});
+});
+
+$(document).ready(function(){
    $('#selectweek_feb_1').change(function(){
            //Selected value
            var inputValue = $(this).val();
@@ -425,51 +443,70 @@ $(document).ready(function(){
 });
 });
 
-$(document).ready(function(){
-  $('#selectmonth').change(function(){
-    //Selected value
-    var inputValue = $(this).val();
+// $(document).ready(function(){
+//   $('#selectmonth').change(function(){
+//     //Selected value
+//     var inputValue = $(this).val();
 
-    //Ajax for calling php function
-    $.post('getALL.php', { dropdownValue: inputValue }, function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+//     //Ajax for calling php function
+//     $.post('getALL.php', { dropdownValue: inputValue }, function(data){
+//         var jsonData = data;
+//         var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = {  title: '' };
-       var chart = new google.visualization.LineChart(document.getElementById("columnchart1"));
-       chart.draw(data,options);
+//        var options = {  title: '' };
+//        var chart = new google.visualization.LineChart(document.getElementById("columnchart1"));
+//        chart.draw(data,options);
 
-    });
+//     });
 
-    //Ajax for calling php function
-    $.post('gettotal.php', { dropdownValue: inputValue }, function(data_1){
-        document.getElementById("total").innerHTML = data_1;
-    });
+//     //Ajax for calling php function
+//     $.post('gettotal.php', { dropdownValue: inputValue }, function(data_1){
+//         document.getElementById("total").innerHTML = data_1;
+//     });
 
 
-    $.post('getavg.php', { dropdownValue: inputValue }, function(data_2){
-        document.getElementById("average").innerHTML = data_2;
-    });
-});
-});
+//     $.post('getavg.php', { dropdownValue: inputValue }, function(data_2){
+//         document.getElementById("average").innerHTML = data_2;
+//     });
+// });
+// });
 
-$(document).ready(function(){
-$('#selectmonth').click(function(){
-    //Selected value
-    var inputValue = $(this).val();
+// $(document).ready(function(){
+// $('#selectmonth').click(function(){
+//     //Selected value
+//     var inputValue = $(this).val();
 
-    //Ajax for calling php function
-    $.post('getData.php', { dropdownValue: inputValue }, function(data){
-        var jsonData = data;
-        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+//     //Ajax for calling php function
+//     $.post('getData.php', { dropdownValue: inputValue }, function(data){
+//         var jsonData = data;
+//         var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = {  title: '' };
-       var chart = new google.visualization.LineChart(document.getElementById("columnchart1"));
-       chart.draw(data,options);
+//        var options = {  title: '' };
+//        var chart = new google.visualization.LineChart(document.getElementById("columnchart1"));
+//        chart.draw(data,options);
 
-    });
-});
-});
+//     });
+// });
+// });
+
+function getingredTable(){
+  $('#ingredTable tr').remove();
+  $('#ingredTable').append('<tr><th style="width:20%;text-align:center;">食材</th>'+
+    '<th style="width:20%;text-align:center;">本週用量</th><th style="width:20%;text-align:center;">預計下周用量</th>'+
+    '<th style="width:20%;text-align:center;">現有存量</th><th style="width:20%;text-align:center;">建議入貨日</th></tr>'
+  );
+  $items = ingredFilters;
+  
+  for($i = 0; $i < ingredFilters.length; $i++){
+    
+    var item = ingredFilters[$i];
+   
+  $.get('getfood.php', {'food': ingredFilters, 'id': $i},function(data_3){
+    // console.log(data_3);
+    $('#ingredTable').append(data_3);
+  });
+  }
+}
 
 function getingred_php_function(){
   if(ingredFilters.length == 0)
@@ -568,14 +605,18 @@ $('#checkbox_yujak').click(function(){
     //Selected value
     //Ajax for calling php function
     getingred_php_function();
+    getingredTable();
 
-    $.get('getingred1.php', {'filters': ingredFilters},function(data_1){
-      document.getElementById("used").innerHTML = data_1;
-    });
-
-    $.get('getingred2.php', function(data_2){
-      document.getElementById("forecast_usage").innerHTML = data_2;
-    });
+    // $.get('getingred1.php', {'food': "yujak"},function(data_1){
+    //   $.get('getingred2.php', function(data_2){
+    //     // document.getElementById("used").innerHTML = data_1;
+    //     $('#ingredTable').append('<tr id="yujak_row"><td style="width:20%;text-align:center;">鮮味魚扎</td>'+
+    //       '<td style="width:20%;text-align:center;">'+data_1+'</td>'+
+    //       '<td style="width:20%;text-align:center;">'+data_2+'</td></tr>');
+    //     $('#yujak_row').remove();
+    //     // document.getElementById("forecast_usage").innerHTML = data_2;
+    //   });
+    // });
 
   });
 });
@@ -606,14 +647,15 @@ $('#checkbox_yuyun').click(function(){
     // });
 
     getingred_php_function();
+    getingredTable();
 
-    $.get('getingred_yuyun_1.php', function(data_1){
-      document.getElementById("used").innerHTML = data_1;
-    });
+    // $.get('getingred_yuyun_1.php', function(data_1){
+    //   document.getElementById("used").innerHTML = data_1;
+    // });
 
-    $.get('getingred_yuyun_2.php', function(data_2){
-      document.getElementById("forecast_usage").innerHTML = data_2;
-    });
+    // $.get('getingred_yuyun_2.php', function(data_2){
+    //   document.getElementById("forecast_usage").innerHTML = data_2;
+    // });
 
   });
 });
@@ -643,14 +685,15 @@ $('#checkbox_yukyun').click(function(){
     // });
 
     getingred_php_function();
+    getingredTable();
 
-    $.get('getingred_yukyun_1.php', function(data_1){
-      document.getElementById("used").innerHTML = data_1;
-    });
+    // $.get('getingred_yukyun_1.php', function(data_1){
+    //   document.getElementById("used").innerHTML = data_1;
+    // });
 
-    $.get('getingred_yukyun_2.php', function(data_2){
-      document.getElementById("forecast_usage").innerHTML = data_2;
-    });
+    // $.get('getingred_yukyun_2.php', function(data_2){
+    //   document.getElementById("forecast_usage").innerHTML = data_2;
+    // });
 
   });
 });
@@ -680,14 +723,15 @@ $('#checkbox_wuntun').click(function(){
     // });
 
     getingred_php_function();
+    getingredTable();
 
-    $.get('getingred_wuntun_1.php', function(data_1){
-      document.getElementById("used").innerHTML = data_1;
-    });
+    // $.get('getingred_wuntun_1.php', function(data_1){
+    //   document.getElementById("used").innerHTML = data_1;
+    // });
 
-    $.get('getingred_wuntun_2.php', function(data_2){
-      document.getElementById("forecast_usage").innerHTML = data_2;
-    });
+    // $.get('getingred_wuntun_2.php', function(data_2){
+    //   document.getElementById("forecast_usage").innerHTML = data_2;
+    // });
 
   });
 });
@@ -717,14 +761,15 @@ $('#checkbox_suigao').click(function(){
     // });
 
     getingred_php_function();
+    getingredTable();
 
-    $.get('getingred_suigao_1.php', function(data_1){
-      document.getElementById("used").innerHTML = data_1;
-    });
+    // $.get('getingred_suigao_1.php', function(data_1){
+    //   document.getElementById("used").innerHTML = data_1;
+    // });
 
-    $.get('getingred_suigao_2.php', function(data_2){
-      document.getElementById("forecast_usage").innerHTML = data_2;
-    });
+    // $.get('getingred_suigao_2.php', function(data_2){
+    //   document.getElementById("forecast_usage").innerHTML = data_2;
+    // });
 
   });
 });
@@ -754,14 +799,15 @@ $('#checkbox_jusao').click(function(){
     // });
 
     getingred_php_function();
+    getingredTable();
 
-    $.get('getingred_jusao_1.php', function(data_1){
-      document.getElementById("used").innerHTML = data_1;
-    });
+    // $.get('getingred_jusao_1.php', function(data_1){
+    //   document.getElementById("used").innerHTML = data_1;
+    // });
 
-    $.get('getingred_jusao_2.php', function(data_2){
-      document.getElementById("forecast_usage").innerHTML = data_2;
-    });
+    // $.get('getingred_jusao_2.php', function(data_2){
+    //   document.getElementById("forecast_usage").innerHTML = data_2;
+    // });
 
   });
 });
@@ -791,14 +837,15 @@ $('#checkbox_jajueng').click(function(){
     // });
 
     getingred_php_function();
+    getingredTable();
 
-    $.get('getingred_jajueng_1.php', function(data_1){
-      document.getElementById("used").innerHTML = data_1;
-    });
+    // $.get('getingred_jajueng_1.php', function(data_1){
+    //   document.getElementById("used").innerHTML = data_1;
+    // });
 
-    $.get('getingred_jajueng_2.php', function(data_2){
-      document.getElementById("forecast_usage").innerHTML = data_2;
-    });
+    // $.get('getingred_jajueng_2.php', function(data_2){
+    //   document.getElementById("forecast_usage").innerHTML = data_2;
+    // });
 
   });
 });
@@ -828,14 +875,15 @@ $('#checkbox_yupei').click(function(){
     // });
 
     getingred_php_function();
+    getingredTable();
 
-    $.get('getingred_yupei_1.php', function(data_1){
-      document.getElementById("used").innerHTML = data_1;
-    });
+    // $.get('getingred_yupei_1.php', function(data_1){
+    //   document.getElementById("used").innerHTML = data_1;
+    // });
 
-    $.get('getingred_yupei_2.php', function(data_2){
-      document.getElementById("forecast_usage").innerHTML = data_2;
-    });
+    // $.get('getingred_yupei_2.php', function(data_2){
+    //   document.getElementById("forecast_usage").innerHTML = data_2;
+    // });
 
   });
 });
@@ -865,14 +913,15 @@ $('#checkbox_yupeigao').click(function(){
     // });
 
     getingred_php_function();
+    getingredTable();
 
-    $.get('getingred_yupeigao_1.php', function(data_1){
-      document.getElementById("used").innerHTML = data_1;
-    });
+    // $.get('getingred_yupeigao_1.php', function(data_1){
+    //   document.getElementById("used").innerHTML = data_1;
+    // });
 
-    $.get('getingred_yupeigao_2.php', function(data_2){
-      document.getElementById("forecast_usage").innerHTML = data_2;
-    });
+    // $.get('getingred_yupeigao_2.php', function(data_2){
+    //   document.getElementById("forecast_usage").innerHTML = data_2;
+    // });
 
   });
 });
@@ -902,14 +951,15 @@ $('#checkbox_ngaolam').click(function(){
     // });
 
     getingred_php_function();
+    getingredTable();
 
-    $.get('getingred_ngaolam_1.php', function(data_1){
-      document.getElementById("used").innerHTML = data_1;
-    });
+    // $.get('getingred_ngaolam_1.php', function(data_1){
+    //   document.getElementById("used").innerHTML = data_1;
+    // });
 
-    $.get('getingred_ngaolam_2.php', function(data_2){
-      document.getElementById("forecast_usage").innerHTML = data_2;
-    });
+    // $.get('getingred_ngaolam_2.php', function(data_2){
+    //   document.getElementById("forecast_usage").innerHTML = data_2;
+    // });
 
   });
 });
@@ -939,14 +989,15 @@ $('#checkbox_ngaotou').click(function(){
     // });
 
     getingred_php_function();
+    getingredTable();
 
-    $.get('getingred_ngaotou_1.php', function(data_1){
-      document.getElementById("used").innerHTML = data_1;
-    });
+    // $.get('getingred_ngaotou_1.php', function(data_1){
+    //   document.getElementById("used").innerHTML = data_1;
+    // });
 
-    $.get('getingred_ngaotou_2.php', function(data_2){
-      document.getElementById("forecast_usage").innerHTML = data_2;
-    });
+    // $.get('getingred_ngaotou_2.php', function(data_2){
+    //   document.getElementById("forecast_usage").innerHTML = data_2;
+    // });
 
   });
 });
@@ -976,14 +1027,15 @@ $('#checkbox_magun').click(function(){
     // });
 
     getingred_php_function();
+    getingredTable();
 
-    $.get('getingred_magun_1.php', function(data_1){
-      document.getElementById("used").innerHTML = data_1;
-    });
+    // $.get('getingred_magun_1.php', function(data_1){
+    //   document.getElementById("used").innerHTML = data_1;
+    // });
 
-    $.get('getingred_magun_2.php', function(data_2){
-      document.getElementById("forecast_usage").innerHTML = data_2;
-    });
+    // $.get('getingred_magun_2.php', function(data_2){
+    //   document.getElementById("forecast_usage").innerHTML = data_2;
+    // });
 
   });
 });
@@ -1013,14 +1065,15 @@ $('#checkbox_yudan').click(function(){
     // });
 
     getingred_php_function();
+    getingredTable();
 
-    $.get('getingred_yudan_1.php', function(data_1){
-      document.getElementById("used").innerHTML = data_1;
-    });
+    // $.get('getingred_yudan_1.php', function(data_1){
+    //   document.getElementById("used").innerHTML = data_1;
+    // });
 
-    $.get('getingred_yudan_2.php', function(data_2){
-      document.getElementById("forecast_usage").innerHTML = data_2;
-    });
+    // $.get('getingred_yudan_2.php', function(data_2){
+    //   document.getElementById("forecast_usage").innerHTML = data_2;
+    // });
 
   });
 });
@@ -1050,14 +1103,15 @@ $('#checkbox_yupin').click(function(){
     // });
 
     getingred_php_function();
+    getingredTable();
 
-    $.get('getingred_yupin_1.php', function(data_1){
-      document.getElementById("used").innerHTML = data_1;
-    });
+    // $.get('getingred_yupin_1.php', function(data_1){
+    //   document.getElementById("used").innerHTML = data_1;
+    // });
 
-    $.get('getingred_yupin_2.php', function(data_2){
-      document.getElementById("forecast_usage").innerHTML = data_2;
-    });
+    // $.get('getingred_yupin_2.php', function(data_2){
+    //   document.getElementById("forecast_usage").innerHTML = data_2;
+    // });
 
   });
 });
@@ -1087,14 +1141,15 @@ $('#checkbox_yugok').click(function(){
     // });
 
     getingred_php_function();
+    getingredTable();
 
-    $.get('getingred_yugok_1.php', function(data_1){
-      document.getElementById("used").innerHTML = data_1;
-    });
+    // $.get('getingred_yugok_1.php', function(data_1){
+    //   document.getElementById("used").innerHTML = data_1;
+    // });
 
-    $.get('getingred_yugok_2.php', function(data_2){
-      document.getElementById("forecast_usage").innerHTML = data_2;
-    });
+    // $.get('getingred_yugok_2.php', function(data_2){
+    //   document.getElementById("forecast_usage").innerHTML = data_2;
+    // });
 
   });
 });
@@ -1124,14 +1179,15 @@ $('#checkbox_ngoyun').click(function(){
     // });
 
     getingred_php_function();
+    getingredTable();
 
-    $.get('getingred_ngoyun_1.php', function(data_1){
-      document.getElementById("used").innerHTML = data_1;
-    });
+    // $.get('getingred_ngoyun_1.php', function(data_1){
+    //   document.getElementById("used").innerHTML = data_1;
+    // });
 
-    $.get('getingred_ngoyun_2.php', function(data_2){
-      document.getElementById("forecast_usage").innerHTML = data_2;
-    });
+    // $.get('getingred_ngoyun_2.php', function(data_2){
+    //   document.getElementById("forecast_usage").innerHTML = data_2;
+    // });
 
   });
 });
@@ -1161,14 +1217,15 @@ $('#checkbox_ngaogenyun').click(function(){
     // });
 
     getingred_php_function();
+    getingredTable();
 
-    $.get('getingred_ngaogenyun_1.php', function(data_1){
-      document.getElementById("used").innerHTML = data_1;
-    });
+    // $.get('getingred_ngaogenyun_1.php', function(data_1){
+    //   document.getElementById("used").innerHTML = data_1;
+    // });
 
-    $.get('getingred_ngaogenyun_2.php', function(data_2){
-      document.getElementById("forecast_usage").innerHTML = data_2;
-    });
+    // $.get('getingred_ngaogenyun_2.php', function(data_2){
+    //   document.getElementById("forecast_usage").innerHTML = data_2;
+    // });
 
   });
 });
@@ -1198,14 +1255,15 @@ $('#checkbox_ngaojap').click(function(){
     // });
 
     getingred_php_function();
+    getingredTable();
 
-    $.get('getingred_ngaojap_1.php', function(data_1){
-      document.getElementById("used").innerHTML = data_1;
-    });
+    // $.get('getingred_ngaojap_1.php', function(data_1){
+    //   document.getElementById("used").innerHTML = data_1;
+    // });
 
-    $.get('getingred_ngaojap_2.php', function(data_2){
-      document.getElementById("forecast_usage").innerHTML = data_2;
-    });
+    // $.get('getingred_ngaojap_2.php', function(data_2){
+    //   document.getElementById("forecast_usage").innerHTML = data_2;
+    // });
 
   });
 });
@@ -1218,6 +1276,8 @@ function showsales() { //function to show each dashboard
 
   var y = document.getElementById("food dashboard");
   y.style.display = "none";
+  // var y = document.getElementById("inventory");
+  // y.style.display = "none";
 }
 
 function showingred() { //function to show each dashboard
@@ -1225,8 +1285,18 @@ function showingred() { //function to show each dashboard
   z.style.display = "block";
   var k = document.getElementById("sales dashboard");
   k.style.display = "none";
-
+  // var y = document.getElementById("inventory");
+  // y.style.display = "none";
   }
+
+  // function showinventory() { //function to show each dashboard
+  // var z = document.getElementById("food dashboard");
+  // z.style.display = "none";
+  // var k = document.getElementById("sales dashboard");
+  // k.style.display = "none";
+  // var y = document.getElementById("inventory");
+  // y.style.display = "block";
+  // }
 
 function toggle(source) //function to select all checkboxes
   {
@@ -1336,6 +1406,7 @@ function loadaverage(){
 function loaddata(){
   loadtotal();
   loadaverage();
+  
 }
 
 
@@ -1354,17 +1425,18 @@ $('#show_overview').click(function(){
 
 <div class="nav_bar">
               <h4 class="fas fa-home"> SUN PO</h4>
-              <ul>
+              <!-- <ul>
                 <li><div class="fas fa-user"></div>又係你呀陳生</li>
                 <li onClick={this.OrderClick}><a class="function_btn fas fa-shopping-bag"> 點餐</a></li>
                 <li onClick={this.PaybillsClick}><a class="function_btn fas fa-money-bill-wave"> 查閱/結賬</a></li>
                 <li onClick={this.ForecastClick}><a class="function_btn fas fa-atom"> 銷量預測</a></li>
                 <li onClick={this.LogoutClick}><a class="function_btn fas fa-power-off"> 登出</a></li>
-              </ul>
+              </ul> -->
             </div>
 <div class="container" style="margin:auto;margin-top:30px;width:300px;height:40px;background-color:#041E8A;">
   <button  onclick="showsales()" class="button1" ><h5>銷售額</h5></button>
   <button  onclick="showingred()" class="button1" ><h5>食材</h5></button>
+  <!-- <button  onclick="showinventory()" class="button1" ><h5>現有存貨</h5></button> -->
 </div>
 <div id="sales dashboard">
 
@@ -1380,44 +1452,61 @@ $('#show_overview').click(function(){
             <div id="average" class=data></div>
           </card>
           <card class="card5" >
-          <select class="dropdown1" id="selectmonth" onchange=showmonth(this.value)>
-            <option value="">月:</option>
+          <!-- <select class="dropdown1" id="selectmonth" onchange=showmonth(this.value)>
+            <option value="">請選擇月份:</option>
+            <option value="feb">一月</option>
             <option value="feb">二月</option>
             <option value="mar">三月</option>
             <option value="apr" selected="selected">四月</option>
           </select>
+          <select class="dropdown1" id="selectyear" >
+            <option value="">請選擇年份:</option>
+            <option value="apr" selected="selected">2020</option>
+          </select> -->
           <h1>銷售額</h1>
           </card>
     </div>
 
     <div class="week_bar">
+    <select class="dropdown2" style="float:right;" id="selectyear" >
+      <option value="">請選擇年份:</option>
+      <option value="apr" selected="selected">2020</option>
+    </select>
+    <select class="dropdown2" style="float:right;" id="selectmonth" onchange=showmonth(this.value)>
+      <option value="">請選擇月份:</option>
+      <option value="feb">二月</option>
+      <option value="mar">三月</option>
+      <option value="apr" selected="selected">四月</option>
+    </select>
+          
     <div id="feb_week">
       <select class="dropdown2" id="selectweek_feb" style="float:right;">
-      <option value="">星期:</option>
-      <option value="ffeb">2/2-8/2</option>
+      <option value="">星期</option>
+      <option value="ffeb">1/2-8/2</option>
       <option value="sfeb">9/2-15/2</option>
       <option value="tfeb">16/2-22/2</option>
       <option value="frfeb">23/2-29/2</option>
-      </select>
+      <!-- </select>
       </div>
     <div id="mar_week" style ="display:none;">
       <select class="dropdown2" id="selectweek_mar" style="float:right;">
-      <option value="">星期:</option>
+      <option value="">星期</option> -->
       <option value="fmar">1/3-7/3</option>
       <option value="smar">8/3-14/3</option>
       <option value="tmar">15/3-21/3</option>
       <option value="frmar">22/3-28/3</option>
-      </select></div>
+      <!-- </select></div>
     <div id="apr_week" style ="display:none;">
       <select class="dropdown2" id="selectweek_apr" style="float:right;">
-      <option value="">星期:</option>
+      <option value="">星期</option> -->
       <option value="fapr">29/3-4/4</option>
       <option value="sapr">5/4-11/4</option>
       <option value="tapr">12/4-18/4</option>
       <option value="frapr">19/4-25/4</option>
+      <option value="frrapr">26/4-30/4</option>
       </select></div>
-    <button class="button" ><h5>星期</h5></button>
-    <button onclick="showchart()" class="button" ><h5>月</h5></button>
+    <!-- <button class="button" ><h5>星期</h5></button>
+    <button onclick="showchart()" class="button" ><h5>月</h5></button> -->
   </div>
   </div>
 
@@ -1437,6 +1526,7 @@ $('#show_overview').click(function(){
       <div id="week_bar" style="float:right;width:30%;">
       <select class="dropdown1" id="selectmonth" onchange=showmonth_1(this.value) style="float:right;">
         <option value="">月:</option>
+        <option value="feb">一月</option>
         <option value="feb">二月</option>
         <option value="mar">三月</option>
         <option value="apr">四月</option>
@@ -1483,20 +1573,21 @@ $('#show_overview').click(function(){
 
       <div id="chart_div_4" style="width: 100%; height: 50%; "></div>
            <br></br>
-      <div id="ingred_table" style="width:400px;">
-          <table style="margin:auto;">
-            <tr>
-              <th style="width:400px;" >本週用量</th>
-              <th style="width:400px;">預計下周用量</th>
-              <th style="width:400px;">存量</th>
-              <th style="width:400px;">建議入貨日</th>
+      <div id="ingred_table" style="width:100%;">
+          <table id="ingredTable" style="margin:auto;">
+            <!-- <tr>
+              <th style="width:20%;text-align:center;">食材</th>
+              <th style="width:20%;text-align:center;">本週用量</th>
+              <th style="width:20%;text-align:center;">預計下周用量</th>
+              <th style="width:20%;text-align:center;">現有存量</th>
+              <th style="width:20%;text-align:center;">建議入貨日</th>
             </tr>
             <tr>
               <td><div id="used"></div></td>
               <td><div id="forecast_usage"></div></td>
               <td><div id="stock"></div></td>
               <td><div id="suggested_refill_date"></div></td>
-            </tr>
+            </tr> -->
          </table></div>
        </div>
 
@@ -1517,6 +1608,8 @@ $('#show_overview').click(function(){
     <h3>秘製炸醬 <input type="checkbox"  class="checkbox" id="checkbox_jajueng" value="jajueng"></h3>
     <h3>鮮炸魚皮 <input type="checkbox"  class="checkbox" id="checkbox_yupei" value="yupei"></h3>
     <h3>鮮魚皮餃 <input type="checkbox"  class="checkbox" id="checkbox_yupeigao" value="yupeigao"></h3>
+  </div>
+  <div class="column1" style="width:50%; float:left;" >
     <h3>原汁牛腩 <input type="checkbox"  class="checkbox" id="checkbox_ngaolam" value="ngaolam"></h3>
     <h3>金錢牛肚 <input type="checkbox"  class="checkbox" id="checkbox_ngaotou" value="ngaotou"></h3>
     <h3>秘製孖筋 <input type="checkbox"  class="checkbox" id="checkbox_magun" value="magun"></h3>
@@ -1526,17 +1619,21 @@ $('#show_overview').click(function(){
     <h3>手打牛丸 <input type="checkbox"  class="checkbox" id="checkbox_ngoyun" value="ngoyun"></h3>
     <h3>牛筋丸 <input type="checkbox"  class="checkbox" id="checkbox_ngaogenyun" value="ngaogenyun"></h3>
     <h3>五香牛雜 <input type="checkbox"  class="checkbox" id="checkbox_ngaojap" value="ngaojap"></h3>
-    <h3>全選 <input type="checkbox"  class="checkbox" id="checkbox_selectall" value="all"></h3>
     <br></br>
-
     </div>
-
+<div>
+  <h3>全選 <input type="checkbox"  class="checkbox" id="checkbox_selectall" value="all"></h3>
+</div>
 
 
   </div>
 
 
 </div>
+
+<!-- <div id="inventory">
+<div>hi</div>
+</div> -->
 
 </body>
 </html>

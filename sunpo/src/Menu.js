@@ -46,6 +46,7 @@ class Menu extends React.Component{
         totalPrice: 0,
         currentTime: '',
         seatTaken: null,
+        tb: '',
         // add_or_edit: true,
         // customList: [],
       }
@@ -60,6 +61,7 @@ class Menu extends React.Component{
       this.DeleteCustomClick = this.DeleteCustomClick.bind(this);
       this.PlaceOrderClick = this.PlaceOrderClick.bind(this);
       this.handleChange = this.handleChange.bind(this);
+      this.handleTbChange = this.handleTbChange.bind(this);
     }
 
     componentDidMount() {
@@ -70,8 +72,8 @@ class Menu extends React.Component{
             this.setState({
               currentTime : new Date().toLocaleString(),
             })
-            // let ctime = new Date().toLocaleString();
-            let ctime = new Date("2020-04-19").toLocaleString();
+            let ctime = new Date().toLocaleString();
+            // let ctime = new Date("2020-04-19").toLocaleString();
             //change above to create order early than today
             this.state.addedList.map(item => {
                 item.seatTaken = this.state.seatTaken;
@@ -94,9 +96,10 @@ class Menu extends React.Component{
                     this.setState({
                     currentSelected: '',
                     seatTaken: items.seatTaken,
+                    // tb: this.props.num,
                     orderList: this.state.orderList.concat({"name": item.name, "price": parseInt(item.price), 
                     "originalPrice": parseInt(item.originalPrice), "quantity": parseInt(item.quantity), 'custom': cus,
-                    "totalPrice": parseInt(items.totalPrice), "tableNumber": items.tableNumber, 'transTime': changeTime, 
+                    "totalPrice": parseInt(items.totalPrice), "tableNumber": this.state.tb, 'transTime': changeTime, 
                     'seatTaken': parseInt(items.seatTaken), 'id': this.state.orderList.length+1,}),
                     })
                     // alert(item.name+' '+cus[0]+' '+cus[1]);
@@ -389,8 +392,13 @@ DeleteCustomClick(data, e){
                     'transTime': datas[0].transTime,
                     'seatTaken': datas[0].seatTaken,
                   }
+                  if(this.props.chosen_tran !== '')
+                    added.tableNumber = this.state.tb;
 
-                var confirmation = window.confirm('你確定要落單?');
+                if(this.props.chosen_tran !== '')
+                    var confirmation = window.confirm('你確定要改單?');
+                else
+                    var confirmation = window.confirm('你確定要落單?');
                 if(confirmation === true){
                 // send orderList to database
                 var url = "http://localhost:3001/inserttransaction"
@@ -404,7 +412,12 @@ DeleteCustomClick(data, e){
                   },
                   success:function(data){
                     // if (data.message === "Added Success!"){
-                        alert(data.message);
+                        if(data.message == "成功加入訂單！"){
+                            if(this.state.chosen_tran !== "")
+                                alert("成功修改訂單！");
+                            else
+                            alert("成功加入訂單！");
+                        }
                     // }else if (data.message == "Error")
                         // alert(data.message);
                   }.bind(this),
@@ -427,7 +440,7 @@ DeleteCustomClick(data, e){
                     withCredentials: true
                   },
                   success:function(data){
-
+                    // alert("asd");
                   }.bind(this),
                   error:function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
@@ -454,6 +467,13 @@ DeleteCustomClick(data, e){
         })
     }
 
+    handleTbChange(e){
+        const nums = prompt('請更改枱號:');
+        this.setState({
+            tb: nums,
+        })
+    }
+
 
     render(){
         let totalPrice = 0;
@@ -461,7 +481,11 @@ DeleteCustomClick(data, e){
             totalPrice = totalPrice + item.price
         ))
         
-        let tablenumber;
+        let tablenumber, tb_show;
+
+        if(this.props.chosen_tran !== '')
+            tb_show = <div class="items_name"><p className="hover" onClick={this.handleTbChange}>更改枱號：{this.state.tb}</p></div>
+
         if(this.props.tableNumber == "11")
             tablenumber = <li>外賣</li>
         else tablenumber = 
@@ -532,6 +556,7 @@ DeleteCustomClick(data, e){
 
                 <div class="added_item">
                     <div class="items_name"><p className="hover" onClick={this.handleChange}>人數：{this.state.seatTaken}</p></div>
+                    {tb_show}
                     
                     <div class="items_name"><p>總計: $ {this.state.totalPrice}</p></div>
                     <div class="items_name"><p>時間: {this.state.currentTime}</p></div>

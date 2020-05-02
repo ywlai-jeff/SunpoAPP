@@ -4,7 +4,7 @@ mysqli_select_db($conn, 'ywlai') or die ('Failed to Access DB'.mysqli_error($con
 
 $filters = $_POST['filters'];
 
-   $query = "SELECT *FROM SUNPO2 WHERE Date >= \"2020-03-29\" AND Date <= \"2020-04-04\"";
+   $query = "SELECT *FROM SUNPO2 WHERE Date >= \"2020-04-24\" AND Date <= \"2020-04-30\"";
 //    $query .= "AND food = \"$filters[0]\" ";
  
 if(count($filters) > 0){

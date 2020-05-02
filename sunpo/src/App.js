@@ -27,7 +27,7 @@ class App extends React.Component{
       userId: '',
       username: '',
       password: '',
-      login_fail: 'WELCOME!',
+      login_fail: '歡迎！',
       user_type: '',
       active_function: <Home/>,
       position: '',
@@ -67,29 +67,41 @@ class App extends React.Component{
 
   render(){
     const isLoggedIn = this.state.isLoggedIn;
-    let title, current_page, login_page, menu_page, tablelist, nav, bills, sales;
+    let title, current_page, login_page, menu_page, tablelist, nav, bills, sales, forecast, role;
     // let routes = '';
 
     if (isLoggedIn) {
       title = '';
+      if(this.state.position == "manager"){
+        forecast = <li><a className="function_btn fas fa-atom no_list" href="https://i.cs.hku.hk/~hcchan/sunpo/index.php" target="blank"> 銷量預測</a></li>
+        role = <li onClick={this.HomeClick}><div className="fas fa-user-tie"> 歡迎 {this.state.username}!</div></li>
+      }
+      else{
+        forecast = <li onClick={this.ForecastClick}><a className="function_btn fas fa-atom"> 銷量預測</a></li>
+        role = <li onClick={this.HomeClick}><div className="fas"> 歡迎 {this.state.username}!</div></li>;
+      }
+
       nav = <div className="nav_bar">
-              <h4 className="fas fa-home"> SUN PO</h4>
+              <h4 className="fas fa-home nav_title"> SUN PO</h4>
               <ul>
-    <li onClick={this.HomeClick}><div className="fas fa-user">歡迎 {this.state.username}!</div></li>
+                {role}
                 {/* <li tabindex="1"></li> */}
                 <li onClick={this.OrderClick}><a className="function_btn fas fa-shopping-bag"> 點餐</a></li>
                 {/* <Link to="/order"><li onClick={this.OrderClick}><a class="function_btn fas fa-shopping-bag">點餐</a></li></Link> */}
                 <li onClick={this.PaybillsClick}><a className="function_btn fas fa-money-bill-wave"> 查閱/結賬</a></li>
-                <li onClick={this.ForecastClick}><a className="function_btn fas fa-atom"> 銷量預測</a></li>
+                {forecast}
                 <li onClick={this.LogoutClick}><a className="function_btn fas fa-power-off"> 登出</a></li>
               </ul>
             </div>
+      
+     
+
       menu_page = <Menu/>
       bills = <Bills/>
         tablelist = <div>{this.state.active_function}</div>
     }
     else{
-      title = <div id="logo_title">SUN PO</div>
+      // title = <div id="logo_title"></div>
       login_page = <Login
       username={this.state.username}
       password={this.state.password}
@@ -112,14 +124,14 @@ class App extends React.Component{
       <Link to="/forecast">forecast</Link>
     <Link exact to="/">Home</Link>   */
      <div className="App">
-        {title}
+        {/* {title} */}
         {nav}
         {login_page}
         {/* {routes} */}
         {tablelist}
         {/* {menu_page} */}
         {/* {bills} */}
-        {sales}
+        {/* {sales} */}
       </div>
         
     );
@@ -154,29 +166,29 @@ class App extends React.Component{
     }
 
     // alert(new Date("2020-04-19").toLocaleString());
-    var months = 0;
-    var datess;
-    var day;
-    if (new Date().getDate() == 1){
-      if((new Date().getMonth()) < 10)
-        months = "0" + (new Date().getMonth());
-      else
-        months = "" + (new Date().getMonth());
-      if(new Date().getMonth() == 1 || new Date().getMonth() == 3 || new Date().getMonth() == 5 || new Date().getMonth() == 7 || 
-      new Date().getMonth() == 8 || new Date().getMonth() == 10 || new Date().getMonth() == 12) day = 31;
-      else if (new Date().getMonth() == 2) if(new Date().getFullYear%4 == 0) day = 29; else day = 28;
-      else if (new Date().getMonth() == 4 || new Date().getMonth() == 6 || new Date().getMonth() == 9 || new Date().getMonth() == 11) day = 30;
-      datess = day.toString() + months.toString() + new Date().getFullYear().toString();
-    } else{
-      if((new Date().getMonth()+1) < 10)
-        months = "0" + (new Date().getMonth()+1);
-      else
-        months = "" + (new Date().getMonth()+1);
-      datess = (new Date().getDate()-1).toString() + months.toString() + new Date().getFullYear().toString();
-      // datess = "22" + months.toString() + new Date().getFullYear().toString();
-    }
+    // var months = 0;
+    // var datess;
+    // var day;
+    // if (new Date().getDate() == 1){
+    //   if((new Date().getMonth()) < 10)
+    //     months = "0" + (new Date().getMonth());
+    //   else
+    //     months = "" + (new Date().getMonth());
+    //   if(new Date().getMonth() == 1 || new Date().getMonth() == 3 || new Date().getMonth() == 5 || new Date().getMonth() == 7 || 
+    //   new Date().getMonth() == 8 || new Date().getMonth() == 10 || new Date().getMonth() == 12) day = 31;
+    //   else if (new Date().getMonth() == 2) if(new Date().getFullYear%4 == 0) day = 29; else day = 28;
+    //   else if (new Date().getMonth() == 4 || new Date().getMonth() == 6 || new Date().getMonth() == 9 || new Date().getMonth() == 11) day = 30;
+    //   datess = day.toString() + months.toString() + new Date().getFullYear().toString();
+    // } else{
+    //   if((new Date().getMonth()+1) < 10)
+    //     months = "0" + (new Date().getMonth()+1);
+    //   else
+    //     months = "" + (new Date().getMonth()+1);
+    //   datess = (new Date().getDate()-1).toString() + months.toString() + new Date().getFullYear().toString();
+    //   // datess = "22" + months.toString() + new Date().getFullYear().toString();
+    // }
     
-    // get yesterday's sale and yesterday's item quantity
+    // // get yesterday's sale and yesterday's item quantity
     // $.ajax({
     //   url:"http://localhost:3001/getyesterday/"+ datess,
     //   method:"GET",
@@ -200,7 +212,7 @@ class App extends React.Component{
     //     alert(thrownError);
     //   }
     // });
-    // get daily item quantity
+    // // get daily item quantity
     // $.ajax({
     //   url:"http://localhost:3001/getitemquantity",
     //   method:"GET",
@@ -209,12 +221,12 @@ class App extends React.Component{
     //   },
     //   success: function(datas){
     //     // alert(datas.latest_date);
-
+    //     var month = 0;
+    //     var date;
+    //     var day;
     //     if( (new Date(datas.latest_date).getDate() < (new Date().getDate()-1)) || new Date(datas.latest_date).getMonth() < (new Date().getMonth())){
     //       //insert item quantity
-    //       var month = 0;
-    //       var date;
-    //       var day;
+          
     //       if (new Date().getDate() == 1){
     //         if((new Date().getMonth()) < 10)
     //           month = "0" + (new Date().getMonth());
@@ -230,7 +242,8 @@ class App extends React.Component{
     //           month = "0" + (new Date().getMonth()+1);
     //         else
     //           month = "" + (new Date().getMonth()+1);
-    //         date = new Date().getFullYear() + "-" + month + "-" + (new Date().getDate()-1);
+    //         day = (new Date().getDate()-1);
+    //         date = new Date().getFullYear() + "-" + month + "-" + day;
     //         // date = new Date().getFullYear() + "-" + month + "-" + 22;
     //       }
     //       var url = "http://localhost:3001/insertitemquantity";
@@ -244,6 +257,7 @@ class App extends React.Component{
     //     });
     //       // alert(itemkg[0].yudan);
     //       // alert(this.state.yesterday_itemKg[0].yudan);
+    //       if(new Date(datas.latest_date).getDate() != day){
     //       $.ajax({
     //         url: url,
     //         method: "POST",
@@ -261,6 +275,7 @@ class App extends React.Component{
     //         }
     //       });
     //     }
+    //     }
     //   }.bind(this),
     //   error: function (xhr, ajaxOptions, thrownError) {
     //     alert(xhr.status);
@@ -268,7 +283,7 @@ class App extends React.Component{
     //   }
     // });
     
-    //get dailysales
+    // //get dailysales
     // $.ajax({
     //   url:"http://localhost:3001/getdailysales",
     //   method:"GET",
@@ -276,14 +291,14 @@ class App extends React.Component{
     //     withCredentials: true
     //   },
     //   success: function(datas){
+    //     var month = 0;
+    //         var date;
+    //         var day;
     //       // alert(datas.dataGet[1].id + " " +datas.dataGet[1].Date + " " +datas.dataGet[1].Sales);
     //       // alert(new Date(datas.latest_date).toLocaleString() + " " + new Date().toLocaleString());
     //       // alert(new Date(datas.latest_date).getFullYear() + " " + (new Date(datas.latest_date).getMonth()+1) + " " + new Date(datas.latest_date).getDate());
     //       if( new Date(datas.latest_date).getDate() < (new Date().getDate()-1) || new Date(datas.latest_date).getMonth() < (new Date().getMonth())){
     //         //insert sale
-    //         var month = 0;
-    //         var date;
-    //         var day;
     //         if (new Date().getDate() == 1){
     //           if((new Date().getMonth()) < 10)
     //             month = "0" + (new Date().getMonth());
@@ -299,11 +314,13 @@ class App extends React.Component{
     //             month = "0" + (new Date().getMonth()+1);
     //           else
     //             month = "" + (new Date().getMonth()+1);
-    //           date = new Date().getFullYear() + "-" + month + "-" + (new Date().getDate()-1);
+    //           day = (new Date().getDate()-1);
+    //           date = new Date().getFullYear() + "-" + month + "-" + day;
     //           // date = new Date().getFullYear() + "-" + month + "-" + 22;
     //         }
     //         var url = "http://localhost:3001/insertsale";
     //         var userinfo = {'dates': date, 'sales': this.state.yesterday_sales};
+    //         if(new Date(datas.latest_date).getDate() != day){
     //         $.ajax({
     //           url: url,
     //           method: "POST",
@@ -319,6 +336,7 @@ class App extends React.Component{
     //             alert(thrownError);
     //           }
     //         });
+    //       }
     //       } else if (new Date(datas.latest_date).getDate() == new Date().getDate()){
     //         // update sales
     //         // var month = 0;
@@ -349,6 +367,7 @@ class App extends React.Component{
     //     alert(thrownError);
     //   }
     // });
+  
 
      //get transaction
      $.ajax({
@@ -358,7 +377,7 @@ class App extends React.Component{
         withCredentials: true
       },
       success: function(datas){
-          if (datas.message === "Login Success!"){
+          if (datas.message === "登入成功！"){
               alert("success");
           }
           // alert(datas.tran[0].products[0].name+" "+datas.tran[0].products[0].price+" "+datas.tran[0].products[0].originalPrice+" "+
@@ -444,7 +463,7 @@ class App extends React.Component{
         withCredentials: true
       },
       success:function(data){
-        if (data.message === "Login Success!"){
+        if (data.message === "成功登入！"){
           this.setState({
             
           })
@@ -454,7 +473,7 @@ class App extends React.Component{
             username: '',
             password: '',
             isLoggedIn: false,
-            login_fail: "LOGIN FAILURE"
+            login_fail: "登入失敗！"
           })
         }
       }.bind(this),
@@ -469,7 +488,9 @@ class App extends React.Component{
     if (this.state.username === '' || this.state.password === '') {
       // alert('Please fill in all fields');
       this.setState({
-        login_fail: 'PLEASE FILL IN ALL FIELDS!',
+        login_fail: '請填上所有空格！',
+        username: '',
+        password: '',
       });
     }
     else{
@@ -488,7 +509,7 @@ class App extends React.Component{
         xhrFields: { withCredentials: true },
         // dataType: 'JSON',
         success: function(data) {
-          if (data.message === "Login Success!"){
+          if (data.message === "成功登入！"){
             localStorage.setItem('loggin','true');
             localStorage.setItem('position',data.position);
             localStorage.setItem('userId',data.id);
@@ -496,7 +517,7 @@ class App extends React.Component{
 
             this.setState({
               isLoggedIn: true,
-              login_fail: 'WELCOME!',
+              login_fail: '歡迎！',
               position: data.position,
               userId: localStorage.userId,
             });
@@ -505,7 +526,7 @@ class App extends React.Component{
               username: '',
               password: '',
               isLoggedIn: false,
-              login_fail: "LOGIN FAILURE",
+              login_fail: "登入失敗！",
               userId: '',
             });
           }
@@ -539,7 +560,7 @@ class App extends React.Component{
           username: '',
           password: '',
           isLoggedIn: false,
-          login_fail: "SUCCESSFULLY LOGOUT!",
+          login_fail: "成功登出！",
         });
       }.bind(this),
       error: function (xhr, ajaxOptions, thrownError) {
@@ -625,9 +646,11 @@ class App extends React.Component{
     // alert(data);
     var chosen_tran = [];
     var data_tranId = data;
+    var num;
     this.state.transinfo.map(tran => {
       if(tran.tranId === data_tranId){
         chosen_tran = chosen_tran.concat(tran);
+        num = tran.tableNumber;
       }
     })
 
@@ -638,7 +661,7 @@ class App extends React.Component{
                                 userId={this.state.userId}
                                 chosen_tran={chosen_tran}
                                 data_tranId={data_tranId}
-                                // num_of_people={}
+                                num={num}
           />,
     })
     // this.setState({
@@ -699,7 +722,7 @@ class App extends React.Component{
         AddNewOrder = {this.AddNewOrder}
         OrderTableClick ={this.OrderTableClick}
         EditCurrOrder ={this.EditCurrOrder}
-        payBills = {'結賬'}
+        payBills = {'點餐'}
         tableinfo={this.state.tableinfo}
         transinfo={this.state.transinfo}
         // edit_or_delete={this.edit_or_delete}

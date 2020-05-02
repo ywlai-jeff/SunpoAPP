@@ -38,7 +38,7 @@ class Bills extends React.Component{
             table = <p>{this.props.chosen_tran[0].tableNumber} 號枱</p>
 
         return(
-        <div>
+        <div className="receipt_page">
             <div class="receipt">
                 <div class="receipt_top">
                     <h2>SUN PO</h2>
@@ -47,7 +47,7 @@ class Bills extends React.Component{
                 </div>
                 
                     {this.props.chosen_tran.map(item => (
-                        <table>
+                        <table class="receiptTable">
                             <tr class="receipt_color_top">
                                 <th>項目</th>
                                 <th>數量</th>
@@ -71,6 +71,9 @@ class Bills extends React.Component{
                             </tr>
                         </table>
                     ))}
+                {/* <div class="receipt_top">
+                    <p>多謝！</p>
+                </div> */}
             </div>
             
             <div class="pay_bottom">

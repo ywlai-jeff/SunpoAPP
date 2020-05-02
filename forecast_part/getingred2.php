@@ -13,7 +13,7 @@ mysqli_select_db($conn, 'ywlai') or die ('Failed to Access DB'.mysqli_error($con
    $exec = mysqli_query($conn,$query);
 
    while($row = mysqli_fetch_array($exec)){
-    echo "[".$row['AVERAGE'] ."]";
+    echo "".$row['AVERAGE'] ."";
     }
 
     mysqli_close($conn);

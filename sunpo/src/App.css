@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  
 }
 
 .App-logo {
@@ -60,17 +61,28 @@
   bottom: 0;
 }
 #logo_title{
-  background-color: rgba(0,0,0,.7);
-  /* background-color: darkblue; */
+  /* background-color: rgba(0,0,0,.8); */
+  background-image: url("./images/productpic/bgx3.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
   padding: 35px;
   color: white;
   font-size: 30px;
 }
-
+.loginpage{
+  /* background-color: rgba(92, 92, 92, 0.8); */
+  height: 800px;
+  background-image: url("./images/productpic/bgx3.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+}
 .login_form{
   display: inline-block;
+  margin-top: 10%;
   padding: 50px;
-  /* background-color: black; */
+  background-color: white;
 }
 .login_form div{
   padding: 10px;
@@ -107,16 +119,21 @@
   bottom: 0%; */
   /* top: 15%; */
   /* position: absolute; */
+  /* background-color: rgba(117,117,117, 0.9);
+background-image: url("https://www.transparenttextures.com/patterns/brushed-alum.png"); */
 }
 .table_title{
   margin-top: 10px;
+  
+  
 }
 .table_column {
   float: left;
   width: 33.33%;
-  /* height: $(window).width();; */
+  /* height: $(window).width(); */
   /* display: inline-block; */
   /* padding: 50px 0 50px 0; */
+  height: 610px;
   padding: 40px;
   /* margin: 0; */
   /* background-color: blue; */
@@ -125,8 +142,20 @@
   background-repeat: no-repeat;
   background-position: top;
   background-position: center center; */
+  /* background-color: rgba(117,117,117, 0.9);
+background-image: url("https://www.transparenttextures.com/patterns/brushed-alum.png"); */
+background-image: url("./images/productpic/receipt9.png");
+  background-size: cover;
+  /* background-color: rgba(117,117,117, 0.5); */
+  background-repeat: no-repeat;
+  /* background-color: #757575;
+  background-image: url("https://www.transparenttextures.com/patterns/black-linen-2.png"); */
+  /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+  /* background-color: #437394;
+background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-light.png"); */
+  /* background-image: url("./images/productpic/home4.jpeg"); */
 }
-/* .table_column.overlay {
+.table_column.overlay {
   position: relative; }
   .table_column.overlay:before {
     position: absolute;
@@ -135,7 +164,7 @@
     bottom: 0;
     right: 0;
     top: 0;
-    background: rgba(0, 0, 0, 0.6); } */
+    background: rgba(0, 0, 0, 0.5); }
 
 .tables{
   /* padding:0 0 50px 0; */
@@ -145,18 +174,25 @@
   vertical-align: middle;
   height: 85px;
   /* line-height: 50px; */
-  overflow: auto
+  overflow: auto;
+  
 }
 /* .table_col2 div{
   margin-top: 25px;
   width: 100px;
   height: 100px;
 } */
-
+.nav_title{
+  color: white;
+}
 .nav_bar{
   background-color: rgba(0,0,0,.7);
   /* background-color: darkblue; */
-  color: rgb(118, 118, 218);
+  /* background-color: #9e9e9e; */
+background-image: url("https://www.transparenttextures.com/patterns/diagonales-decalees.png");
+/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+  /* background-color: darkblue; */
+  /* color: rgb(118, 118, 218); */
   /* color: darkblue; */
   z-index: 3;
   /* color: white; */
@@ -194,6 +230,14 @@
 } */
 .content_bar{
   /* background-color: rgba(0,0,0,.7); */
+}
+.no_list{
+  text-decoration: none;
+  color: inherit;
+}
+.no_list:hover{
+  color: inherit;
+  text-decoration: none;
 }
 .menu_page{
   background-color: darkblue;
@@ -281,7 +325,8 @@
   margin-left: auto;
   left: auto;
   right: auto;
-  background-color: darkblue;
+  background-color: rgba(0, 0, 0, 1);
+  /* background-color: darkblue; */
   float: left;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -350,13 +395,31 @@
   cursor: pointer;
   background-color: rgb(185, 194, 196);
 }
+.receipt_page{
+  /* background-color: #282c34; */
+  /* background-color: #757575; */
+  background-image: url("./images/productpic/receipt5.jpg");
+  background-size: cover;
+  background-color: rgba(117,117,117, 1);
+  background-repeat: no-repeat;
+/* background-image: url("https://www.transparenttextures.com/patterns/brushed-alum.png"); */
+  /* height: 700px; */
+  padding-top: 30px;
+  padding-bottom: 20%;
+}
+.receipt_page.site-blocks-cover.overlay:before{
+  background-color: rgba(117,117,117, 0.5);
+}
 .receipt{
   /* background-color: rgb(240, 239, 216, .4); */
-  /* background-color: darkblue; */
+  background-color: white;
+  
   /* position: absolute; */
-  /* width: 50%; */
+  width: 30%;
   margin: 0 auto;
   padding: 30px;
+  margin-bottom: 30px;
+  font-family: 'Hiragino Kaku Gothic Pro', 'WenQuanYi Zen Hei', '微軟正黑體', '蘋果儷中黑', Helvetica, Arial, sans-serif;
 }
 .receipt_top{
   /* background-color: blanchedalmond; */
@@ -369,8 +432,12 @@
   /* width: 500px;
   height: 400px; */
 }
+/* .receiptTable{
+  padding: 10%;
+} */
 .receipt_color_top{
   background-color: grey;
+  /* padding: 10%; */
 }
 .receipt_color_mid{
   background-color: white;
@@ -379,7 +446,14 @@
   padding: 10px;
 }
 .receipt_color_mid td{
-  padding: 30px;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  width: 40%;
+  /* margin-left: 10%; */
+  /* padding: 30px; */
+}
+.receipt_color_mid td div{
+  /* padding-left: 10%; */
 }
 .pay_bottom{
   width: 100%;
@@ -603,3 +677,4 @@
       font-size: 3rem; } }
 /* copy from template: https://colorlib.com/wp/template/logis/?v=69e1aafeccc5  END*/
       
+

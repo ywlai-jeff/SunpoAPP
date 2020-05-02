@@ -81,7 +81,7 @@ class TableList extends React.Component{
                 withCredentials: true
               },
               success:function(data){
-                alert("successfully deleted");
+                alert("成功移除此訂單！");
               }.bind(this),
               error:function (xhr, ajaxOptions, thrownError) {
                 alert(xhr.status);
@@ -99,6 +99,7 @@ class TableList extends React.Component{
     render(){
         let delete_curr_order, edit_curr_order, add_new_order, view_order, functions;
     functions = <div className="tables_name"><h4 className="table_title" ><span>{this.props.payBills}</span></h4></div>
+    // functions = <h4 className="table_title" ><span>{this.props.payBills}</span></h4>
     if(this.props.payBills == '結賬'){
         delete_curr_order = '';
         edit_curr_order = '';

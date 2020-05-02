@@ -26,25 +26,26 @@ class Login extends React.Component {
   
     render() {
         return (
-          <div >
+          <div class="loginpage">
             <form className="login_form">
-                <h3>Login</h3>
+                <h3>SUN PO 員工登入</h3>
+                {/* <h3>登入</h3> */}
   
                 <p id="error_message"> {this.props.login_fail} </p>
   
                 <div className="form-group">
-                    <label>Username</label>
-                    <input type="text" className="form-control" placeholder="Enter username" value={this.props.username}
+                    <label>員工賬戶號碼</label>
+                    <input type="text" className="form-control" placeholder="請輸入" value={this.props.username}
                     onChange={this.usernameChange}/>
                 </div>
   
                 <div className="form-group">
-                    <label>Password</label>
-                    <input type="password" className="form-control" placeholder="Enter password" value={this.props.password}
+                    <label>員工密碼</label>
+                    <input type="password" className="form-control" placeholder="請輸入" value={this.props.password}
                     onChange={this.passwordChange}/>
                 </div>
   
-                <button type="button" className="btn btn-primary btn-block" onClick={this.LoginClick}>Submit</button>
+                <button type="button" className="btn btn-primary btn-block" onClick={this.LoginClick}>提交</button>
               </form>
             </div>
         );
