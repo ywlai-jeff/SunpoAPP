@@ -75,6 +75,7 @@
   height: 800px;
   background-image: url("./images/productpic/bgx3.jpg");
   background-size: cover;
+  opacity: .75; 
   background-repeat: no-repeat;
   background-position: top;
 }
