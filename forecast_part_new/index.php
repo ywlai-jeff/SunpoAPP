@@ -1643,7 +1643,7 @@ $('#show_overview').click(function(){
 <div id="food dashboard" style="display:none;">
   <div class="container5">
 
-    <div class="container" style="width: 80%; height:150px;background-color:white;">
+    <div class="container" style="width: 80%; height:200px;background-color:white;">
       <div class="heading" style="margin-left: 20px;margin-top:40px;padding-top:40px;width:30%;"><h1>銷售量</h1></div>
 
       <div class="week_bar" >
