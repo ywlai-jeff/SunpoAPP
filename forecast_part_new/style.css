@@ -12,7 +12,75 @@
   color: red;
 }
 
-#inventoryTable{
+.forecast_red{
+  color: red;
+}
+
+.tables_inventory{
+  margin: 0 auto;
+  width: 80%;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 10%;
+}
+.tables_forecast{
+  margin: 0 auto;
+  width: 100%;
+}
+
+.tables_inventory tr:nth-child(odd){
+  background-color: lightgrey;
+}
+.tables_forecast tr:nth-child(odd){
+  background-color: rgba(232, 232, 232, .4);
+}
+.tables_inventory tr:nth-child(even){
+  background-color: white;
+}
+.tables_inventory tr:nth-child(odd){
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.tables_forecast tr:nth-child(odd),.tables_forecast tr:nth-child(even){
+  border: 1px solid rgba(0,0,0,0.1);
+}
+/* .table_forecast tr:hover td{
+  background-color: blue;
+} */
+
+.tables_inventory tr th{
+  background-color: rgba(0,0,0,0.2);
+  padding: 15px;
+  font-size: 20px;
+}
+
+.tables_forecast tr th{
+  background-color: rgba(232, 232, 232, .7);
+  padding: 10px;
+  font-size: 15px;
+}
+
+.tables_inventory tr td input{
   margin: 10px;
 }
 
+.tables_forecast tr td{
+  padding: 5px;
+}
+
+.inventory_title{
+  text-align: center;
+  padding-top: 3%;
+}
+
+.button1{
+  /* color: #fff !important; */
+/* text-transform: uppercase; */
+/* text-decoration: none; */
+/* background: #60a3bc; */
+/* padding: 20px; */
+/* border-radius: 50px; */
+/* display: inline-block; */
+/* border: none;
+transition: all 0.4s ease 0s; */
+}

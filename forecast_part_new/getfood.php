@@ -256,11 +256,19 @@ $item;
             $forecast = date("Y-m-d", time() + floor(86400*(($inventory/($usage/7))-1)));
     }
 
+    $red;
     // if($forecast <= date("Y-m-d"))
     //     $forecast = "NOW!";
+    if($forecast == "缺貨!!!"){
+        $red = 'class="forecast_red"';
+    }else{
+        $red = '';
+    }
+
+    $average = number_format($average, 1);
 
     mysqli_close($conn);
 
-    echo '<tr id="'.$item.'_row"><td style="width:20%;text-align:center;">'.$item.'</td>'.'<td style="width:20%;text-align:center;">'.$usage.'</td><td style="width:20%;text-align:center;">'.$average.'</td><td style="width:20%;text-align:center;">'.$inventory.'</td><td style="width:20%;text-align:center;">'.$forecast.'</td></tr>';
+    echo '<tr id="'.$item.'_row"><td style="width:20%;text-align:center;">'.$item.'</td>'.'<td style="width:20%;text-align:center;">'.$usage.' 磅</td><td style="width:20%;text-align:center;">'.$average.' 磅</td><td style="width:20%;text-align:center;">'.$inventory.' 磅</td><td '.$red.' style="width:20%;text-align:center;font-weight:bold;">'.$forecast.'</td></tr>';
  
 ?>

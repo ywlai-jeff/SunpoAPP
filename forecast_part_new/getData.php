@@ -316,7 +316,7 @@ function processDrpdown($selectedVal) {
 			mysqli_select_db($conn, 'ywlai') or die ('Failed to Access DB'.mysqli_error($conn));
 
 			$q = "2020-01-01";
-			$p = "2020-12-31";
+			$p = "2020-04-30";
 
 			 $query = "SELECT * from Sunposales WHERE Date >= '".$q."' AND Date <= '".$p."' ORDER BY Date";
 			 $exec = mysqli_query($conn,$query);

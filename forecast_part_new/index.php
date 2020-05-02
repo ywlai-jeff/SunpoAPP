@@ -6,6 +6,7 @@
  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <style>
@@ -76,7 +77,8 @@
 
       .container5{
         width: 1000px;
-        height:770px ;
+        /* height:770px ; */
+        height: 1250px;
         margin:70px;
         margin-top: 40px;
         background-color:white;
@@ -85,7 +87,7 @@
 
       .container1{
         width: 1000px;
-        height:770px ;
+        height:800px ;
         margin:auto;
         margin-top: 40px;
         background-color:white;
@@ -108,6 +110,14 @@
         background-color:white;
         float:left;
         padding: 30px;
+      }
+
+      .container7{
+        width: 1000px;
+        height:1100px;
+        margin:auto;
+        margin-top: 40px;
+        background-color:white;
       }
 
       .graph{
@@ -216,7 +226,7 @@
 
       .toppart{
         width: 90%;
-        height:180px;
+        height:220px;
         background-color:white;
       }
 
@@ -487,6 +497,27 @@ $(document).ready(function(){
 
 $(document).ready(function(){
   $('#selectweek_apr_1').change(function(){
+    //Selected value
+    var inputValue = $(this).val();
+
+    //Ajax for calling php function
+    $.post('getALL.php', { dropdownValue: inputValue }, function(data){
+        var jsonData = data;
+        var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
+
+       var options = { width:800, height:570,
+               bar: { groupWidth: '75%' },
+               isStacked: true,};
+
+       var chart = new google.visualization.ColumnChart(document.getElementById("chart_div"));
+       chart.draw(data,options);
+
+    });
+});
+});
+
+$(document).ready(function(){
+  $('#selectmonth1').change(function(){
     //Selected value
     var inputValue = $(this).val();
 
@@ -1360,7 +1391,7 @@ function showinventory() { //function to show each dashboard
   y.style.display = "block";
 
   $('#inventoryTable tr').remove();
-  $('#inventoryTable').append('<tr><th style="width:20%;text-align:center;">食材</th><th style="width:20%;text-align:center;">磅</th></tr>');
+  $('#inventoryTable').append('<tr><th style="width:20%;text-align:center;">食材</th><th style="width:20%;text-align:center;">磅</th><th style="width:20%;text-align:center;">新磅數</th><th style="width:20%;text-align:center;"></th></tr>');
   $.get('modifyinventory.php',function(data_3){
     console.log(data_3);
     $('#inventoryTable').append(data_3);
@@ -1506,7 +1537,7 @@ $('#show_overview').click(function(){
 
 </script>
 </head>
-<body style="background-color:#041E8A" onload="loaddata()">
+<body style="background-color:#041E8A;" onload="loaddata()">
 
 <!-- <div class="nav_bar">
               <h4 class="fas fa-home"> SUN PO</h4>
@@ -1613,7 +1644,7 @@ $('#show_overview').click(function(){
       <div class="heading" style="margin-left: 20px;margin-top:40px;padding-top:40px;width:30%;"><h1>銷售量</h1></div>
 
       <div id="week_bar" style="float:right;width:30%;">
-      <select class="dropdown1" id="selectmonth" onchange=showmonth_1(this.value) style="float:right;">
+      <select class="dropdown1" id="selectmonth1" onchange=showmonth_1(this.value) style="float:right;">
         <option value="">月:</option>
         <option value="feb">二月</option>
         <option value="mar">三月</option>
@@ -1623,27 +1654,28 @@ $('#show_overview').click(function(){
       <div id="feb_week_1">
         <select class="dropdown2" id="selectweek_feb_1" style="float:right;">
         <option value="">星期:</option>
-        <option value="ffeb">2/2-8/2</option>
+        <option value="ffeb">1/2-8/2</option>
         <option value="sfeb">9/2-15/2</option>
         <option value="tfeb">16/2-22/2</option>
         <option value="frfeb">23/2-29/2</option>
-        </select>
+        <!-- </select>
         </div>
       <div id="mar_week_1" style ="display:none;">
         <select class="dropdown2" id="selectweek_mar_1" style="float:right;">
-        <option value="">星期:</option>
+        <option value="">星期:</option> -->
         <option value="fmar">1/3-7/3</option>
         <option value="smar">8/3-14/3</option>
         <option value="tmar">15/3-21/3</option>
         <option value="frmar">22/3-28/3</option>
-        </select></div>
+        <!-- </select></div>
       <div id="apr_week_1" style ="display:none;">
         <select class="dropdown2" id="selectweek_apr_1" style="float:right;">
-        <option value="">星期:</option>
+        <option value="">星期:</option> -->
         <option value="fapr">29/3-4/4</option>
         <option value="sapr">5/4-11/4</option>
         <option value="tapr">12/4-18/4</option>
         <option value="frapr">19/4-25/4</option>
+        <option value="frrapr">26/4-30/4</option>
         </select></div>
     </div>
   </div>
@@ -1662,7 +1694,7 @@ $('#show_overview').click(function(){
       <div id="chart_div_4" style="width: 100%; height: 50%; "></div>
            <br></br>
       <div id="ingred_table" style="width:100%;">
-          <table id="ingredTable" style="margin:auto;">
+          <table id="ingredTable" style="margin:auto;" class="tables_forecast">
             <!-- <tr>
               <th style="width:20%;text-align:center;">食材</th>
               <th style="width:20%;text-align:center;">本週用量</th>
@@ -1721,8 +1753,9 @@ $('#show_overview').click(function(){
 
 <div id="inventory" style="display:none;">
   
-  <div class="container1">
-    <table id="inventoryTable">
+  <div class="container7">
+  <h3 class="inventory_title">存貨</h3>
+    <table id="inventoryTable" class="tables_inventory"> 
 
     </table>
   </div>

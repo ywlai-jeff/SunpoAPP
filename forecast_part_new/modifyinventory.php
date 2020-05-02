@@ -90,7 +90,7 @@ $item;
         $id = 18;
     }
 
-    $inventory .= '<tr ><td style="width:20%;text-align:center;">'.$item.'</td><td id="inventory'.$id.'" style="width:20%;text-align:center;">'.$row['inventory'].'</td><td style="width:20%;text-align:center;"><input value="" id="item'.$id.'"type="text"></td><td style="width:20%;text-align:center;"><button id="item_btn_'.$id.'" onClick="modifyinventory('.$id.')">變更</button></td></tr>';
+    $inventory .= '<tr ><td style="width:20%;text-align:center;">'.$item.'</td><td id="inventory'.$id.'" style="width:20%;text-align:center;">'.$row['inventory'].'</td><td style="width:20%;text-align:center;"><input value="" id="item'.$id.'"type="text" size="10"></td><td style="width:20%;text-align:center;"><button id="item_btn_'.$id.'" onClick="modifyinventory('.$id.')">變更</button></td></tr>';
 
     }
 
