@@ -467,7 +467,7 @@ $(document).ready(function(){
                       isStacked: true,};
               var chart = new google.visualization.ColumnChart(document.getElementById("chart_div"));
               chart.draw(data,options);
-
+              document.getElementById("selectmonth1").value = "";
            });
        });
        });
@@ -489,7 +489,7 @@ $(document).ready(function(){
 
        var chart = new google.visualization.ColumnChart(document.getElementById("chart_div"));
        chart.draw(data,options);
-
+       document.getElementById("selectmonth1").value = "";
     });
 });
 });
@@ -511,7 +511,7 @@ $(document).ready(function(){
 
        var chart = new google.visualization.ColumnChart(document.getElementById("chart_div"));
        chart.draw(data,options);
-
+       document.getElementById("selectmonth1").value = "";
     });
 });
 });
@@ -533,6 +533,9 @@ $(document).ready(function(){
        var chart = new google.visualization.ColumnChart(document.getElementById("chart_div"));
        chart.draw(data,options);
 
+      document.getElementById("selectweek_feb_1").value = "";
+    document.getElementById("selectweek_mar_1").value = "";
+    document.getElementById("selectweek_apr_1").value = "";
     });
 });
 });
@@ -1643,17 +1646,24 @@ $('#show_overview').click(function(){
     <div class="container" style="width: 80%; height:150px;background-color:white;">
       <div class="heading" style="margin-left: 20px;margin-top:40px;padding-top:40px;width:30%;"><h1>銷售量</h1></div>
 
-      <div id="week_bar" style="float:right;width:30%;">
-      <select class="dropdown1" id="selectmonth1" onchange=showmonth_1(this.value) style="float:right;">
-        <option value="">月:</option>
+      <div class="week_bar" >
+      <select class="dropdown2" style="float:right;" id="selectyear" >
+        <option value="">年份</option>
+        <option value="2020" selected="selected">2020</option>
+      </select>
+      <select class="dropdown2" id="selectmonth1" onchange=showmonth_1(this.value) style="float:right;">
+        <option value="" selected="selected">月份</option>
         <option value="feb">二月</option>
         <option value="mar">三月</option>
         <option value="apr">四月</option>
       </select>
-      <div style="float:right;width:30%;">
+</div>
+  
+      <div class="week_bar" >
+      <!-- <div style="float:right;width:30%;"> -->
       <div id="feb_week_1">
         <select class="dropdown2" id="selectweek_feb_1" style="float:right;">
-        <option value="">星期:</option>
+        <option value="" selected="selected">星期</option>
         <option value="ffeb">1/2-8/2</option>
         <option value="sfeb">9/2-15/2</option>
         <option value="tfeb">16/2-22/2</option>
@@ -1677,8 +1687,9 @@ $('#show_overview').click(function(){
         <option value="frapr">19/4-25/4</option>
         <option value="frrapr">26/4-30/4</option>
         </select></div>
-    </div>
-  </div>
+    <!-- </div> -->
+      </div>
+     
   <button id="show_overview" style="float:right;display:none;">銷售量總覽</button>
     </div>
 
