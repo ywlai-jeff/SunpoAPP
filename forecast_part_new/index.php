@@ -75,16 +75,6 @@
         background-color:white;"
       }
 
-      .container5{
-        width: 1000px;
-        /* height:770px ; */
-        height: 1250px;
-        margin:70px;
-        margin-top: 40px;
-        background-color:white;
-        float:left;
-      }
-
       .container1{
         width: 1000px;
         height:800px ;
@@ -106,10 +96,23 @@
         padding:20px;
         width: 30%;
         height:770px ;
-        margin:50px;
+        /* margin:50px; */
+        margin-left: 30px;
+        margin-top: 40px;
         background-color:white;
         float:left;
         padding: 30px;
+      }
+
+      .container5{
+        width: 1000px;
+        /* height:770px ; */
+        height: 1250px;
+        /* margin:70px; */
+        margin-top: 40px;
+        margin-left: 40px;
+        background-color:white;
+        float:left;
       }
 
       .container7{
@@ -304,11 +307,9 @@ function drawTrendlines() {
         	 }
         ?> ]);
 
-      var options = {
-        width:800, height:570,
-        bar: { groupWidth: '75%' },
-        isStacked: true,
-      };
+var options = {  width:800, height:570, vAxis: {title: '磅(Pounds)', titleTextStyle :{fontSize : 18, italic:false } },
+                      bar: { groupWidth: '75%' },
+                      isStacked: true,};
 
       var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
       chart.draw(data, options);
@@ -462,7 +463,7 @@ $(document).ready(function(){
                var jsonData = data;
                var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-               var options = {  width:800, height:570,
+               var options = {  width:800, height:570, vAxis: {title: '磅(Pounds)', titleTextStyle :{fontSize : 18, italic:false } },
                       bar: { groupWidth: '75%' },
                       isStacked: true,};
               var chart = new google.visualization.ColumnChart(document.getElementById("chart_div"));
@@ -483,9 +484,9 @@ $(document).ready(function(){
         var jsonData = data;
         var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = { width:800, height:570,
-               bar: { groupWidth: '75%' },
-               isStacked: true,};
+        var options = {  width:800, height:570, vAxis: {title: '磅(Pounds)', titleTextStyle :{fontSize : 18, italic:false } },
+                      bar: { groupWidth: '75%' },
+                      isStacked: true,};
 
        var chart = new google.visualization.ColumnChart(document.getElementById("chart_div"));
        chart.draw(data,options);
@@ -505,9 +506,9 @@ $(document).ready(function(){
         var jsonData = data;
         var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = { width:800, height:570,
-               bar: { groupWidth: '75%' },
-               isStacked: true,};
+        var options = {  width:800, height:570, vAxis: {title: '磅(Pounds)', titleTextStyle :{fontSize : 18, italic:false } },
+                      bar: { groupWidth: '75%' },
+                      isStacked: true,};
 
        var chart = new google.visualization.ColumnChart(document.getElementById("chart_div"));
        chart.draw(data,options);
@@ -526,9 +527,9 @@ $(document).ready(function(){
         var jsonData = data;
         var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-       var options = { width:800, height:570,
-               bar: { groupWidth: '75%' },
-               isStacked: true,};
+        var options = {  width:800, height:570, vAxis: {title: '磅(Pounds)', titleTextStyle :{fontSize : 18, italic:false } },
+                      bar: { groupWidth: '75%' },
+                      isStacked: true,};
 
        var chart = new google.visualization.ColumnChart(document.getElementById("chart_div"));
        chart.draw(data,options);
@@ -601,6 +602,11 @@ function getingredTable(){
       $('#ingredTable').append(data_3);
     });
   }
+
+  document.getElementById("selectweek_feb_1").value = "";
+  document.getElementById("selectweek_mar_1").value = "";
+  document.getElementById("selectweek_apr_1").value = "";
+  document.getElementById("selectmonth1").value = "";
 }
 
 function getingred_php_function(){
@@ -614,7 +620,7 @@ function getingred_php_function(){
         var data = google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
        var options = {  title: '本週銷量', height:300, vAxis: {
-            title: '磅', titleTextStyle :{
+            title: '磅(Pounds)', titleTextStyle :{
                     fontSize : 18, italic:false }
         },bar:{groupWidth: '75%'}, isStacked: true,
                       };
@@ -1478,6 +1484,7 @@ function modifyinventory(item){
   $.post('modify.php', { 'quantity': $v, 'id': item },function(data1){
     document.getElementById("item"+item).value = "";
     showinventory();
+    getingredTable();
   });
 }
 
@@ -1558,8 +1565,8 @@ $('#show_overview').click(function(){
   <button  onclick="showingred()" class="button1" ><h5>食材</h5></button>
   <button  onclick="showinventory()" class="button1" ><h5>更改存貨</h5></button>
 </div>
-<div id="sales dashboard">
 
+<div id="sales dashboard">
 <div class="container1">
   <div class="toppart">
     <div class="heading">
@@ -1643,7 +1650,7 @@ $('#show_overview').click(function(){
 <div id="food dashboard" style="display:none;">
   <div class="container5">
 
-    <div class="container" style="width: 80%; height:200px;background-color:white;">
+    <div class="container" style="width: 80%; height:190px;background-color:white;">
       <div class="heading" style="margin-left: 20px;margin-top:40px;padding-top:40px;width:30%;"><h1>銷售量</h1></div>
 
       <div class="week_bar" >
@@ -1690,7 +1697,7 @@ $('#show_overview').click(function(){
     <!-- </div> -->
       </div>
      
-  <button id="show_overview" style="float:right;display:none;">銷售量總覽</button>
+  <!-- <button id="show_overview" style="float:right;display:none;">銷售量總覽</button> -->
     </div>
 
    <div class="container" style="width: 85%; height:570px ; background-color:white;">

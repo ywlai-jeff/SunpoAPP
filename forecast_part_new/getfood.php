@@ -45,221 +45,257 @@ $item;
         if(floor($inventory/($usage/7)) == 1)
             $forecast = "今天!!!";
         else if (floor($inventory/($usage/7)) < 1)
-            $forecast = "缺貨!!!";
+            $forecast = "請馬上入貨!!!";
         else if (floor($inventory/($usage/7)) == 2)
             $forecast = "明天!!!";
         else
             $forecast = date("Y-m-d", time() + floor(86400*(($inventory/($usage/7))-1)));
-    }
+        if ($inventory <= 0)
+            $forecast = "請馬上入貨!!!";
+        }
     else if($food[$id] == "yuyun"){
         $item = "鮮墨魚丸";
         // $forecast = date("Y-m-d", time() + floor(86400*($inventory/($usage/7))));
         if(floor($inventory/($usage/7)) == 1)
             $forecast = "今天!!!";
         else if (floor($inventory/($usage/7)) < 1)
-            $forecast = "缺貨!!!";
+            $forecast = "請馬上入貨!!!";
         else if (floor($inventory/($usage/7)) == 2)
             $forecast = "明天!!!";
         else
             $forecast = date("Y-m-d", time() + floor(86400*(($inventory/($usage/7))-1)));
-    }
+        if ($inventory <= 0)
+            $forecast = "請馬上入貨!!!";
+        }
     else if($food[$id] == "yukyun"){
         $item = "鮮豬肉丸";
         // $forecast = date("Y-m-d", time() + floor(86400*($inventory/($usage/7))));
         if(floor($inventory/($usage/7)) == 1)
             $forecast = "今天!!!";
         else if (floor($inventory/($usage/7)) < 1)
-            $forecast = "缺貨!!!";
+            $forecast = "請馬上入貨!!!";
         else if (floor($inventory/($usage/7)) == 2)
             $forecast = "明天!!!";
         else
             $forecast = date("Y-m-d", time() + floor(86400*(($inventory/($usage/7))-1)));
-    }
+        if ($inventory <= 0)
+            $forecast = "請馬上入貨!!!";
+        }
     else if($food[$id] == "wuntun"){
         $item = "鮮蝦雲吞";
         // $forecast = date("Y-m-d", time() + floor(86400*($inventory/($usage/7))));
         if(floor($inventory/($usage/7)) == 1)
             $forecast = "今天!!!";
         else if (floor($inventory/($usage/7)) < 1)
-            $forecast = "缺貨!!!";
+            $forecast = "請馬上入貨!!!";
         else if (floor($inventory/($usage/7)) == 2)
             $forecast = "明天!!!";
         else
             $forecast = date("Y-m-d", time() + floor(86400*(($inventory/($usage/7))-1)));
-    }
+        if ($inventory <= 0)
+            $forecast = "請馬上入貨!!!";
+        }
     else if($food[$id] == "suigao"){
         $item = "自製水餃";
         // $forecast = date("Y-m-d", time() + floor(86400*($inventory/($usage/7))));
         if(floor($inventory/($usage/7)) == 1)
             $forecast = "今天!!!";
         else if (floor($inventory/($usage/7)) < 1)
-            $forecast = "缺貨!!!";
+            $forecast = "請馬上入貨!!!";
         else if (floor($inventory/($usage/7)) == 2)
             $forecast = "明天!!!";
         else
             $forecast = date("Y-m-d", time() + floor(86400*(($inventory/($usage/7))-1)));
-    }
+        if ($inventory <= 0)
+            $forecast = "請馬上入貨!!!";
+        }
     else if($food[$id] == "jusao"){
         $item = "南乳豬手";
         // $forecast = date("Y-m-d", time() + floor(86400*($inventory/($usage/7))));
         if(floor($inventory/($usage/7)) == 1)
             $forecast = "今天!!!";
         else if (floor($inventory/($usage/7)) < 1)
-            $forecast = "缺貨!!!";
+            $forecast = "請馬上入貨!!!";
         else if (floor($inventory/($usage/7)) == 2)
             $forecast = "明天!!!";
         else
             $forecast = date("Y-m-d", time() + floor(86400*(($inventory/($usage/7))-1)));
-    }
+        if ($inventory <= 0)
+            $forecast = "請馬上入貨!!!";
+        }
     else if($food[$id] == "jajueng"){
         $item = "秘製炸醬";
         // $forecast = date("Y-m-d", time() + floor(86400*($inventory/($usage/7))));
         if(floor($inventory/($usage/7)) == 1)
             $forecast = "今天!!!";
         else if (floor($inventory/($usage/7)) < 1)
-            $forecast = "缺貨!!!";
+            $forecast = "請馬上入貨!!!";
         else if (floor($inventory/($usage/7)) == 2)
             $forecast = "明天!!!";
         else
             $forecast = date("Y-m-d", time() + floor(86400*(($inventory/($usage/7))-1)));
-    }
+        if ($inventory <= 0)
+            $forecast = "請馬上入貨!!!";
+        }
     else if($food[$id] == "yupei"){
         $item = "鮮炸魚皮";
         // $forecast = date("Y-m-d", time() + floor(86400*($inventory/($usage/7))));
         if(floor($inventory/($usage/7)) == 1)
             $forecast = "今天!!!";
         else if (floor($inventory/($usage/7)) < 1)
-            $forecast = "缺貨!!!";
+            $forecast = "請馬上入貨!!!";
         else if (floor($inventory/($usage/7)) == 2)
             $forecast = "明天!!!";
         else
             $forecast = date("Y-m-d", time() + floor(86400*(($inventory/($usage/7))-1)));
-    }
+        if ($inventory <= 0)
+            $forecast = "請馬上入貨!!!";
+        }
     else if($food[$id] == "yupeigao"){
         $item = "鮮魚皮餃";
         // $forecast = date("Y-m-d", time() + floor(86400*($inventory/($usage/7))));
         if(floor($inventory/($usage/7)) == 1)
             $forecast = "今天!!!";
         else if (floor($inventory/($usage/7)) < 1)
-            $forecast = "缺貨!!!";
+            $forecast = "請馬上入貨!!!";
         else if (floor($inventory/($usage/7)) == 2)
             $forecast = "明天!!!";
         else
             $forecast = date("Y-m-d", time() + floor(86400*(($inventory/($usage/7))-1)));
-    }
+        if ($inventory <= 0)
+            $forecast = "請馬上入貨!!!";
+        }
     else if($food[$id] == "ngaolam"){
         $item = "原汁牛腩";
         // $forecast = date("Y-m-d", time() + floor(86400*($inventory/($usage/7))));
         if(floor($inventory/($usage/7)) == 1)
             $forecast = "今天!!!";
         else if (floor($inventory/($usage/7)) < 1)
-            $forecast = "缺貨!!!";
+            $forecast = "請馬上入貨!!!";
         else if (floor($inventory/($usage/7)) == 2)
             $forecast = "明天!!!";
         else
             $forecast = date("Y-m-d", time() + floor(86400*(($inventory/($usage/7))-1)));
-    }
+        if ($inventory <= 0)
+            $forecast = "請馬上入貨!!!";
+        }
     else if($food[$id] == "ngaotou"){
         $item = "金錢牛肚";
         // $forecast = date("Y-m-d", time() + floor(86400*($inventory/($usage/7))));
         if(floor($inventory/($usage/7)) == 1)
             $forecast = "今天!!!";
         else if (floor($inventory/($usage/7)) < 1)
-            $forecast = "缺貨!!!";
+            $forecast = "請馬上入貨!!!";
         else if (floor($inventory/($usage/7)) == 2)
             $forecast = "明天!!!";
         else
             $forecast = date("Y-m-d", time() + floor(86400*(($inventory/($usage/7))-1)));
-    }
+        if ($inventory <= 0)
+            $forecast = "請馬上入貨!!!";
+        }
     else if($food[$id] == "magun"){
         $item = "秘製孖筋";
         // $forecast = date("Y-m-d", time() + floor(86400*($inventory/($usage/7))));
         if(floor($inventory/($usage/7)) == 1)
             $forecast = "今天!!!";
         else if (floor($inventory/($usage/7)) < 1)
-            $forecast = "缺貨!!!";
+            $forecast = "請馬上入貨!!!";
         else if (floor($inventory/($usage/7)) == 2)
             $forecast = "明天!!!";
         else
             $forecast = date("Y-m-d", time() + floor(86400*(($inventory/($usage/7))-1)));
-    }
+        if ($inventory <= 0)
+            $forecast = "請馬上入貨!!!";
+        }
     else if($food[$id] == "yudan"){
         $item = "自製魚蛋";
         // $forecast = date("Y-m-d", time() + floor(86400*($inventory/($usage/7))));
         if(floor($inventory/($usage/7)) == 1)
             $forecast = "今天!!!";
         else if (floor($inventory/($usage/7)) < 1)
-            $forecast = "缺貨!!!";
+            $forecast = "請馬上入貨!!!";
         else if (floor($inventory/($usage/7)) == 2)
             $forecast = "明天!!!";
         else
             $forecast = date("Y-m-d", time() + floor(86400*(($inventory/($usage/7))-1)));
-    }
+        if ($inventory <= 0)
+            $forecast = "請馬上入貨!!!";
+        }
     else if($food[$id] == "yupin"){
         $item = "雙滑魚片";
         // $forecast = date("Y-m-d", time() + floor(86400*($inventory/($usage/7))));
         if(floor($inventory/($usage/7)) == 1)
             $forecast = "今天!!!";
         else if (floor($inventory/($usage/7)) < 1)
-            $forecast = "缺貨!!!";
+            $forecast = "請馬上入貨!!!";
         else if (floor($inventory/($usage/7)) == 2)
             $forecast = "明天!!!";
         else
             $forecast = date("Y-m-d", time() + floor(86400*(($inventory/($usage/7))-1)));
-    }
+        if ($inventory <= 0)
+            $forecast = "請馬上入貨!!!";
+        }
     else if($food[$id] == "yugok"){
         $item = "黃金魚角";
         // $forecast = date("Y-m-d", time() + floor(86400*($inventory/($usage/7))));
         if(floor($inventory/($usage/7)) == 1)
             $forecast = "今天!!!";
         else if (floor($inventory/($usage/7)) < 1)
-            $forecast = "缺貨!!!";
+            $forecast = "請馬上入貨!!!";
         else if (floor($inventory/($usage/7)) == 2)
             $forecast = "明天!!!";
         else
             $forecast = date("Y-m-d", time() + floor(86400*(($inventory/($usage/7))-1)));
-    }
+        if ($inventory <= 0)
+            $forecast = "請馬上入貨!!!";
+        }
     else if($food[$id] == "ngoyun"){
         $item = "手打牛丸";
         // $forecast = date("Y-m-d", time() + floor(86400*($inventory/($usage/7))));
         if(floor($inventory/($usage/7)) == 1)
             $forecast = "今天!!!";
         else if (floor($inventory/($usage/7)) < 1)
-            $forecast = "缺貨!!!";
+            $forecast = "請馬上入貨!!!";
         else if (floor($inventory/($usage/7)) == 2)
             $forecast = "明天!!!";
         else
             $forecast = date("Y-m-d", time() + floor(86400*(($inventory/($usage/7))-1)));
-    }
+        if ($inventory <= 0)
+            $forecast = "請馬上入貨!!!";
+        }
     else if($food[$id] == "ngaogenyun"){
         $item = "牛筋丸";
         // $forecast = date("Y-m-d", time() + floor(86400*($inventory/($usage/7)-1)));
         if(floor($inventory/($usage/7)) == 1)
             $forecast = "今天!!!";
         else if (floor($inventory/($usage/7)) < 1)
-            $forecast = "缺貨!!!";
+            $forecast = "請馬上入貨!!!";
         else if (floor($inventory/($usage/7)) == 2)
             $forecast = "明天!!!";
         else
             $forecast = date("Y-m-d", time() + floor(86400*(($inventory/($usage/7))-1)));
-    }
+        if ($inventory <= 0)
+            $forecast = "請馬上入貨!!!";
+        }
     else if($food[$id] == "ngauzharp"){
         $item = "五香牛雜";
         // $forecast = date("Y-m-d", time() + floor(86400*($inventory/($usage/7))));
         if(floor($inventory/($usage/7)) == 1)
             $forecast = "今天!!!";
         else if (floor($inventory/($usage/7)) < 1)
-            $forecast = "缺貨!!!";
+            $forecast = "請馬上入貨!!!";
         else if (floor($inventory/($usage/7)) == 2)
             $forecast = "明天!!!";
         else
             $forecast = date("Y-m-d", time() + floor(86400*(($inventory/($usage/7))-1)));
-    }
+        if ($inventory <= 0)
+            $forecast = "請馬上入貨!!!";
+        }
 
     $red;
     // if($forecast <= date("Y-m-d"))
     //     $forecast = "NOW!";
-    if($forecast == "缺貨!!!"){
+    if($forecast == "請馬上入貨!!!"){
         $red = 'class="forecast_red"';
     }else{
         $red = '';
